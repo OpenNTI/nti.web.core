@@ -1,0 +1,30 @@
+{
+  "name": "@nti/web-core",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "start-storybook -p 6006",
+    "build": "build-storybook",
+    "test": "cmp-scripts test",
+    "clean": "cmp-scripts clean",
+    "check": "cmp-scripts check",
+    "release": "cmp-scripts release",
+    "fix": "cmp-scripts fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NextThought/nti.web.core.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NextThought/nti.web.core/issues"
+  },
+  "homepage": "https://github.com/NextThought/nti.web.core#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@nti/cmp-scripts": "^2.47.4"
+  }
+}
