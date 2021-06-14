@@ -1,2 +1,2 @@
 'use strict';
-module.exports = require('@nti/lib-scripts/config/babel.config');
+module.exports = require('@nti/cmp-scripts/config/babel.config');
