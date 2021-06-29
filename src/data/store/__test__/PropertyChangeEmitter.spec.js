@@ -10,8 +10,8 @@ describe('PropertyChangeEmitter Tests', () => {
 			const listener1 = jest.fn();
 			const listener2 = jest.fn();
 
-			emitter.subscribe(prop, listener1);
-			emitter.subscribe(prop, listener2);
+			emitter.subscribeToProperties(prop, listener1);
+			emitter.subscribeToProperties(prop, listener2);
 
 			emitter.onChange(prop);
 
@@ -27,8 +27,8 @@ describe('PropertyChangeEmitter Tests', () => {
 			const listener1 = jest.fn();
 			const listener2 = jest.fn();
 
-			emitter.subscribe(prop1, listener1);
-			emitter.subscribe(prop2, listener2);
+			emitter.subscribeToProperties(prop1, listener1);
+			emitter.subscribeToProperties(prop2, listener2);
 
 			emitter.onChange(prop1, prop2);
 
@@ -43,7 +43,7 @@ describe('PropertyChangeEmitter Tests', () => {
 			const prop2 = 'test2';
 			const listener = jest.fn();
 
-			emitter.subscribe([prop1, prop2], listener);
+			emitter.subscribeToProperties([prop1, prop2], listener);
 
 			emitter.onChange(prop1);
 
@@ -61,8 +61,8 @@ describe('PropertyChangeEmitter Tests', () => {
 			const prop2 = 'test2';
 			const listener = jest.fn();
 
-			emitter.subscribe(prop1, listener);
-			emitter.subscribe(prop2, listener);
+			emitter.subscribeToProperties(prop1, listener);
+			emitter.subscribeToProperties(prop2, listener);
 
 			emitter.onChange(prop1);
 
@@ -80,9 +80,9 @@ describe('PropertyChangeEmitter Tests', () => {
 			const prop2 = 'test2';
 			const listener = jest.fn();
 
-			emitter.subscribe([prop1, prop2], listener);
-			emitter.subscribe(prop1, listener);
-			emitter.subscribe(prop2, listener);
+			emitter.subscribeToProperties([prop1, prop2], listener);
+			emitter.subscribeToProperties(prop1, listener);
+			emitter.subscribeToProperties(prop2, listener);
 
 			emitter.onChange([prop1, prop2]);
 
@@ -95,7 +95,7 @@ describe('PropertyChangeEmitter Tests', () => {
 			const prop = 'test';
 			const listener = jest.fn();
 
-			const unsubscribe = emitter.subscribe(prop, listener);
+			const unsubscribe = emitter.subscribeToProperties(prop, listener);
 
 			emitter.onChange(prop);
 			expect(listener).toHaveBeenCalledTimes(1);
@@ -114,7 +114,7 @@ describe('PropertyChangeEmitter Tests', () => {
 			const props = ['test', 'test2'];
 			const listener = jest.fn();
 
-			emitter.subscribe(props, listener);
+			emitter.subscribeToProperties(props, listener);
 
 			emitter.onChange(props);
 
@@ -127,7 +127,7 @@ describe('PropertyChangeEmitter Tests', () => {
 			const props = ['test', 'test2'];
 			const listener = jest.fn();
 
-			emitter.subscribe(props, listener);
+			emitter.subscribeToProperties(props, listener);
 
 			emitter.onChange(...props);
 
@@ -148,8 +148,8 @@ describe('PropertyChangeEmitter Tests', () => {
 
 			emitter.addDependentProperty('dependent2', ['source3', 'source4']);
 
-			emitter.subscribe('dependent', listener1);
-			emitter.subscribe('dependent2', listener2);
+			emitter.subscribeToProperties('dependent', listener1);
+			emitter.subscribeToProperties('dependent2', listener2);
 
 			emitter.onChange('source1', 'source3');
 

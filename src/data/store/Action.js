@@ -1,5 +1,8 @@
+const noop = () => {};
+
 function bindAction(fn, { scope, onUpdate, onStart, onError, onFinish }) {
 	let current = null;
+	let runCount = 0;
 
 	const execute = async (...args) => {
 		const result = await fn.apply(scope, args);
@@ -27,7 +30,10 @@ function bindAction(fn, { scope, onUpdate, onStart, onError, onFinish }) {
 		try {
 			const result = await current;
 
+			runCount += 1;
+
 			if (current === task) {
+				current = result;
 				onFinish?.();
 			}
 
@@ -41,8 +47,22 @@ function bindAction(fn, { scope, onUpdate, onStart, onError, onFinish }) {
 	};
 
 	Object.defineProperties(action, {
+		hasRan: {
+			getter: () => runCount >= 1,
+		},
+
 		running: { getter: () => current instanceof Promise },
-		error: { get: () => (current instanceof Error ? current : null) },
+		error: { getter: () => (current instanceof Error ? current : null) },
+
+		reader: {
+			getter: () => {
+				if (current instanceof Error) {
+					throw current;
+				}
+
+				return current;
+			},
+		},
 	});
 
 	return action;

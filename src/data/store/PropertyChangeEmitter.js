@@ -119,7 +119,7 @@ export default class PropertyChangeEmitter {
 	 * @param {Listener} fn function to callback when one of the keys change
 	 * @returns {Unsubscribe} callback to remove listener
 	 */
-	subscribe(property, fn) {
+	subscribeToProperties(property, fn) {
 		if (Array.isArray(property)) {
 			const cleanups = property.map(p => this.subscribe(p, fn));
 
