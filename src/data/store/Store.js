@@ -1,3 +1,5 @@
+import { Promises } from '@nti/lib-commons';
+
 import Action from './Action';
 import PropertyChangeEmitter from './PropertyChangeEmitter';
 
@@ -5,19 +7,6 @@ const LifeCycles = ['initialize', 'reload', 'load', 'cleanup'];
 
 export default class DataStore extends PropertyChangeEmitter {
 	static Action = Action;
-
-	static DependentProperties = {
-		initializing: ['initialize'],
-		initialized: ['initialize'],
-
-		reloading: ['reload'],
-
-		loading: ['loading'],
-		loaded: ['loaded'],
-
-		cleaningup: ['cleanup'],
-		cleanedup: ['cleanup'],
-	};
 
 	#state = {};
 
@@ -46,12 +35,58 @@ export default class DataStore extends PropertyChangeEmitter {
 		for (let cycle of LifeCycles) {
 			this[cycle] = Action(this[cycle]).bindStore(binding(cycle));
 		}
+
+		//Set these up in the constructor, so they cannot be overridden
+		this.addDependentProperty('reader', ['initialize', 'load']);
+
+		this.addDependentProperty('initializing', 'initialize');
+		this.addDependentProperty('initialized', 'initialize');
+
+		this.addDependentProperty('reloading', 'reload');
+
+		this.addDependentProperty('loading', 'load');
+		this.addDependentProperty('loaded', 'load');
+
+		this.addDependentProperty('cleaningup', 'cleanup');
+		this.addDependentProperty('cleanedup', 'cleanup');
 	}
 
 	//#region Life Cycles
+	#reader = null;
+	read() {
+		if (!this.#reader) {
+			const loaded = new Promise((fulfill, reject) => {
+				let cleanup = null;
+
+				if (this.load.hasRan) {
+					fulfill(this);
+				}
+
+				cleanup = this.subscribeToProperties('load', () => {
+					if (this.load.hasRan) {
+						fulfill(this);
+						cleanup?.();
+					}
+					if (this.load.error) {
+						reject(this);
+						cleanup?.();
+					}
+				});
+
+				if (!this.load.hasRan) {
+					this.load();
+				}
+			});
+
+			this.#reader = Promises.toReader(loaded);
+		}
+
+		return this.#reader;
+	}
+
 	initialize() {}
 	get initializing() {
-		return this.initialize.running;
+		return !this.initialize.hasRan && this.initialize.running;
 	}
 	get initialized() {
 		return this.initialize.hasRan;
