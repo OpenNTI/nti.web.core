@@ -1,10 +1,44 @@
+/** @typedef {string} Property */
+/** @typedef {Property|Property[]} PropertyList */
+/** @typedef {() => void} Listener */
+/** @typedef {() => void} Unsubscribe */
+
+/**
+ * A utility class for listening for particular properties to change
+ *
+ * @abstract
+ */
 export default class PropertyChangeEmitter {
+	/**
+	 * Define properties (typically derived) that depend on the
+	 * value of other properties.
+	 *
+	 * Ex:
+	 *
+	 * ```javascript
+	 * class List extends PropertyChangeEmitter {
+	 * 	static DependProperties = {size: ['items']};
+	 *
+	 * 	get size () {
+	 * 		return this.items.size;
+	 * 	}
+	 *
+	 * 	setItems (items) {
+	 * 		this.items = items;
+	 * 		this.onChange(items);
+	 * 	}
+	 * }
+	 * ```
+	 *
+	 * @type {{Property: PropertyList}}
+	 */
 	static DependentProperties = {};
 
 	#listeners = new Map();
 	#sourceProperties = new Map();
 
 	constructor() {
+		//Setup the static DependentProperties
 		for (let [dependent, sources] of Object.entries(
 			this.constructor.DependentProperties
 		)) {
@@ -12,6 +46,12 @@ export default class PropertyChangeEmitter {
 		}
 	}
 
+	/**
+	 * Add a property that depends on the given set
+	 *
+	 * @param {Property} property
+	 * @param {PropertyList} dependsOn
+	 */
 	addDependentProperty(property, dependsOn = []) {
 		const sources = Array.isArray(dependsOn) ? dependsOn : [dependsOn];
 
@@ -24,6 +64,12 @@ export default class PropertyChangeEmitter {
 		});
 	}
 
+	/**
+	 * Expand a changed set to contain all dependent properties
+	 *
+	 * @param {PropertyList} who
+	 * @returns {Set<Property>}
+	 */
 	getChangedSet(who) {
 		const buildSet = (props, set) => {
 			for (let prop of props) {
@@ -47,6 +93,11 @@ export default class PropertyChangeEmitter {
 		return buildSet(who, new Set());
 	}
 
+	/**
+	 * Trigger all the listeners for the given properties
+	 *
+	 * @param  {...PropertyList} who properties that changed
+	 */
 	onChange(...who) {
 		const changed = this.getChangedSet(who);
 
@@ -61,26 +112,33 @@ export default class PropertyChangeEmitter {
 		listeners.forEach(l => l());
 	}
 
-	subscribe(key, fn) {
-		if (Array.isArray(key)) {
-			const cleanups = key.map(k => this.subscribe(k, fn));
+	/**
+	 * Add a callback for when a property changes
+	 *
+	 * @param {PropertyList} property properties to listen to
+	 * @param {Listener} fn function to callback when one of the keys change
+	 * @returns {Unsubscribe} callback to remove listener
+	 */
+	subscribe(property, fn) {
+		if (Array.isArray(property)) {
+			const cleanups = property.map(p => this.subscribe(p, fn));
 
 			return () => cleanups.forEach(c => c());
 		}
 
-		if (!this.#listeners.has(key)) {
-			this.#listeners.set(key, new Set());
+		if (!this.#listeners.has(property)) {
+			this.#listeners.set(property, new Set());
 		}
 
-		this.#listeners.get(key).add(fn);
+		this.#listeners.get(property).add(fn);
 
 		return () => {
-			const existing = this.#listeners.get(key);
+			const existing = this.#listeners.get(property);
 
 			existing.delete(fn);
 
 			if (existing.size === 0) {
-				this.#listeners.delete(key);
+				this.#listeners.delete(property);
 			}
 		};
 	}
