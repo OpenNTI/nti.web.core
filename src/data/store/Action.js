@@ -1,5 +1,3 @@
-const noop = () => {};
-
 function bindAction(fn, { scope, onUpdate, onStart, onError, onFinish }) {
 	let current = null;
 	let runCount = 0;
@@ -54,8 +52,8 @@ function bindAction(fn, { scope, onUpdate, onStart, onError, onFinish }) {
 		running: { getter: () => current instanceof Promise },
 		error: { getter: () => (current instanceof Error ? current : null) },
 
-		reader: {
-			getter: () => {
+		read: {
+			value: () => {
 				if (current instanceof Error) {
 					throw current;
 				}

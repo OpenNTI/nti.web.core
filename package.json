@@ -23,7 +23,9 @@
     "url": "https://github.com/NextThought/nti.web.core/issues"
   },
   "homepage": "https://github.com/NextThought/nti.web.core#readme",
-  "dependencies": {},
+  "dependencies": {
+    "@nti/lib-commons": "NextThought/nti.lib.commons"
+  },
   "devDependencies": {
     "@nti/cmp-scripts": "^2.47.4"
   },
