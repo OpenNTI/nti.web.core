@@ -153,12 +153,12 @@ export default class DataStore extends PropertyChangeEmitter {
 			const loaded = new Promise((fulfill, reject) => {
 				let cleanup = null;
 
-				if (this.load.hasRan) {
+				if (this.load.hasRun) {
 					fulfill(this);
 				}
 
 				cleanup = this.subscribeToProperties('load', () => {
-					if (this.load.hasRan) {
+					if (this.load.hasRun) {
 						fulfill(this);
 						cleanup?.();
 					}
@@ -168,7 +168,7 @@ export default class DataStore extends PropertyChangeEmitter {
 					}
 				});
 
-				if (!this.load.hasRan) {
+				if (!this.load.hasRun) {
 					this[Load]();
 				}
 			});
@@ -181,10 +181,10 @@ export default class DataStore extends PropertyChangeEmitter {
 
 	initialize() {}
 	get initializing() {
-		return !this.initialize.hasRan && this.initialize.running;
+		return !this.initialize.hasRun && this.initialize.running;
 	}
 	get initialized() {
-		return this.initialize.hasRan;
+		return this.initialize.hasRun;
 	}
 
 	reload() {}
@@ -197,7 +197,7 @@ export default class DataStore extends PropertyChangeEmitter {
 		return this.load.running;
 	}
 	get loaded() {
-		return this.load.hasRan;
+		return this.load.hasRun;
 	}
 
 	cleanup() {}
@@ -205,7 +205,7 @@ export default class DataStore extends PropertyChangeEmitter {
 		return this.cleanup.running;
 	}
 	get cleanedup() {
-		return this.cleanup.hasRan;
+		return this.cleanup.hasRun;
 	}
 	//#endregion
 

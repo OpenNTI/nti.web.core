@@ -17,7 +17,7 @@ export default class PropertyChangeEmitter {
 	 *
 	 * ```javascript
 	 * class List extends PropertyChangeEmitter {
-	 * 	static DependProperties = {size: ['items']};
+	 * 	static DependentProperties = {size: ['items']};
 	 *
 	 * 	get size () {
 	 * 		return this.items.size;
@@ -39,10 +39,10 @@ export default class PropertyChangeEmitter {
 
 	constructor() {
 		//Setup the static DependentProperties
-		for (let [dependent, sources] of Object.entries(
+		for (let [property, dependsOn] of Object.entries(
 			this.constructor.DependentProperties
 		)) {
-			this.addDependentProperty(dependent, sources);
+			this.addDependentProperty(property, dependsOn);
 		}
 	}
 
@@ -121,7 +121,9 @@ export default class PropertyChangeEmitter {
 	 */
 	subscribeToProperties(property, fn) {
 		if (Array.isArray(property)) {
-			const cleanups = property.map(p => this.subscribe(p, fn));
+			const cleanups = property.map(p =>
+				this.subscribeToProperties(p, fn)
+			);
 
 			return () => cleanups.forEach(c => c());
 		}
