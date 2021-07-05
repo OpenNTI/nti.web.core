@@ -24,7 +24,7 @@ export function classFromProp(name, value) {
 }
 
 export function getSpacingProps(props, defaults) {
-	const className = Object.entries(props)
+	const className = Object.entries({ ...defaults, ...props })
 		.map(([prop, value]) => classFromProp(prop, value))
 		.filter(Boolean)
 		.join(' ');
