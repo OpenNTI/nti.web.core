@@ -82,4 +82,29 @@ describe('get spacing props', () => {
 			});
 		});
 	});
+
+	test('defaults support', () => {
+		const props = { m: 'lg', p: 'lg' };
+		const defaults = { m: 'xl', p: 'xl' };
+
+		// props should override defaults
+		expect(getSpacingProps(props, defaults)).toHaveProperty(
+			'className',
+			'm-lg p-lg'
+		);
+
+		// defaults show up when no corresponding prop is provided
+		delete props.m;
+		expect(getSpacingProps(props, defaults)).toHaveProperty(
+			'className',
+			'm-xl p-lg'
+		);
+
+		// defaults first, then props
+		props.mv = 'sm';
+		expect(getSpacingProps(props, defaults)).toHaveProperty(
+			'className',
+			'm-xl p-lg mv-sm'
+		);
+	});
 });
