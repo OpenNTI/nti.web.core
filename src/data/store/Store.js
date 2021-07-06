@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Promises } from '@nti/lib-commons';
 
 import Action from './Action';
@@ -7,88 +5,11 @@ import PropertyChangeEmitter from './PropertyChangeEmitter';
 
 const LifeCycles = ['initialize', 'reload', 'load', 'cleanup'];
 
-const Load = Symbol('Load');
-const Key = Symbol('key');
-const Instances = Symbol('Instances');
-
-function StoreInstanceReducer(state, action) {
-	if (action.type === 'update') {
-		return { store: action.store };
-	}
-
-	return state;
-}
-
 export default class DataStore extends PropertyChangeEmitter {
 	static Action = Action;
 
-	static getStore(key) {
-		const Store = this;
-
-		if (!key) {
-			return new Store();
-		}
-
-		this[Instances] = this[Instances] || new Map();
-
-		if (!this[Instances].has(key)) {
-			this[Instances].set(key, {
-				count: 0,
-				store: new Store(key),
-			});
-		}
-
-		const { store, count } = this[Instances].get(key);
-
-		this[Instances].set(key, { count: count + 1, store });
-
-		return store;
-	}
-
-	static freeStore(key) {
-		if (!this[Instances].has(key)) {
-			return;
-		}
-
-		const { store, count } = this[Instances].get(key);
-
-		if (count <= 1) {
-			this[Instances].delete(key);
-			store.cleanup();
-		} else {
-			this[Instances].set(key, { count: count - 1, store });
-		}
-	}
-
-	static useStore(key) {
-		const getStore = k => this.getStore(k);
-		const freeStore = k => this.freeStore(k);
-
-		const [{ store }, dispatch] = React.useReducer(
-			StoreInstanceReducer,
-			key,
-			initialKey => ({ store: getStore(initialKey) })
-		);
-
-		React.useEffect(() => {
-			const newStore = store[Key] === key ? store : getStore(key);
-
-			if (newStore !== store) {
-				dispatch({ type: 'update', store: newStore });
-			}
-
-			return () => freeStore(key);
-		}, [key]);
-
-		return store;
-	}
-
-	#state = {};
-
 	constructor(storeKey) {
 		super();
-
-		this[Key] = storeKey;
 
 		const binding = key => ({
 			scope: this,
@@ -130,23 +51,6 @@ export default class DataStore extends PropertyChangeEmitter {
 		this.initialize();
 	}
 
-	//#region Life Cycles
-	#loadAbortController = null;
-	#loadTimeout = null;
-	[Load]() {
-		if (this.#loadAbortController) {
-			this.#loadAbortController.abort();
-		}
-
-		if (!this.#loadTimeout) {
-			this.#loadTimeout = setTimeout(() => {
-				this.#loadAbortController = new AbortController();
-				this.load(this.#loadAbortController);
-				this.#loadTimeout = null;
-			}, 0);
-		}
-	}
-
 	#reader = null;
 	read() {
 		if (!this.#reader) {
@@ -163,13 +67,13 @@ export default class DataStore extends PropertyChangeEmitter {
 						cleanup?.();
 					}
 					if (this.load.error) {
-						reject(this);
+						reject(this.load.error);
 						cleanup?.();
 					}
 				});
 
 				if (!this.load.hasRun) {
-					this[Load]();
+					this.#load();
 				}
 			});
 
@@ -179,6 +83,7 @@ export default class DataStore extends PropertyChangeEmitter {
 		return this.#reader;
 	}
 
+	//#region Life Cycles
 	initialize() {}
 	get initializing() {
 		return !this.initialize.hasRun && this.initialize.running;
@@ -187,9 +92,31 @@ export default class DataStore extends PropertyChangeEmitter {
 		return this.initialize.hasRun;
 	}
 
+	#reload() {
+		if (this.load.hasRun) {
+			this.#load;
+		}
+	}
+
 	reload() {}
 	get reloading() {
 		return this.reloading.running;
+	}
+
+	#loadAbortController = null;
+	#loadTimeout = null;
+	#load() {
+		if (this.#loadAbortController) {
+			this.#loadAbortController.abort();
+		}
+
+		if (!this.#loadTimeout) {
+			this.#loadTimeout = setTimeout(() => {
+				this.#loadAbortController = new AbortController();
+				this.load(this.#params, this.#loadAbortController);
+				this.#loadTimeout = null;
+			}, 0);
+		}
 	}
 
 	load() {}
@@ -198,6 +125,12 @@ export default class DataStore extends PropertyChangeEmitter {
 	}
 	get loaded() {
 		return this.load.hasRun;
+	}
+
+	initialLoad() {
+		if (!this.load.hasRun) {
+			this.#load();
+		}
 	}
 
 	cleanup() {}
@@ -209,7 +142,9 @@ export default class DataStore extends PropertyChangeEmitter {
 	}
 	//#endregion
 
-	//#region State Updating
+	//#region State
+	#state = {};
+
 	updateState(newState) {
 		const updated = Object.keys(newState);
 		const merged = this.mergeState(newState, this.#state);
@@ -221,6 +156,28 @@ export default class DataStore extends PropertyChangeEmitter {
 
 	mergeState(newState, prevState) {
 		return { ...prevState, ...newState };
+	}
+	//#endregion
+
+	//#region Param
+	#params = {};
+
+	useParams(params) {
+		this.setParams(params);
+	}
+	setParams(params = {}) {
+		const changed = Object.entries(params).some(
+			param => this.#params[param[0]] !== params[1]
+		);
+
+		this.#params = {
+			...this.#params,
+			...params,
+		};
+
+		if (changed) {
+			this.#reload();
+		}
 	}
 	//#endregion
 }
