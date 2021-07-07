@@ -1,4 +1,4 @@
-import React from 'react';
+import { useReducer, useEffect } from 'react';
 
 import getBoundFunction from '../utils/get-bound-function';
 
@@ -29,12 +29,12 @@ const ProxyTraps = {
 export default function useProperties(predicate) {
 	let locked = false;
 
-	const [, updateView] = React.useReducer(AlwaysNew);
+	const [, updateView] = useReducer(AlwaysNew);
 
 	const store = useRead(predicate);
 	const monitoredProperties = new Set();
 
-	React.useEffect(() => {
+	useEffect(() => {
 		locked = true;
 
 		return subscribeToChanges(

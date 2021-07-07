@@ -1,4 +1,4 @@
-import React from 'react';
+import { useRef, useEffect } from 'react';
 
 const TrackedMap = new Map();
 
@@ -58,7 +58,7 @@ export function getTracked(Track, key) {
 }
 
 export function useTracked(Track, key) {
-	const trackedRef = React.useRef();
+	const trackedRef = useRef();
 
 	if (
 		!trackedRef.current ||
@@ -69,7 +69,7 @@ export function useTracked(Track, key) {
 		trackedRef.current = getTracked(Track, key);
 	}
 
-	React.useEffect(() => {
+	useEffect(() => {
 		return () => trackedRef.current?.free();
 	}, []);
 

@@ -1,10 +1,10 @@
 /**
  * @typedef StoreBinding - bind the actions events to a set of callbacks
  * @property {*} scope - scope to bind the action calls to
- * @property {Function} onUpdate - called with every returns/yielded value
- * @property {Function} onStart - called every time an action is triggered
- * @property {Function} onError - called when most recent action fails
- * @property {Function} onFinish - called when the most recent action finishes
+ * @property {() => void} onUpdate - called with every returns/yielded value
+ * @property {() => void} onStart - called every time an action is triggered
+ * @property {() => void} onError - called when most recent action fails
+ * @property {() => void} onFinish - called when the most recent action finishes
  */
 
 /**
@@ -27,8 +27,6 @@
 
 import EventEmitter from 'events';
 
-import { Promises } from '@nti/lib-commons';
-
 const CurrentUpdated = 'updated';
 
 /**
@@ -49,19 +47,16 @@ function bindAction(fn, { scope, onUpdate, onStart, onError, onFinish }) {
 
 	let runCount = 0;
 
-	const execute = async (prev, ...args) => {
+	const execute = async (prev, args) => {
 		if (prev instanceof Promise) {
-			await prev.then(
-				() => {},
-				() => {}
-			);
+			await prev.catch(() => {});
 		}
 
 		const result = await fn.apply(scope, args);
 
 		if (!result?.next) {
 			onUpdate?.(result);
-			return result;
+			return;
 		}
 
 		let pointer;
@@ -73,12 +68,10 @@ function bindAction(fn, { scope, onUpdate, onStart, onError, onFinish }) {
 				onUpdate?.(pointer.value);
 			}
 		} while (!pointer.done);
-
-		return pointer?.value;
 	};
 
 	const action = async (...args) => {
-		const task = execute(current, ...args);
+		const task = execute(current, args);
 
 		setCurrent(task);
 		onStart?.();
@@ -101,47 +94,12 @@ function bindAction(fn, { scope, onUpdate, onStart, onError, onFinish }) {
 	};
 
 	Object.defineProperties(action, {
-		isAction: { value: true },
-
-		bindStore: {
-			value: s => bindAction(fn, s),
-		},
-
 		hasRun: {
 			get: () => runCount > 0,
 		},
 
 		running: { get: () => current instanceof Promise },
 		error: { get: () => (current instanceof Error ? current : null) },
-
-		read: {
-			value: () => {
-				const p = new Promise((fulfill, reject) => {
-					if (!current) {
-						fulfill();
-					}
-
-					const onCurrentUpdate = () => {
-						if (current instanceof Promise) {
-							return;
-						}
-
-						if (!current) {
-							fulfill();
-						}
-						if (current instanceof Error) {
-							reject();
-						}
-
-						bus.removeListener(CurrentUpdated, onCurrentUpdate);
-					};
-
-					bus.addListener(CurrentUpdated, onCurrentUpdate);
-				});
-
-				return Promises.toReader(p);
-			},
-		},
 	});
 
 	return action;
@@ -154,7 +112,9 @@ function bindAction(fn, { scope, onUpdate, onStart, onError, onFinish }) {
  * @returns {Action}
  */
 export default function BuildAction(fn) {
-	const action = (...args) => fn(...args);
+	const action = function (...args) {
+		return fn.call(this, ...args);
+	};
 
 	Object.defineProperties(action, {
 		isAction: { value: true },
@@ -163,5 +123,9 @@ export default function BuildAction(fn) {
 
 	return action;
 }
+//TODO: Expose Concurrent and Superseded Actions (Sequential is the default)
+//Sequential: wait for previous invocations to finish
+//Superseded: cancel previous invocation
+//Concurrent: run alongside any previous invocations
 
 BuildAction.isAction = x => x.isAction;
