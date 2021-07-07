@@ -5,7 +5,6 @@ export function createReader(store) {
 		let cleanup = null;
 
 		cleanup = store.subscribeToProperties('initialLoad', () => {
-			console.log('initialLoad changed', store.initialLoad.error);
 			if (store.initialLoad.error) {
 				reject(store.initialLoad.error);
 				cleanup?.();

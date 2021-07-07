@@ -73,7 +73,6 @@ describe('DataStore', () => {
 
 			class Test extends Store {
 				load() {
-					console.log('load called');
 					throw err;
 				}
 			}
