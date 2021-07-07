@@ -25,7 +25,7 @@ export default class PropertyChangeEmitter {
 	 *
 	 * 	setItems (items) {
 	 * 		this.items = items;
-	 * 		this.onChange(items);
+	 * 		this.onChange('items');
 	 * 	}
 	 * }
 	 * ```

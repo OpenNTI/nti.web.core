@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 const Context = React.createContext({ stores: [] });
@@ -23,14 +23,18 @@ class DataContextWrapper extends React.Component {
 			return React.cloneElement(error, { error: this.state.error });
 		}
 
-		return <React.Suspense fallback={fallback}>{children}</React.Suspense>;
+		return fallback ? (
+			<Suspense fallback={fallback}>{children}</Suspense>
+		) : (
+			children
+		);
 	}
 }
 
-DataContext.useContext = () => React.useContext(Context);
+DataContext.useContext = () => useContext(Context);
 export default function DataContext({ store, ...otherProps }) {
-	const { stores } = React.useContext(Context);
-	const context = React.useMemo(
+	const { stores } = useContext(Context);
+	const context = useMemo(
 		() => ({ stores: [...stores, store] }),
 		[...stores, store]
 	);

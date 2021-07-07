@@ -1,14 +1,18 @@
 import { Promises } from '@nti/lib-commons';
 
+// import {useStore} from '../hooks/use-store';
+// import {useRead} from '../hooks/use-read';
+// import {useProperties} from '../hooks/use-properties';
+
 import Action from './Action';
 import PropertyChangeEmitter from './PropertyChangeEmitter';
 
-const LifeCycles = ['initialize', 'reload', 'load', 'cleanup'];
+const LifeCycles = ['load', 'unload'];
 
 export default class DataStore extends PropertyChangeEmitter {
 	static Action = Action;
 
-	constructor(storeKey) {
+	constructor() {
 		super();
 
 		const binding = key => ({
@@ -35,20 +39,13 @@ export default class DataStore extends PropertyChangeEmitter {
 		}
 
 		//Set these up in the constructor, so they cannot be overridden
-		this.addDependentProperty('reader', ['initialize', 'load']);
-
-		this.addDependentProperty('initializing', 'initialize');
-		this.addDependentProperty('initialized', 'initialize');
-
-		this.addDependentProperty('reloading', 'reload');
+		this.addDependentProperty('reader', ['load']);
 
 		this.addDependentProperty('loading', 'load');
 		this.addDependentProperty('loaded', 'load');
 
-		this.addDependentProperty('cleaningup', 'cleanup');
-		this.addDependentProperty('cleanedup', 'cleanup');
-
-		this.initialize();
+		this.addDependentProperty('unloading', 'unload');
+		this.addDependentProperty('unloaded', 'unload');
 	}
 
 	#reader = null;
@@ -62,12 +59,11 @@ export default class DataStore extends PropertyChangeEmitter {
 				}
 
 				cleanup = this.subscribeToProperties('load', () => {
-					if (this.load.hasRun) {
-						fulfill(this);
-						cleanup?.();
-					}
 					if (this.load.error) {
 						reject(this.load.error);
+						cleanup?.();
+					} else if (this.load.hasRun) {
+						fulfill(this);
 						cleanup?.();
 					}
 				});
@@ -80,42 +76,29 @@ export default class DataStore extends PropertyChangeEmitter {
 			this.#reader = Promises.toReader(loaded);
 		}
 
-		return this.#reader;
+		return this.#reader.read();
 	}
 
 	//#region Life Cycles
-	initialize() {}
-	get initializing() {
-		return !this.initialize.hasRun && this.initialize.running;
-	}
-	get initialized() {
-		return this.initialize.hasRun;
-	}
 
 	#reload() {
 		if (this.load.hasRun) {
-			this.#load;
+			this.#load();
 		}
-	}
-
-	reload() {}
-	get reloading() {
-		return this.reloading.running;
 	}
 
 	#loadAbortController = null;
 	#loadTimeout = null;
 	#load() {
-		if (this.#loadAbortController) {
-			this.#loadAbortController.abort();
-		}
+		this.#loadAbortController?.abort();
+		this.#loadAbortController = null;
 
 		if (!this.#loadTimeout) {
 			this.#loadTimeout = setTimeout(() => {
 				this.#loadAbortController = new AbortController();
 				this.load(this.#params, this.#loadAbortController);
 				this.#loadTimeout = null;
-			}, 0);
+			}, 1);
 		}
 	}
 
@@ -133,12 +116,12 @@ export default class DataStore extends PropertyChangeEmitter {
 		}
 	}
 
-	cleanup() {}
-	get cleaningup() {
-		return this.cleanup.running;
+	unload() {}
+	get unloading() {
+		return this.unload.running;
 	}
-	get cleanedup() {
-		return this.cleanup.hasRun;
+	get unloaded() {
+		return this.unload.hasRun;
 	}
 	//#endregion
 
@@ -162,9 +145,6 @@ export default class DataStore extends PropertyChangeEmitter {
 	//#region Param
 	#params = {};
 
-	useParams(params) {
-		this.setParams(params);
-	}
 	setParams(params = {}) {
 		const changed = Object.entries(params).some(
 			param => this.#params[param[0]] !== params[1]
