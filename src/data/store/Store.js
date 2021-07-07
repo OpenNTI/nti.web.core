@@ -1,19 +1,21 @@
-import { Promises } from '@nti/lib-commons';
-
+// import useForceUpdate from '../hooks/use-force-update';
 // import {useStore} from '../hooks/use-store';
 // import {useRead} from '../hooks/use-read';
 // import {useProperties} from '../hooks/use-properties';
 
+import { createReader } from './Reader';
 import Action from './Action';
 import PropertyChangeEmitter from './PropertyChangeEmitter';
 
-const LifeCycles = ['load', 'unload'];
+const LifeCycles = ['initialLoad', 'load', 'unload'];
 
 export default class DataStore extends PropertyChangeEmitter {
 	static Action = Action;
 
 	constructor() {
 		super();
+
+		this.#reader = createReader(this);
 
 		const binding = key => ({
 			scope: this,
@@ -50,36 +52,16 @@ export default class DataStore extends PropertyChangeEmitter {
 
 	#reader = null;
 	read() {
-		if (!this.#reader) {
-			const loaded = new Promise((fulfill, reject) => {
-				let cleanup = null;
-
-				if (this.load.hasRun) {
-					fulfill(this);
-				}
-
-				cleanup = this.subscribeToProperties('load', () => {
-					if (this.load.error) {
-						reject(this.load.error);
-						cleanup?.();
-					} else if (this.load.hasRun) {
-						fulfill(this);
-						cleanup?.();
-					}
-				});
-
-				if (!this.load.hasRun) {
-					this.#load();
-				}
-			});
-
-			this.#reader = Promises.toReader(loaded);
-		}
-
 		return this.#reader.read();
 	}
 
 	//#region Life Cycles
+
+	initialLoad() {
+		if (!this.load.hasRun) {
+			return this.#load(true);
+		}
+	}
 
 	#reload() {
 		if (this.load.hasRun) {
@@ -88,18 +70,31 @@ export default class DataStore extends PropertyChangeEmitter {
 	}
 
 	#loadAbortController = null;
-	#loadTimeout = null;
-	#load() {
+	#pendingLoad = null;
+	#load(forceRun) {
 		this.#loadAbortController?.abort();
 		this.#loadAbortController = null;
 
-		if (!this.#loadTimeout) {
-			this.#loadTimeout = setTimeout(() => {
-				this.#loadAbortController = new AbortController();
-				this.load(this.#params, this.#loadAbortController);
-				this.#loadTimeout = null;
-			}, 1);
+		if (!this.#pendingLoad) {
+			this.#pendingLoad = new Promise((fulfill, reject) => {
+				setTimeout(async () => {
+					const abort = new AbortController();
+
+					this.#loadAbortController = forceRun ? null : abort;
+					this.#pendingLoad = null;
+
+					await this.load(this.#params, abort);
+
+					if (this.load.error) {
+						reject(this.load.error);
+					} else {
+						fulfill();
+					}
+				}, 1);
+			});
 		}
+
+		return this.#pendingLoad;
 	}
 
 	load() {}
@@ -108,12 +103,6 @@ export default class DataStore extends PropertyChangeEmitter {
 	}
 	get loaded() {
 		return this.load.hasRun;
-	}
-
-	initialLoad() {
-		if (!this.load.hasRun) {
-			this.#load();
-		}
 	}
 
 	unload() {}
@@ -128,7 +117,7 @@ export default class DataStore extends PropertyChangeEmitter {
 	//#region State
 	#state = {};
 
-	updateState(newState) {
+	updateState(newState = {}) {
 		const updated = Object.keys(newState);
 		const merged = this.mergeState(newState, this.#state);
 
