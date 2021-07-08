@@ -16,7 +16,6 @@
  * @property {boolean} running - indicates if a call to the action is inflight
  * @property {Error} error - the error of the most recent invocation
  */
-//TODO: document BoundAction.read
 
 /**
  * @typedef Action
@@ -78,18 +77,19 @@ function bindAction(fn, { scope, onUpdate, onStart, onError, onFinish }) {
 
 		try {
 			await task;
+			runCount += 1;
 
 			if (isCurrent(task)) {
 				setCurrent(null);
 				onFinish?.();
 			}
 		} catch (e) {
+			runCount += 1;
+
 			if (isCurrent(task)) {
 				setCurrent(e);
 				onError?.();
 			}
-		} finally {
-			runCount += 1;
 		}
 	};
 

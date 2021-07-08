@@ -60,7 +60,9 @@ export default function useProperties(predicate) {
 }
 
 function getValue(store, property) {
-	const value = store[property];
+	const value = store.getProperty
+		? store.getProperty(property)
+		: store[property];
 
 	return typeof value === 'function' ? getBoundFunction(value, store) : value;
 }

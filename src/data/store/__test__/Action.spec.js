@@ -1,55 +1,7 @@
 /* eslint-env jest */
 import Action from '../Action';
 
-function pump() {
-	return new Promise(fulfill => {
-		setTimeout(() => fulfill(), 1);
-	});
-}
-
-async function swallow(p) {
-	try {
-		await p;
-	} catch (e) {
-		//swallow
-	}
-}
-
-function Deferred() {
-	let f = null;
-	let r = null;
-
-	const p = new Promise((fulfill, reject) => {
-		(f = fulfill), (r = reject);
-	});
-
-	return {
-		fulfill: (...args) => (f(...args), p.then(pump, pump)),
-		reject: (...args) => (r(...args), p.then(pump, pump)),
-
-		method: () => p,
-	};
-}
-
-function MockAction() {
-	let deferreds = [];
-	let calls = 0;
-
-	const getDeferred = index => {
-		if (!deferreds[index]) {
-			deferreds[index] = Deferred();
-		}
-
-		return deferreds[index];
-	};
-
-	return {
-		fulfill: (index, ...args) => getDeferred(index).fulfill(...args),
-		reject: (index, ...args) => getDeferred(index).reject(...args),
-
-		method: (...args) => getDeferred(calls++).method(...args),
-	};
-}
+import { pump, swallow, MockAction } from './utils';
 
 describe('DataStore Action Tests', () => {
 	test('isAction check', () => {
@@ -200,8 +152,6 @@ describe('DataStore Action Tests', () => {
 				expect(action.error).toBeNull();
 			});
 		});
-
-		//TODO: test read
 	});
 
 	describe('Store Binding', () => {
