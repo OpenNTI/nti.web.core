@@ -7,7 +7,7 @@ import { createReader } from './Reader';
 import Action from './Action';
 import PropertyChangeEmitter from './PropertyChangeEmitter';
 
-const LifeCycles = ['initialLoad', 'load', 'unload'];
+const LifeCycles = ['load', 'unload'];
 
 export default class DataStore extends PropertyChangeEmitter {
 	static Action = Action;
@@ -50,6 +50,16 @@ export default class DataStore extends PropertyChangeEmitter {
 		this.addDependentProperty('unloaded', 'unload');
 	}
 
+	getProperty(property) {
+		const options = [
+			this.#state[property],
+			this[property],
+			this.#params[property],
+		];
+
+		return options.find(p => p !== undefined);
+	}
+
 	#reader = null;
 	read() {
 		return this.#reader.read();
@@ -58,8 +68,8 @@ export default class DataStore extends PropertyChangeEmitter {
 	//#region Life Cycles
 
 	initialLoad() {
-		if (!this.load.hasRun) {
-			return this.#load(true);
+		if (!this.load.hasRun && !this.load.running) {
+			this.#load(true);
 		}
 	}
 
@@ -70,31 +80,25 @@ export default class DataStore extends PropertyChangeEmitter {
 	}
 
 	#loadAbortController = null;
-	#pendingLoad = null;
-	#load(forceRun) {
+	#loadTimeout = null;
+	#load() {
 		this.#loadAbortController?.abort();
 		this.#loadAbortController = null;
 
-		if (!this.#pendingLoad) {
-			this.#pendingLoad = new Promise((fulfill, reject) => {
-				setTimeout(async () => {
-					const abort = new AbortController();
+		if (!this.#loadTimeout) {
+			this.#loadTimeout = setTimeout(async () => {
+				const abort = new AbortController();
 
-					this.#loadAbortController = forceRun ? null : abort;
-					this.#pendingLoad = null;
+				this.#loadAbortController = abort;
+				this.#loadTimeout = null;
 
-					await this.load(this.#params, abort);
+				await this.load(this.#params, abort);
 
-					if (this.load.error) {
-						reject(this.load.error);
-					} else {
-						fulfill();
-					}
-				}, 1);
-			});
+				if (this.#loadAbortController === abort) {
+					this.#loadAbortController = null;
+				}
+			}, 1);
 		}
-
-		return this.#pendingLoad;
 	}
 
 	load() {}
@@ -135,8 +139,12 @@ export default class DataStore extends PropertyChangeEmitter {
 	#params = {};
 
 	setParams(params = {}) {
+		if (this.unloading || this.unloaded) {
+			return;
+		}
+
 		const changed = Object.entries(params).some(
-			param => this.#params[param[0]] !== params[1]
+			param => this.#params[param[0]] !== param[1]
 		);
 
 		this.#params = {

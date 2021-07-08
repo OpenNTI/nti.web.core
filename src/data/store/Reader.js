@@ -2,13 +2,22 @@ import { Promises } from '@nti/lib-commons';
 
 export function createReader(store) {
 	const loaded = new Promise((fulfill, reject) => {
-		let cleanup = null;
+		if (store.load.error) {
+			reject(store.load.error);
+			return;
+		}
 
-		cleanup = store.subscribeToProperties('initialLoad', () => {
-			if (store.initialLoad.error) {
-				reject(store.initialLoad.error);
+		if (store.load.hasRun) {
+			fulfill(store);
+			return;
+		}
+
+		let cleanup = null;
+		cleanup = store.subscribeToProperties('load', () => {
+			if (store.load.error) {
+				reject(store.load.error);
 				cleanup?.();
-			} else if (store.initialLoad.hasRun) {
+			} else if (store.load.hasRun) {
 				fulfill(store);
 				cleanup?.();
 			}
