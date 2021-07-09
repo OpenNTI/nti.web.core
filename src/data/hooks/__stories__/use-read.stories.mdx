@@ -1,0 +1,70 @@
+import { Meta, ArgsTable } from '@storybook/addon-docs';
+
+import { useRead } from '../use-read';
+
+<Meta title="Data/hooks/useRead" component={useRead} />
+
+# useRead
+
+Use the return value of a store instance's read.
+
+The read method will typically either:
+
+-   throw a promise while the store is loading
+-   throw an error if the store has errored
+-   return the loaded value
+
+So, `useRead` should be in a Suspense and Error boundary to control how those states get handled.
+A Suspense and Error boundary like the handy dandy DataContext!
+
+## Picking which Store to use
+
+### From Context
+
+If you use the handy dandy DataContext component `useRead` will be able to match the closest store that matches a predicate.
+
+If no predicate is provided `useRead` will use the closest store in the context.
+
+```javascript
+import {useRead, useStore, Context, Store} '@nti/web-core/data';
+
+class SampleStore extends Store {}
+
+function Cmp () {
+	const readValue = useRead(s => s instanceof SampleStore);
+
+	...
+}
+
+function App () {
+	const store = useStore(SampleStore);
+
+	return (
+		<Context store={store} >
+
+		</Context>
+	);
+}
+
+```
+
+In the above example `readValue` in `Cmp` will be the result of SampleStore's read method.
+
+### Directly
+
+If you have a store instance, and need to utilize its read. You can pass the store directly to `useRead`.
+
+```javascript
+import {useRead, useStore, Store} from '@nti/web-core/data';
+
+class SampleStore extends Store {}
+
+function SampleCmp () {
+	const store = useStore(SampleStore);
+	const readValue = useRead(store);
+	...
+}
+
+```
+
+<ArgsTable of={useRead} />
