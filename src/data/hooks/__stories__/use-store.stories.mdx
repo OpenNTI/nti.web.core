@@ -1,0 +1,85 @@
+import { Meta, ArgsTable } from '@storybook/addon-docs';
+
+import { useStore } from '../use-store.js';
+
+<Meta title="Data/hooks/useStore" component={useStore} />
+
+# useStore
+
+Create, track, update, and cleanup an instance of a store.
+
+## Create
+
+The first argument to `useStore` is the store factory, which is anything that defines a `create` method.
+
+Note: These code snippets are using toy examples of stores. You will most likely never be responsible for building a store or store factory from scratch.
+
+```javascript
+import { useStore } from '@nti/web-core/data';
+
+class Store {};
+
+function Sample() {
+	const store = useStore(Store);
+
+	//store instanceof Store
+	...
+}
+```
+
+If the store defines `initialLoad`, `initialLoad` will be called after the first render using a particular store.
+
+## Track
+
+As long as `useStore` is called with the same store factory it will return the same store each render.
+
+If a `key` parameter passed in the second argument, `useStore` will return the same instance for with the same factory and `key` combinations used in other components.
+
+```javascript
+import { useStore } from '@nti/web-core/data';
+
+class Store {
+	static create () { return new Store(); }
+}
+
+function SampleA () {
+	const store = useStore(Store, {key: 'same'});
+	...
+}
+
+function SampleB () {
+	const store = useStore(Store, {key: 'same'});
+	...
+}
+```
+
+In the above example, `SampleA` and `SampleB` will get the same instance of Store out of `useStore`.
+
+## Update
+
+The second argument to `useStore` are the parameters to pass to the store, if it defines a `setParams`.
+
+```javascript
+import {useStore} from '@nti/web-core/data';
+
+class Store {
+	static create () { return new Store(); }
+
+	setParams () {}
+}
+
+function Sample ({id}) {
+	const store = useStore(Store, {id});
+	...
+}
+
+```
+
+In the above example `store`'s setParams will be called with the initial value of `id`, and re-called anytime `id` changes.
+
+## Cleanup
+
+If the store defines an `unload` method, it will be called when the store is no longer being used.
+
+<ArgsTable of={useStore} />
+```
