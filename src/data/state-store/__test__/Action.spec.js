@@ -3,18 +3,20 @@ import Action from '../Action';
 
 import { pump, swallow, MockAction } from './utils';
 
+//TODO: test superseded and concurrent actions
+
 describe('DataStore Action Tests', () => {
 	test('isAction check', () => {
 		expect(Action.isAction(Action(() => {}))).toBeTruthy();
 		expect(Action.isAction(() => {})).toBeFalsy();
 	});
 
-	test('passes args to implementation', () => {
+	test('passes args to implementation', async () => {
 		const method = jest.fn();
 		const action = Action(method).bindStore({});
 
-		action(1, 2, 3);
-		expect(method).toHaveBeenCalledWith(1, 2, 3);
+		await action(1, 2, 3);
+		expect(method).toHaveBeenCalledWith(expect.any(Object), 1, 2, 3);
 	});
 
 	describe('Properties', () => {

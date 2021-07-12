@@ -12,6 +12,12 @@ const LifeCycles = ['load', 'unload'];
 export default class DataStore extends PropertyChangeEmitter {
 	static Action = Action;
 
+	static create(...args) {
+		const Store = this;
+
+		return new Store(...args);
+	}
+
 	constructor() {
 		super();
 
@@ -20,6 +26,7 @@ export default class DataStore extends PropertyChangeEmitter {
 		const binding = key => ({
 			scope: this,
 
+			getData: () => ({ state: this.#state, params: this.#params }),
 			onUpdate: (...args) => this.updateState(...args),
 			onStart: () => this.onChange(key),
 			onError: () => this.onChange(key),
@@ -37,7 +44,9 @@ export default class DataStore extends PropertyChangeEmitter {
 		}
 
 		for (let cycle of LifeCycles) {
-			this[cycle] = Action(this[cycle]).bindStore(binding(cycle));
+			this[cycle] = Action.Superseded(this[cycle]).bindStore(
+				binding(cycle)
+			);
 		}
 
 		//Set these up in the constructor, so they cannot be overridden
@@ -79,24 +88,13 @@ export default class DataStore extends PropertyChangeEmitter {
 		}
 	}
 
-	#loadAbortController = null;
 	#loadTimeout = null;
 	#load() {
-		this.#loadAbortController?.abort();
-		this.#loadAbortController = null;
-
 		if (!this.#loadTimeout) {
 			this.#loadTimeout = setTimeout(async () => {
-				const abort = new AbortController();
-
-				this.#loadAbortController = abort;
 				this.#loadTimeout = null;
 
-				await this.load(this.#params, abort);
-
-				if (this.#loadAbortController === abort) {
-					this.#loadAbortController = null;
-				}
+				await this.load();
 			}, 1);
 		}
 	}

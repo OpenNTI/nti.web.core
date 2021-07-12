@@ -26,7 +26,7 @@ function waitForProperty(store, property, value) {
 
 const waitLoaded = s => waitForProperty(s, 'load', x => x.load.hasRun);
 
-describe('DataStore', () => {
+describe('StateStore', () => {
 	describe('read', () => {
 		test('throws a promise if initialLoad has not been called', () => {
 			class Test extends Store {}
@@ -181,10 +181,15 @@ describe('DataStore', () => {
 
 			await waitLoaded(test);
 
-			expect(load).toHaveBeenCalledWith(
-				{ foo: 'bar', bar: 'foo' },
-				expect.anything()
-			);
+			expect(load).toHaveBeenCalledWith({
+				prev: null,
+				signal: expect.any(AbortSignal),
+				params: {
+					foo: 'bar',
+					bar: 'foo',
+				},
+				state: {},
+			});
 		});
 
 		test('only calls load the first time', async () => {
@@ -250,13 +255,15 @@ describe('DataStore', () => {
 			await action.fulfill(1);
 
 			expect(load).toHaveBeenCalledTimes(2);
-			expect(load).toHaveBeenCalledWith(
-				{ a: 'a', b: 'b', c: 'c' },
-				expect.anything()
-			);
+			expect(load).toHaveBeenCalledWith({
+				state: {},
+				params: { a: 'a', b: 'b', c: 'c' },
+				signal: expect.any(AbortSignal),
+				prev: null,
+			});
 		});
 
-		test('aborts inflight load', async () => {
+		test.only('aborts inflight load', async () => {
 			const load = jest.fn();
 			const action = MockAction();
 
@@ -278,6 +285,7 @@ describe('DataStore', () => {
 			await waitForProperty(test, 'load', s => s.load.running);
 
 			test.setParams({ bar: 'foo' });
+			await pump();
 
 			await action.fulfill(1);
 			await action.fulfill(2);
@@ -285,7 +293,7 @@ describe('DataStore', () => {
 			await waitForProperty(test, 'load', s => !s.load.running);
 
 			expect(load).toHaveBeenCalledTimes(3);
-			expect(load.mock.calls[1][1].signal.aborted).toBeTruthy();
+			expect(load.mock.calls[1][0].signal.aborted).toBeTruthy();
 		});
 
 		test('does not call load if the store has been unloaded', async () => {
