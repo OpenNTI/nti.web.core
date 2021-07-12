@@ -1,0 +1,60 @@
+import { Meta } from '@storybook/addon-docs';
+
+<Meta title="Data/docs/StateStore" />
+
+# State Store
+
+StateStores combine asynchronous loading and updating of state into one class.
+
+Example usecases:
+
+1. Batch Paging - manage loading pages and tracking current/total pages.
+2. Forms - manage different input values and tracking saving/error states.
+
+## Usage
+
+`@nti/web-core/data` provides hooks for setting up and interacting with stores.
+
+-   [useStore](/docs/data-docs-hooks-usestore--page)
+-   [useRead](/docs/data-docs-hooks-useread--page)
+
+```javascript
+import { Store, useStore } from '@nti/web-core/data';
+
+class SampleStore extends Store {}
+
+function SampleCmp ({id}) {
+	const store = useStore(SamleStore, {id});
+
+	...
+}
+```
+
+## Setting up a StateStore
+
+### Actions
+
+Actions are methods on the store that push new state into the store.
+
+```javascript
+class SampleStore extends Store {
+	//A simple return value
+	increment = Store.Action(() => {
+		return {
+			count: this.get('count') + 1
+		};
+	})
+
+	//Iterator return value
+	addItem = Store.Action(async* (data) => {
+		const items = this.get('items');
+
+		yield {items: [...items, {saving: true}]};
+
+		const resp = await saveItem(data);
+
+		yield {items: [...items, data]};
+	});
+}
+
+```
