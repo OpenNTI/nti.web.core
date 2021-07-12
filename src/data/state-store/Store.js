@@ -26,7 +26,14 @@ export default class DataStore extends PropertyChangeEmitter {
 		const binding = key => ({
 			scope: this,
 
-			getData: () => ({ state: this.#state, params: this.#params }),
+			getData: () => ({
+				get state() {
+					return this.#state;
+				},
+				get params() {
+					return this.#params;
+				},
+			}),
 			onUpdate: (...args) => this.updateState(...args),
 			onStart: () => this.onChange(key),
 			onError: () => this.onChange(key),

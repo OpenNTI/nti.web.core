@@ -19,8 +19,9 @@
  */
 
 /** @typedef {{abort: () => void}} PrevAction */
-/** @typedef {{prev:PrevAction}} ActionEvent */
-/** @typedef {(ActionEvent) => *} ActionCallback */
+/** @typedef {{aborted: boolean}} Signal */
+/** @typedef {{prev:PrevAction, signal:Signal}} ActionObject */
+/** @typedef {(ActionObject) => *} ActionCallback */
 
 /**
  * @typedef Action
@@ -54,13 +55,18 @@ function bindAction(
 	let runCount = 0;
 
 	const execute = async (prev, signal, args) => {
-		const e = {
-			...(getData?.() ?? {}),
-			prev: prev instanceof Promise ? prev : null,
-			signal,
-		};
+		const actionObject = getData?.() ?? {};
 
-		const result = await fn.apply(scope, [e, ...args]);
+		Object.defineProperties(actionObject, {
+			prev: { value: prev instanceof Promise ? prev : null },
+			signal: { value: signal },
+		});
+
+		const result = await fn.apply(scope, [actionObject, ...args]);
+
+		if (signal.aborted) {
+			return;
+		}
 
 		if (!result?.next) {
 			onUpdate?.(result);
@@ -72,10 +78,10 @@ function bindAction(
 		do {
 			pointer = await result.next();
 
-			if (!pointer.done) {
+			if (!pointer.done && !signal.aborted) {
 				onUpdate?.(pointer.value);
 			}
-		} while (!pointer.done);
+		} while (!pointer.done && !signal.aborted);
 	};
 
 	const action = async (...args) => {
@@ -138,7 +144,13 @@ function BuildAction(fn) {
 	return action;
 }
 
-//Sequential
+/**
+ * Sequential:
+ * Waits for previous invocations to finish before executing a new call.
+ *
+ * @param {ActionCallback} fn
+ * @returns {Action}
+ */
 const Action = fn =>
 	BuildAction(async (e, ...args) => {
 		//This is avoiding using ?. to save an event pump if there is no prev
@@ -148,13 +160,28 @@ const Action = fn =>
 		return fn(e, ...args);
 	});
 
+/**
+ * Superseded:
+ * A new call will abort a pending previous invocation.
+ *
+ * @param {ActionCallback} fn
+ * @returns {Action}
+ */
 Action.Superseded = fn =>
 	BuildAction((e, ...args) => {
 		e.prev?.abort();
 		return fn(e, ...args);
 	});
 
-Action.Concurrent = BuildAction;
+/**
+ * Concurrent:
+ * New calls will run in "parallel" to any pending previous invocations.
+ * There is no guarantee on the order they will resolve in.
+ *
+ * @param {ActionCallback} fn
+ * @returns {Action}
+ */
+Action.Concurrent = fn => BuildAction(fn);
 
 Action.isAction = x => x.isAction;
 
