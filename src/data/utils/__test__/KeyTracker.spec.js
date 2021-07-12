@@ -3,7 +3,11 @@ import { renderHook } from '@testing-library/react-hooks';
 
 import { getTracked, isTracked, useTracked } from '../KeyTracker';
 
-class Store {}
+class Store {
+	static create() {
+		return new Store();
+	}
+}
 
 describe('KeyTracker', () => {
 	describe('getTracked', () => {
