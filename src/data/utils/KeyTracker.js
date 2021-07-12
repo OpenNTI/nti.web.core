@@ -31,7 +31,7 @@ export function getTracked(Track, key) {
 		return {
 			Track,
 			key,
-			tracked: new Track(),
+			tracked: Track.create(),
 			free: () => {},
 		};
 	}
@@ -44,7 +44,7 @@ export function getTracked(Track, key) {
 
 	if (!tracked.has(key)) {
 		tracked.set(key, {
-			tracked: new Track(),
+			tracked: Track.create(),
 			count: 1,
 		});
 	}
