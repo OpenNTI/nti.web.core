@@ -18,7 +18,7 @@
  * @property {Error} error - the error of the most recent invocation
  */
 
-/** @typedef {{abort: () => void, then: () => void}} PrevAction */
+/** @typedef {{abort: () => void}} PrevAction */
 /** @typedef {{prev:PrevAction}} ActionEvent */
 /** @typedef {(ActionEvent) => *} ActionCallback */
 
