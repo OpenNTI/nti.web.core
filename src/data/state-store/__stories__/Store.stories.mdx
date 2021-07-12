@@ -36,6 +36,17 @@ function SampleCmp ({id}) {
 
 Actions are methods on the store that push new state into the store.
 
+Actions can either return a simple state update, or an iterator that will push multiple state updates for one action call.
+
+**Action Event Object**
+
+The first argument to actions is the `ActionEventObject` which will have:
+
+-   `prev`: If there is a pending call `prev` will be a promise that fulfills with when the result of the call. There is also an `abort` method defined that will abort the previous call.
+-   `signal`: A [AbortSignal](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) instance that will indicate when/if this call has been aborted.
+-   `state`: A getter that returns the current state of the store.
+-   `params`: A getter that returns the current parameters of the store.
+
 ```javascript
 class SampleStore extends Store {
 	//A simple return value
@@ -46,8 +57,8 @@ class SampleStore extends Store {
 	})
 
 	//Iterator return value
-	addItem = Store.Action(async* (data) => {
-		const items = this.get('items');
+	addItem = Store.Action(async* (e, data) => {
+		const {items} = e.state;
 
 		yield {items: [...items, {saving: true}]};
 
@@ -56,5 +67,10 @@ class SampleStore extends Store {
 		yield {items: [...items, data]};
 	});
 }
-
 ```
+
+Actions can run in three different modes:
+
+1. Sequential (`Store.Action`) - where a new call awaits all the previous calls to finish
+2. Superseded (`Store.Action.Superseded`) - a new call will abort any pending calls
+3. Concurrent (`Store.Action.Concurrent`) - a new call will run immediately and not interfere with previous calls.

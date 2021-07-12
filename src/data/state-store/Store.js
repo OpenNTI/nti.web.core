@@ -1,3 +1,7 @@
+/** @typedef {{}} StoreState */
+/** @typedef {{}} StoreParams */
+/** @typedef {() => void} Cleanup - a change to remove any listeners*/
+
 // import useForceUpdate from '../hooks/use-force-update';
 // import {useStore} from '../hooks/use-store';
 // import {useRead} from '../hooks/use-read';
@@ -9,7 +13,7 @@ import PropertyChangeEmitter from './PropertyChangeEmitter';
 
 const LifeCycles = ['load', 'unload'];
 
-export default class DataStore extends PropertyChangeEmitter {
+export default class StateStore extends PropertyChangeEmitter {
 	static Action = Action;
 
 	static create(...args) {
@@ -66,6 +70,18 @@ export default class DataStore extends PropertyChangeEmitter {
 		this.addDependentProperty('unloaded', 'unload');
 	}
 
+	/**
+	 * Get a property off the store.
+	 *
+	 * Looks for property on:
+	 *
+	 * 1. the current state
+	 * 2. the store itself
+	 * 3. the parameters
+	 *
+	 * @param {string} property
+	 * @returns {*}
+	 */
 	getProperty(property) {
 		const options = [
 			this.#state[property],
@@ -77,15 +93,45 @@ export default class DataStore extends PropertyChangeEmitter {
 	}
 
 	#reader = null;
+	/**
+	 * returns the read for this store instance.
+	 *
+	 * @throws {Promise} - when the store is loading
+	 * @throws {Error} - when the load errored
+	 * @returns {StateStore}
+	 */
 	read() {
 		return this.#reader.read();
 	}
 
 	//#region Life Cycles
 
+	/**
+	 * Calls load if it has not been called yet. Used by the `useStore` hook.
+	 *
+	 * @package
+	 */
+
+	/**
+	 * Called when the store does it's initial load.
+	 *
+	 * Serves as a place to attach listeners to outside objects and update params or state as needed. Similar to `useEffect`.
+	 *
+	 * NOTE: returned `cleanup` must remove those listeners
+	 *
+	 * @abstract
+	 * @returns {Cleanup}
+	 */
+	onLoad() {}
+	#loadCleanup = null;
+	#onLoad() {
+		this.#loadCleanup = this.onLoad();
+	}
+
 	initialLoad() {
 		if (!this.load.hasRun && !this.load.running) {
-			this.#load(true);
+			this.#onLoad();
+			this.#load();
 		}
 	}
 
@@ -106,7 +152,20 @@ export default class DataStore extends PropertyChangeEmitter {
 		}
 	}
 
-	load() {}
+	/**
+	 * Load the state of the store.
+	 *
+	 * The params and current state of the store are available on first arg.
+	 *
+	 * Calls to load will be aborted by any subsequent calls, so be sure to check signal on the first arg to see if you should stop loading.
+	 *
+	 * NOTE: if you have to call this directly, you probably aren't using it right.
+	 *
+	 * @abstract
+	 * @private
+	 * @param {import('./Action').ActionObject} action
+	 */
+	load(action) {}
 	get loading() {
 		return this.load.running;
 	}
@@ -114,7 +173,15 @@ export default class DataStore extends PropertyChangeEmitter {
 		return this.load.hasRun;
 	}
 
-	unload() {}
+	/**
+	 * Called by the `useState` hook when the store unmounts
+	 *
+	 * @package
+	 */
+	unload() {
+		this.#stateChangeCleanup?.();
+		this.#paramsChangeCleanup?.();
+	}
 	get unloading() {
 		return this.unload.running;
 	}
@@ -126,40 +193,119 @@ export default class DataStore extends PropertyChangeEmitter {
 	//#region State
 	#state = {};
 
+	/**
+	 * Merge new store state into the old store state.
+	 *
+	 * @param {StoreState} newState
+	 * @param {StoreState} prevState
+	 * @returns {StoreState}
+	 */
+	mergeState(newState, prevState) {
+		return { ...prevState, ...newState };
+	}
+
+	/**
+	 * Push new state into the store
+	 *
+	 * @param {StoreState} newState
+	 */
 	updateState(newState = {}) {
 		const updated = Object.keys(newState);
 		const merged = this.mergeState(newState, this.#state);
 
 		this.#state = merged;
 
+		this.#stateDidUpdate(this.#state);
 		this.onChange(updated);
 	}
 
-	mergeState(newState, prevState) {
-		return { ...prevState, ...newState };
+	/**
+	 * Called when the store's state updated.
+	 *
+	 * Serves as a place to attach listeners to items in the state as needed.
+	 * Similar to `useEffect`.
+	 *
+	 * NOTE: returned `cleanup` must remove those listeners
+	 *
+	 * @abstract
+	 * @param {StoreState} state - the updated store state
+	 * @returns {Cleanup}
+	 */
+	onStateUpdate(state) {}
+	#stateChangeCleanup = null;
+	#stateDidUpdate(state) {
+		this.#stateChangeCleanup?.();
+		this.#stateChangeCleanup = this.onStateUpdate(state);
 	}
 	//#endregion
 
 	//#region Param
 	#params = {};
 
+	/**
+	 * Check if the new params have newer data than the old params
+	 *
+	 * @param {StoreParams} newParams
+	 * @param {StoreParams} prevParams
+	 * @returns {boolean}
+	 */
+	didParamsChange(newParams, prevParams) {
+		return Object.entries(newParams).some(
+			param => prevParams[param[0]] !== param[1]
+		);
+	}
+
+	/**
+	 * Merge new params into the old params
+	 *
+	 * @param {StoreParams} newParams
+	 * @param {StoreParams} prevParams
+	 * @returns {StoreParams}
+	 */
+	mergeParams(newParams = {}, prevParams = {}) {
+		return { ...prevParams, ...newParams };
+	}
+
+	/**
+	 * Update the store's params. If load has been called already, this will trigger a new load.
+	 *
+	 * @param {StoreParams} params
+	 * @returns {void}
+	 */
 	setParams(params = {}) {
 		if (this.unloading || this.unloaded) {
 			return;
 		}
 
-		const changed = Object.entries(params).some(
-			param => this.#params[param[0]] !== param[1]
-		);
+		const changed = this.didParamsChange(params, this.#params);
 
-		this.#params = {
-			...this.#params,
-			...params,
-		};
+		this.#params = this.mergeParams(params, this.#params);
 
 		if (changed) {
+			this.#paramsDidUpdate(this.#params);
 			this.#reload();
 		}
 	}
+
+	/**
+	 * Called when the store's params update.
+	 *
+	 * Serves as a place to attach listeners to objects in the store's params.
+	 * Similar to `useEffect`.
+	 *
+	 * NOTE: returned `cleanup` must remove those listeners
+	 *
+	 * @abstract
+	 * @param {StoreParams} params
+	 * @returns {Cleanup}
+	 */
+	onParamsUpdate(params) {}
+	#paramsChangeCleanup = null;
+	#paramsDidUpdate(params) {
+		this.#paramsChangeCleanup?.();
+
+		this.#paramsChangeCleanup = this.onParamsUpdate(params);
+	}
+
 	//#endregion
 }
