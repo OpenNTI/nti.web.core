@@ -1,3 +1,8 @@
+/** @typedef {import('./hooks/use-store').StoreInstance[]} StoreInstanceList */
+/** @typedef {JSX.Element} Fallback - suspense fallback */
+/** @typedef {JSX.Element} Error - component to render if the error boundary trips */
+/** @typedef {{store: import('./hooks/use-store').StoreInstance, fallback: Fallback, error: Error}} DataContextProps */
+
 import React, { Suspense, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
@@ -31,7 +36,23 @@ class DataContextWrapper extends React.Component {
 	}
 }
 
+/**
+ * Get the store instance list from the current context
+ *
+ * @returns {StoreInstanceList}
+ */
 DataContext.useContext = () => useContext(Context);
+
+/**
+ * Setup a DataContext which optionally includes:
+ *
+ * 1. store - the data/data loader to use
+ * 2. fallback - suspense placeholder to render while the stores in the context are loading
+ * 3. error - component to render if a store in the context throws an error
+ *
+ * @param {DataContextProps} props
+ * @returns {JSX.Element}
+ */
 export default function DataContext({ store, ...otherProps }) {
 	const { stores } = useContext(Context);
 	const context = useMemo(
