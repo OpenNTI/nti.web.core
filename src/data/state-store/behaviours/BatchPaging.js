@@ -15,6 +15,9 @@ export const Discrete = Base =>
 	class extends Base {
 		PageSize = 25;
 
+		PageSizeParam = 'batchSize';
+		PageOffsetParam = 'batchStart';
+
 		constructor() {
 			super();
 
@@ -23,8 +26,8 @@ export const Discrete = Base =>
 			this.addDependentProperty('currentPage', 'batch');
 
 			this.setParams({
-				batchSize: this.PageSize,
-				batchStart: 0,
+				[this.PageSizeParam]: this.PageSize,
+				[this.PageOffsetParam]: 0,
 			});
 		}
 
@@ -78,7 +81,7 @@ export const Discrete = Base =>
 
 		loadPage(index) {
 			this.setParam({
-				batchStart: this.PageSize * Math.max(index - 1, 0),
+				[this.PageOffsetParam]: this.PageSize * Math.max(index - 1, 0),
 			});
 		}
 	};
