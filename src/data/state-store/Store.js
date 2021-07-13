@@ -135,7 +135,7 @@ export default class StateStore extends PropertyChangeEmitter {
 		}
 	}
 
-	#reload() {
+	reload() {
 		if (this.load.hasRun) {
 			this.#load();
 		}
@@ -283,7 +283,8 @@ export default class StateStore extends PropertyChangeEmitter {
 
 		if (changed) {
 			this.#paramsDidUpdate(this.#params);
-			this.#reload();
+			this.reload();
+			this.onChange(Object.keys(params));
 		}
 	}
 
