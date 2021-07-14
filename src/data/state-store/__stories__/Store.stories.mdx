@@ -43,7 +43,7 @@ Actions can either return a simple state update, or an iterator that will push m
 The first argument to actions is the `ActionEventObject` which will have:
 
 -   `prev`: If there is a pending call `prev` will be a promise that fulfills with the result of the call. There is also an `abort` method defined that will abort the previous call.
--   `signal`: A [AbortSignal](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) instance that will indicate when/if this call has been aborted.
+-   `signal`: An [AbortSignal](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) instance that will indicate when/if this call has been aborted.
 -   `state`: A getter that returns the current state of the store.
 -   `params`: A getter that returns the current parameters of the store.
 
