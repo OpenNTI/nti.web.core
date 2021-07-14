@@ -1,7 +1,8 @@
-/** @typedef {import('./hooks/use-store').StoreInstance[]} StoreInstanceList */
+/** @typedef {import('./hooks/use-store').StoreInstance} StoreInstance */
+/** @typedef {StoreInstance} StoreInstanceList */
 /** @typedef {JSX.Element} Fallback - suspense fallback */
 /** @typedef {JSX.Element} Error - component to render if the error boundary trips */
-/** @typedef {{store: import('./hooks/use-store').StoreInstance, fallback: Fallback, error: Error}} DataContextProps */
+/** @typedef {{store: StoreInstance, fallback: Fallback, error: Error}} DataContextProps */
 
 import React, { Suspense, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
@@ -15,11 +16,11 @@ class DataContextWrapper extends React.Component {
 		error: PropTypes.node,
 	};
 
-	state = {};
-
-	componentDidCatch(error) {
-		this.setState({ error });
+	static getDerivedStateFromError(error) {
+		return { error };
 	}
+
+	state = {};
 
 	render() {
 		const { children, fallback, error } = this.props;
