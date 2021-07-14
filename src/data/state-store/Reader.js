@@ -12,14 +12,13 @@ export function createReader(store) {
 			return;
 		}
 
-		let cleanup = null;
-		cleanup = store.subscribeToProperties('load', () => {
+		const cleanup = store.subscribeToProperties('load', () => {
 			if (store.load.error) {
 				reject(store.load.error);
-				cleanup?.();
+				cleanup();
 			} else if (store.load.hasRun) {
 				fulfill(store);
-				cleanup?.();
+				cleanup();
 			}
 		});
 	});
