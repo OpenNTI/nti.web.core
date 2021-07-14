@@ -2,7 +2,7 @@ import { useReducer, useEffect } from 'react';
 
 import getBoundFunction from '../utils/get-bound-function';
 
-import useRead from './use-read';
+import { useRead } from './use-read';
 
 const AlwaysNew = () => Date.now();
 const NotAllowed = () => {
@@ -26,7 +26,7 @@ const ProxyTraps = {
 	setPrototypeOf: NotAllowed,
 };
 
-export default function useProperties(predicate) {
+export function useProperties(predicate) {
 	let locked = false;
 
 	const [, updateView] = useReducer(AlwaysNew);
@@ -68,6 +68,10 @@ function getValue(store, property) {
 }
 
 function subscribeToChanges(store, properties, onChange) {
+	if (!store.subscribeToProperties && !store.subscribeToChange) {
+		return;
+	}
+
 	if (store.subscribeToProperties) {
 		return store.subscribeToProperties(properties, onChange);
 	}

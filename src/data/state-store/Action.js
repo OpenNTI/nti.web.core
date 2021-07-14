@@ -114,6 +114,8 @@ function bindAction(
 	};
 
 	Object.defineProperties(action, {
+		isBound: { value: true },
+
 		hasRun: {
 			get: () => runCount > 0,
 		},

@@ -3,9 +3,9 @@
 /** @typedef {() => void} Cleanup - a change to remove any listeners*/
 
 // import useForceUpdate from '../hooks/use-force-update';
-// import {useStore} from '../hooks/use-store';
-// import {useRead} from '../hooks/use-read';
-// import {useProperties} from '../hooks/use-properties';
+import { useStore } from '../hooks/use-store';
+import { useRead } from '../hooks/use-read';
+import { useProperties } from '../hooks/use-properties';
 
 import { createReader } from './Reader';
 import Action from './Action';
@@ -13,6 +13,7 @@ import PropertyChangeEmitter from './PropertyChangeEmitter';
 
 const LifeCycles = ['load', 'unload'];
 
+const BuildPredicate = Store => check => check instanceof Store;
 export default class StateStore extends PropertyChangeEmitter {
 	static Action = Action;
 
@@ -22,43 +23,24 @@ export default class StateStore extends PropertyChangeEmitter {
 		return new Store(...args);
 	}
 
+	static useStore() {
+		return useStore(this);
+	}
+
+	static useRead() {
+		return useRead(BuildPredicate(this));
+	}
+
+	static useProperties() {
+		return useProperties(BuildPredicate(this));
+	}
+
 	constructor() {
 		super();
 
 		this.#reader = createReader(this);
 
-		const binding = key => ({
-			scope: this,
-
-			getData: () => ({
-				get state() {
-					return this.#state;
-				},
-				get params() {
-					return this.#params;
-				},
-			}),
-			onUpdate: (...args) => this.updateState(...args),
-			onStart: () => this.onChange(key),
-			onError: () => this.onChange(key),
-			onFinish: () => this.onChange(key),
-		});
-
-		for (let [key, value] of Object.entries(this)) {
-			if (LifeCycles.included(key) && value.bindStore) {
-				throw new Error('DataStore life-cycles cannot be actions');
-			}
-
-			if (value.bindStore) {
-				Object.defineProperty(this, key, value.bindStore(binding(key)));
-			}
-		}
-
-		for (let cycle of LifeCycles) {
-			this[cycle] = Action.Superseded(this[cycle]).bindStore(
-				binding(cycle)
-			);
-		}
+		setTimeout(() => this.#setupActions());
 
 		//Set these up in the constructor, so they cannot be overridden
 		this.addDependentProperty('reader', ['load']);
@@ -68,6 +50,45 @@ export default class StateStore extends PropertyChangeEmitter {
 
 		this.addDependentProperty('unloading', 'unload');
 		this.addDependentProperty('unloaded', 'unload');
+	}
+
+	#setupActions() {
+		const store = this;
+		const binding = key => ({
+			scope: store,
+
+			getData: () => ({
+				get state() {
+					return store.#state;
+				},
+				get params() {
+					return store.#params;
+				},
+			}),
+			onUpdate: (...args) => this.updateState(...args),
+			onStart: () => this.onChange(key),
+			onError: () => this.onChange(key),
+			onFinish: () => this.onChange(key),
+		});
+
+		for (let [key, value] of Object.entries(this)) {
+			if (LifeCycles.includes(key) && value.bindStore) {
+				throw new Error('DataStore life-cycles cannot be actions');
+			}
+
+			if (value.bindStore) {
+				delete this[key];
+				Object.defineProperty(this, key, {
+					value: value.bindStore(binding(key)),
+				});
+			}
+		}
+
+		for (let cycle of LifeCycles) {
+			this[cycle] = Action.Superseded(this[cycle]).bindStore(
+				binding(cycle)
+			);
+		}
 	}
 
 	/**
@@ -122,15 +143,15 @@ export default class StateStore extends PropertyChangeEmitter {
 	 * @abstract
 	 * @returns {Cleanup}
 	 */
-	onLoad() {}
-	#loadCleanup = null;
-	#onLoad() {
-		this.#loadCleanup = this.onLoad();
+	onInitialized() {}
+	#initializedCleanup = null;
+	#onInitialized() {
+		this.#initializedCleanup = this.onInitialized();
 	}
 
 	initialLoad() {
 		if (!this.load.hasRun && !this.load.running) {
-			this.#onLoad();
+			this.#onInitialized();
 			this.#load();
 		}
 	}

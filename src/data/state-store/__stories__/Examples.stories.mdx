@@ -1,0 +1,102 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs';
+import { Loading, WithAddItem } from './TodoList';
+
+<Meta title="Data/examples/TodoList" />
+
+# TODO List
+
+## Loading
+
+Store:
+
+```javascript
+class LoadingStore extends Store {
+	load() {
+		return MockServer.get('items');
+	}
+}
+```
+
+Components:
+
+```javascript
+function ItemList() {
+	const { items } = LoadingStore.useProperties();
+
+	return (
+		<ul>
+			{(items ?? []).map(item => (
+				<li key={item.id}>{item.label}</li>
+			))}
+		</ul>
+	);
+}
+
+function Loading() {
+	const store = LoadingStore.useStore();
+
+	return (
+		<Context
+			store={store}
+			fallback={<LoadingIndicator />}
+			error={<ErrorCmp />}
+		>
+			<ItemList />
+		</Context>
+	);
+}
+```
+
+<Canvas>
+	<Story name="Loading Items">
+		<Loading />
+	</Story>
+</Canvas>
+
+## Adding new items
+
+Store:
+
+```javascript
+class TodoListStore extends Store {
+	load() {
+		return MockServer.get('items');
+	}
+
+	addItem = Store.Action(async action => {
+		const { items } = action.state;
+		const nextItem = items.length + 1;
+
+		const item = await MockServer.post('items', {
+			label: `Item ${nextItem}`,
+			id: nextItem,
+		});
+
+		return {
+			items: [...action.state.items, item],
+		};
+	});
+}
+```
+
+Components:
+
+Same as loading +
+
+```javascript
+const AddItem = () => {
+	const { addItem } = TodoListStore.useProperties();
+
+	return (
+		<button onClick={addItem}>
+			{addItem.running ? 'Saving...' : 'Add Item'}
+		</button>
+	);
+};
+```
+
+<Canvas>
+	<Story name="Adding Items">
+		<WithAddItem />
+	</Story>
+</Canvas>
