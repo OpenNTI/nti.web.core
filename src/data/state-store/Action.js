@@ -54,7 +54,7 @@ function bindAction(
 
 	let runCount = 0;
 
-	const execute = async (prev, signal, args) => {
+	async function execute(prev, signal, args) {
 		const actionObject = getData?.() ?? {};
 
 		Object.defineProperties(actionObject, {
@@ -62,7 +62,7 @@ function bindAction(
 			signal: { value: signal },
 		});
 
-		const result = await fn.apply(scope, [actionObject, ...args]);
+		const result = await fn.apply(scope ?? this, [actionObject, ...args]);
 
 		if (signal.aborted) {
 			return;
@@ -82,11 +82,11 @@ function bindAction(
 				onUpdate?.(pointer.value);
 			}
 		} while (!pointer.done && !signal.aborted);
-	};
+	}
 
-	const action = async (...args) => {
+	async function action(...args) {
 		const abortController = new AbortController();
-		const task = execute(current, abortController.signal, args);
+		const task = execute.call(this, current, abortController.signal, args);
 
 		Object.defineProperty(task, 'abort', {
 			value: () => abortController.abort(),
@@ -111,7 +111,7 @@ function bindAction(
 				onError?.();
 			}
 		}
-	};
+	}
 
 	Object.defineProperties(action, {
 		isBound: { value: true },
@@ -154,7 +154,7 @@ function BuildAction(fn) {
  * @returns {Action}
  */
 const Action = fn =>
-	BuildAction(async (e, ...args) => {
+	BuildAction(async function (e, ...args) {
 		//This is avoiding using ?. to save an event pump if there is no prev
 		if (e.prev) {
 			await e.prev.catch(() => {});
@@ -170,7 +170,7 @@ const Action = fn =>
  * @returns {Action}
  */
 Action.Superseded = fn =>
-	BuildAction((e, ...args) => {
+	BuildAction(function (e, ...args) {
 		e.prev?.abort();
 		return fn(e, ...args);
 	});
