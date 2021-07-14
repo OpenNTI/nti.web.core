@@ -74,3 +74,21 @@ Actions can run in three different modes:
 1. Sequential (`Store.Action`) - where a new call awaits all the previous calls to finish
 2. Superseded (`Store.Action.Superseded`) - a new call will abort any pending calls
 3. Concurrent (`Store.Action.Concurrent`) - a new call will run immediately and not interfere with previous calls.
+
+### Lifecycles
+
+StateStores have three main lifecyle actions that are invoked automatically by `useStore`.
+
+1. `load` - Given the current state and parameters of the store load the next state(s) of the store.
+   A. initialLoad - triggered when `useStore` mounts a new store instance. Will only run if load has not been called before for the instance.
+   B. reload - triggered by `setParams` if params changed. Will only run if load has been run at least once before.
+
+2. `unload`
+
+#### Lifecycle Hooks
+
+StateStore hooks are methods that get called by the store at certain points in it's lifecycle. Similar to React's `useEffect` StateStore hooks can return a cleanup method to remove any listeners etc.
+
+1. `onInitialized` - Called by the initial load of the store. The cleanup is called when the store unloads.
+2. `onStateUpdate` - Called when new state is pushed into the store. The cleanup is called the next time state is pushed, or the store unloads.
+3. `onParamsUpdate` - Called when new params are set on the store. The cleanup is called when new params are set or the store unloaded.

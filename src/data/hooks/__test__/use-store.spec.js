@@ -1,7 +1,7 @@
 /* eslint-env jest */
 import { renderHook } from '@testing-library/react-hooks';
 
-import useStore from '../use-store';
+import { useStore } from '../use-store';
 
 class Store {
 	static create() {

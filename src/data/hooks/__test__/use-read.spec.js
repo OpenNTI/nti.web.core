@@ -1,7 +1,7 @@
 /* eslint-env jest */
 import { renderHook } from '@testing-library/react-hooks';
 
-import useRead from '../use-read';
+import { useRead } from '../use-read';
 import Context from '../../Context';
 
 function MockStores(stores) {

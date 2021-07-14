@@ -24,7 +24,7 @@ const getParamDepList = p => Object.entries(p).sort(byKey).flat();
  * @param {Key} options.key
  * @returns {StoreInstance}
  */
-export default function useStore(Store, options = {}) {
+export function useStore(Store, options = {}) {
 	const { key, ...params } = options;
 	const store = useTracked(Store, key);
 	useEffect(() => store.setParams?.(params), getParamDepList(params));

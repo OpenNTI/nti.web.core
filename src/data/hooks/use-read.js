@@ -11,7 +11,7 @@ const Identity = x => x;
  * @param {PredicateOrStore} predicate - store instance or predicate to match a store instance from the context
  * @returns {*}
  */
-export default function useRead(predicate) {
+export function useRead(predicate) {
 	const { stores } = Context.useContext();
 	const filtered = predicate?.read
 		? [predicate]
