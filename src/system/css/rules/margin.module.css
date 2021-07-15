@@ -1,3 +1,20 @@
+/*
+	Note: The order of these selectors matters:
+	The shorthand versions must come first to ensure they don't stomp the long-form rules when used on the same element.
+
+	We want the effective style to be this, where "margin-left" is applied after "margin":
+	{
+		margin: var(--margin-sm);
+		margin-left: var(--margin-lg);
+	}
+
+	As opposed to this, where the "margin" rule stomps the "margin-left" rule:
+	{
+		margin-left: var(--margin-lg);
+		margin: var(--margin-sm);
+	}
+*/
+
 .m-xs {
 	margin: var(--margin-xs);
 }

@@ -1,3 +1,20 @@
+/*
+	Note: The order of these selectors matters:
+	The shorthand versions must come first to ensure they don't stomp the long-form rules when used on the same element.
+
+	We want the effective style to be this, where "padding-left" is applied after "padding":
+	{
+		padding: var(--padding-sm);
+		padding-left: var(--padding-lg);
+	}
+
+	As opposed to this, where the "padding" rule stomps the "padding-left" rule:
+	{
+		padding-left: var(--padding-lg);
+		padding: var(--padding-sm);
+	}
+*/
+
 /* all */
 .p-xs {
 	padding: var(--padding-xs);
