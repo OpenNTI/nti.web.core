@@ -39,12 +39,11 @@ describe('get spacing props', () => {
 		});
 	});
 
-	test('multple boolean props map to multple classnames', () => {
+	test('multiple boolean props map to multiple classnames', () => {
 		const { className } = getSpacingProps(b(['p-md', 'mh-lg']));
 		const names = className.split(' ');
-		expect(names).toHaveLength(2);
-		expect(names[0]).toBe('p-md');
-		expect(names[1]).toBe('mh-lg');
+
+		expect(names).toEqual(['mh-lg', 'p-md']);
 	});
 
 	test('string padding props map to classnames', () => {
@@ -104,7 +103,7 @@ describe('get spacing props', () => {
 		props.mv = 'sm';
 		expect(getSpacingProps(props, defaults)).toHaveProperty(
 			'className',
-			'm-xl p-lg mv-sm'
+			'mv-sm mh-xl p-lg'
 		);
 	});
 });
