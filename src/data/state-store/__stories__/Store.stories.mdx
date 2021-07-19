@@ -77,14 +77,15 @@ Actions can run in three different modes:
 
 ### Lifecycles
 
-StateStores have three main lifecyle actions that are invoked automatically by `useStore`.
+StateStores have lifecyle actions that are invoked automatically by `useStore`.
 
 1. `load` - Given the current state and parameters of the store load the next state(s) of the store.
 
     1. initialLoad - triggered when `useStore` mounts a new store instance. Will only run if load has not been called before for the instance.
     2. reload - triggered by `setParams` if params changed. Will only run if load has been run at least once before.
 
-2. `unload`
+2. `unload` -
+3. `setParams` - Push new params into the store and trigger a reload.
 
 #### Lifecycle Hooks
 
