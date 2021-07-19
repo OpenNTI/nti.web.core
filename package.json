@@ -24,7 +24,8 @@
   },
   "homepage": "https://github.com/NextThought/nti.web.core#readme",
   "dependencies": {
-    "@nti/lib-commons": "NextThought/nti.lib.commons"
+    "@nti/lib-commons": "NextThought/nti.lib.commons",
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
     "@nti/cmp-scripts": "^2.47.4"
