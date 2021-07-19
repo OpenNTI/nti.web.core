@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Variant from '../HighOrderComponents/Variant';
 
+import { setIcon } from './types/identity';
 import FontIcon from './types/Font-Icon';
 
 const Slash = 'slash';
@@ -13,12 +14,14 @@ const classes = {
 	[NoSlash]: 'icon-view',
 };
 
-Eye.Slash = Variant(Eye, { variant: Slash });
-Eye.propTypes = {
+EyeIcon.Slash = Variant(EyeIcon, { variant: Slash });
+EyeIcon.propTypes = {
 	variant: PropTypes.string,
 };
-export function Eye({ variant = NoSlash, ...props }) {
+function EyeIcon({ variant = NoSlash, ...props }) {
 	const icon = classes[variant];
 
 	return <FontIcon icon={icon} {...props} />;
 }
+
+export const Eye = setIcon(EyeIcon);

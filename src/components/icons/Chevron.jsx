@@ -4,6 +4,7 @@ import cx from 'classnames';
 
 import Variant from '../HighOrderComponents/Variant';
 
+import { setIcon } from './types/identity';
 import FontIcon from './types/Font-Icon';
 
 const styles = stylesheet`
@@ -41,23 +42,25 @@ const classes = {
 	},
 };
 
-Chevron.Down = Variant(Chevron, { direction: Down });
-Chevron.Left = Variant(Chevron, { direction: Left });
-Chevron.Right = Variant(Chevron, { direction: Right });
-Chevron.Up = Variant(Chevron, { direction: Up });
-Chevron.propTypes = {
+ChevronIcon.Down = Variant(ChevronIcon, { direction: Down });
+ChevronIcon.Left = Variant(ChevronIcon, { direction: Left });
+ChevronIcon.Right = Variant(ChevronIcon, { direction: Right });
+ChevronIcon.Up = Variant(ChevronIcon, { direction: Up });
+ChevronIcon.propTypes = {
 	direction: PropTypes.string,
 	large: PropTypes.bool,
 	skinny: PropTypes.bool,
 };
-export function Chevron({ direction = Down, large, skinny, ...props }) {
+export function ChevronIcon({ direction = Down, large, skinny, ...props }) {
 	const type = large ? 'large' : skinny ? 'skinny' : 'default';
 	const icon = classes[type][direction];
 
 	return <FontIcon icon={icon} {...props} />;
 }
 
-Chevron.Down.propTypes = Chevron.propTypes;
-Chevron.Left.propTypes = Chevron.propTypes;
-Chevron.Right.propTypes = Chevron.propTypes;
-Chevron.Up.propTypes = Chevron.propTypes;
+ChevronIcon.Down.propTypes = ChevronIcon.propTypes;
+ChevronIcon.Left.propTypes = ChevronIcon.propTypes;
+ChevronIcon.Right.propTypes = ChevronIcon.propTypes;
+ChevronIcon.Up.propTypes = ChevronIcon.propTypes;
+
+export const Chevron = setIcon(ChevronIcon);

@@ -1,8 +1,9 @@
 import React from 'react';
 
+import { setIcon } from './types/identity';
 import SVGIcon from './types/SVG-Icon';
 
-export function Image(props) {
+function ImageIcon(props) {
 	return (
 		<SVGIcon viewBox="0 0 20 20" width="1.25em">
 			<g
@@ -37,3 +38,5 @@ export function Image(props) {
 		</SVGIcon>
 	);
 }
+
+export const Image = setIcon(ImageIcon);

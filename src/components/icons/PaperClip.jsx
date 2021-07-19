@@ -1,10 +1,11 @@
 import React from 'react';
 
+import { setIcon } from './types/identity';
 import SVGIcon from './types/SVG-Icon';
 
 //https://icons.getbootstrap.com/icons/paperclip/
 
-export function PaperClip(props) {
+function PaperClipIcon(props) {
 	return (
 		<SVGIcon {...props} width="1.5em">
 			<path
@@ -14,3 +15,5 @@ export function PaperClip(props) {
 		</SVGIcon>
 	);
 }
+
+export const PaperClip = setIcon(PaperClipIcon);

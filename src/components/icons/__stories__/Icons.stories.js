@@ -8,6 +8,7 @@ const CmpNameBlackList = new Set([
 	'propTypes',
 	'$$typeof',
 	'render',
+	'isIcon',
 ]);
 
 const PropVariants = new Set(['fill', 'large', 'skinny']);

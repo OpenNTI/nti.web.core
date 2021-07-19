@@ -1,9 +1,10 @@
 import React from 'react';
 
+import { setIcon } from './types/identity';
 import FontIcon from './types/Font-Icon';
 import SVGIcon from './types/SVG-Icon';
 
-Alert.Round = props => {
+AlertIcon.Round = props => {
 	return (
 		<SVGIcon {...props} viewBox="0 0 40 40">
 			<g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
@@ -33,8 +34,10 @@ Alert.Round = props => {
 	);
 };
 
-Alert.Round.displayName = 'AlertIconRound';
+AlertIcon.Round.displayName = 'AlertIconRound';
 
-export function Alert(props) {
+function AlertIcon(props) {
 	return <FontIcon icon="icon-alert" {...props} />;
 }
+
+export const Alert = setIcon(AlertIcon);

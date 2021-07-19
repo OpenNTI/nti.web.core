@@ -1,8 +1,9 @@
 import React from 'react';
 
+import { setIcon } from './types/identity';
 import SVGIcon from './types/SVG-Icon';
 
-export function FileUpload(props) {
+function FileUploadIcon(props) {
 	return (
 		<SVGIcon {...props} viewBox="0 0 18 22" width="1.125em">
 			<g
@@ -34,3 +35,5 @@ export function FileUpload(props) {
 		</SVGIcon>
 	);
 }
+
+export const FileUpload = setIcon(FileUploadIcon);

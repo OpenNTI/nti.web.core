@@ -1,3 +1,4 @@
+export { isIcon } from './types/identity';
 export { Add } from './Add';
 export { Alert } from './Alert';
 export { Arrow } from './Arrow';

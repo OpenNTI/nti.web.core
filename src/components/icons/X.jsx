@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { setIcon } from './types/identity';
 import SVGIcon from './types/SVG-Icon';
 import FontIcon from './types/Font-Icon';
 
@@ -7,8 +8,8 @@ function BoldX(props) {
 	return <FontIcon icon="icon-bold-x" {...props} />;
 }
 
-X.Bold = BoldX;
-export function X(props) {
+XIcon.Bold = BoldX;
+export function XIcon(props) {
 	return (
 		<SVGIcon {...props}>
 			<path
@@ -22,3 +23,5 @@ export function X(props) {
 		</SVGIcon>
 	);
 }
+
+export const X = setIcon(XIcon);

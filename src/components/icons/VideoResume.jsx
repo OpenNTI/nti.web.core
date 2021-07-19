@@ -2,9 +2,10 @@ import React from 'react';
 
 import { useId } from '../hooks/use-id';
 
+import { setIcon } from './types/identity';
 import SVGIcon from './types/SVG-Icon';
 
-export function VideoResume(props) {
+function VideoResumeIcon(props) {
 	const maskId = useId('mask');
 	const maskURL = `url(#${maskId})`;
 
@@ -29,3 +30,5 @@ export function VideoResume(props) {
 		</SVGIcon>
 	);
 }
+
+export const VideoResume = setIcon(VideoResumeIcon);

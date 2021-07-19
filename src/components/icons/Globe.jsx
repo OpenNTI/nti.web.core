@@ -1,8 +1,9 @@
 import React from 'react';
 
+import { setIcon } from './types/identity';
 import SVGIcon from './types/SVG-Icon';
 
-export function Globe(props) {
+function GlobeIcon(props) {
 	return (
 		<SVGIcon {...props}>
 			<g
@@ -30,3 +31,5 @@ export function Globe(props) {
 		</SVGIcon>
 	);
 }
+
+export const Globe = setIcon(GlobeIcon);

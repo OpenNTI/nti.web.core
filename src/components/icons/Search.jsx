@@ -1,8 +1,9 @@
 import React from 'react';
 
+import { setIcon } from './types/identity';
 import SVGIcon from './types/SVG-Icon';
 
-export function Search(props) {
+function SearchIcon(props) {
 	return (
 		<SVGIcon width="17" height="17" {...props} viewBox="0 0 17 17">
 			<g
@@ -18,3 +19,5 @@ export function Search(props) {
 		</SVGIcon>
 	);
 }
+
+export const Search = setIcon(SearchIcon);

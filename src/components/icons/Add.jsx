@@ -1,9 +1,10 @@
 import React from 'react';
 
+import { setIcon } from './types/identity';
 import FontIcon from './types/Font-Icon';
 import SVGIcon from './types/SVG-Icon';
 
-Add.Circled = props => {
+AddIcon.Circled = props => {
 	return (
 		<SVGIcon width="26" height="26" {...props} viewBox="0 0 26 26">
 			<g transform="translate(1 1)" fill="none" fillRule="evenodd">
@@ -17,8 +18,10 @@ Add.Circled = props => {
 	);
 };
 
-Add.Circled.displayName = 'AddCircled';
+AddIcon.Circled.displayName = 'AddCircled';
 
-export function Add(props) {
+function AddIcon(props) {
 	return <FontIcon icon="icon-add" {...props} />;
 }
+
+export const Add = setIcon(AddIcon);

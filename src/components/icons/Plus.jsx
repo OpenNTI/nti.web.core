@@ -1,7 +1,10 @@
 import React from 'react';
 
+import { setIcon } from './types/identity';
 import FontIcon from './types/Font-Icon';
 
-export function Plus(props) {
+function PlusIcon(props) {
 	return <FontIcon icon="icon-add" {...props} />;
 }
+
+export const Plus = setIcon(PlusIcon);

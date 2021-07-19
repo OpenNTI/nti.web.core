@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Variant from '../HighOrderComponents/Variant';
 
+import { setIcon } from './types/identity';
 import FontIcon from './types/Font-Icon';
 
 const Up = 'up';
@@ -23,14 +24,14 @@ const fillClasses = {
 	[Down]: 'icon-movedown',
 };
 
-Arrow.Up = Variant(Arrow, { direction: Up });
-Arrow.UpRight = Variant(Arrow, { direction: UpRight });
-Arrow.Down = Variant(Arrow, { direction: Down });
-Arrow.propTypes = {
+ArrowIcon.Up = Variant(ArrowIcon, { direction: Up });
+ArrowIcon.UpRight = Variant(ArrowIcon, { direction: UpRight });
+ArrowIcon.Down = Variant(ArrowIcon, { direction: Down });
+ArrowIcon.propTypes = {
 	direction: PropTypes.string,
 	fill: PropTypes.bool,
 };
-export function Arrow({ direction = UpRight, fill, ...otherProps }) {
+export function ArrowIcon({ direction = UpRight, fill, ...otherProps }) {
 	const icon = fill ? fillClasses[direction] : classes[direction];
 
 	if (!icon) {
@@ -40,6 +41,8 @@ export function Arrow({ direction = UpRight, fill, ...otherProps }) {
 	return <FontIcon icon={icon} {...otherProps} />;
 }
 
-Arrow.Up.propTypes = Arrow.propTypes;
-Arrow.UpRight.propTypes = Arrow.propTypes;
-Arrow.Down.propTypes = Arrow.propTypes;
+ArrowIcon.Up.propTypes = ArrowIcon.propTypes;
+ArrowIcon.UpRight.propTypes = ArrowIcon.propTypes;
+ArrowIcon.Down.propTypes = ArrowIcon.propTypes;
+
+export const Arrow = setIcon(ArrowIcon);

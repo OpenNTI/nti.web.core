@@ -1,8 +1,9 @@
 import React from 'react';
 
+import { setIcon } from './types/identity';
 import SVGIcon from './types/SVG-Icon';
 
-export function Lock(props) {
+function LockIcon(props) {
 	return (
 		<SVGIcon
 			width="0.875em"
@@ -29,3 +30,5 @@ export function Lock(props) {
 		</SVGIcon>
 	);
 }
+
+export const Lock = setIcon(LockIcon);

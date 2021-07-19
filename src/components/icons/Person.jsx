@@ -1,8 +1,9 @@
 import React from 'react';
 
+import { setIcon } from './types/identity';
 import SVGIcon from './types/SVG-Icon';
 
-export function Person(props) {
+function PersonIcon(props) {
 	return (
 		<SVGIcon
 			{...props}
@@ -35,3 +36,5 @@ export function Person(props) {
 		</SVGIcon>
 	);
 }
+
+export const Person = setIcon(PersonIcon);

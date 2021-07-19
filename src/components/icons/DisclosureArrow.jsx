@@ -1,8 +1,9 @@
 import React from 'react';
 
+import { setIcon } from './types/identity';
 import SVGIcon from './types/SVG-Icon';
 
-export const DisclosureArrow = React.forwardRef(function DisclosureArrow(
+const DisclosureArrowIcon = React.forwardRef(function DisclosureArrow(
 	props,
 	ref
 ) {
@@ -12,3 +13,5 @@ export const DisclosureArrow = React.forwardRef(function DisclosureArrow(
 		</SVGIcon>
 	);
 });
+
+export const DisclosureArrow = setIcon(DisclosureArrowIcon);

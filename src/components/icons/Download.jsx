@@ -1,8 +1,9 @@
 import React from 'react';
 
+import { setIcon } from './types/identity';
 import SVGIcon from './types/SVG-Icon';
 
-export function Download(props) {
+function DownloadIcon(props) {
 	return (
 		<SVGIcon {...props} viewBox="0 0 38 38">
 			<path
@@ -12,3 +13,5 @@ export function Download(props) {
 		</SVGIcon>
 	);
 }
+
+export const Download = setIcon(DownloadIcon);

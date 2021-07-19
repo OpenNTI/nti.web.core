@@ -1,8 +1,9 @@
 import React from 'react';
 
+import { setIcon } from './types/identity';
 import SVGIcon from './types/SVG-Icon';
 
-export function Video(props) {
+function VideoIcon(props) {
 	return (
 		<SVGIcon {...props} viewBox="0 0 26 19" width="1.375em">
 			<g
@@ -32,3 +33,5 @@ export function Video(props) {
 		</SVGIcon>
 	);
 }
+
+export const Video = setIcon(VideoIcon);

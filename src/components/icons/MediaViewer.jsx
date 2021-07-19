@@ -1,8 +1,9 @@
 import React from 'react';
 
+import { setIcon } from './types/identity';
 import SVGIcon from './types/SVG-Icon';
 
-export function MediaViewer(props) {
+function MediaViewerIcon(props) {
 	return (
 		<SVGIcon {...props} viewBox="0 0 37 20" width="1.75em">
 			<g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
@@ -14,3 +15,5 @@ export function MediaViewer(props) {
 		</SVGIcon>
 	);
 }
+
+export const MediaViewer = setIcon(MediaViewerIcon);

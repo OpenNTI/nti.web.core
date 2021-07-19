@@ -1,8 +1,9 @@
 import React from 'react';
 
+import { setIcon } from './types/identity';
 import SVGIcon from './types/SVG-Icon';
 
-export function Drawing(props) {
+function DrawingIcon(props) {
 	return (
 		<SVGIcon {...props} viewBox="0 0 24 24" width="1.5em">
 			<g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
@@ -15,3 +16,5 @@ export function Drawing(props) {
 		</SVGIcon>
 	);
 }
+
+export const Drawing = setIcon(DrawingIcon);
