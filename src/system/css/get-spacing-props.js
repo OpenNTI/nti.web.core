@@ -2,7 +2,7 @@
 /** @typedef {true|Sizes} SpacingPropValue */
 /** @typedef {{SpacingPropName: SpacingPropValue}} SpacingProps */
 
-import cx from 'classNames';
+import cx from 'classnames';
 
 import p from './rules/padding.module.css';
 import m from './rules/margin.module.css';
