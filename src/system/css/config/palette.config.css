@@ -1,0 +1,21 @@
+/*
+	Palette Custom Properties follow the following form:
+	--palette-{color}-{weight}-{opacity}
+
+	color: The base color the variants are based on.
+	weight: Similar to font-weight. The color weight moves the color from lighter to darker.
+	opacity: Adds an alpha value to the color. If not present the assumed value is 1.
+*/
+
+:root {
+	--palette-blue-100: #f5fbff; /* legacy light-blue */
+	--palette-blue-300: #3fb3f6; /* legacy primary-blue */
+	--palette-blue-600: #168fe7; /* legacy secondary-blue */
+
+	--palette-red-100: #f35252; /* legacy primary-red */
+	--palette-red-500: #750000; /* legacy secondary-red */
+
+	--palette-green-100: #ebf7ed; /* legacy light-green */
+	--palette-green-300: #8eb737; /* legacy primary-green */
+	--palette-green-500: #3fb34f; /* legacy secondary-green */
+}
