@@ -1,3 +1,5 @@
+@import '../config/layout.config.css';
+
 /*
 	Note: The order of these selectors matters:
 	The shorthand versions must come first to ensure they don't stomp the long-form rules when used on the same element.
