@@ -1,0 +1,25 @@
+:root {
+	--border-radius-small: 4px;
+
+	--border-grey-light: var(--palette-grey-400);
+}
+
+.rounded-small {
+	border-radius: var(--border-radius-small);
+}
+
+.rounded-top-small {
+	border-radius: var(--border-radius-small) var(--border-radius-small) 0 0;
+}
+
+.rounded-bottom-small {
+	border-radius: 0 0 var(--border-radius-small) var(--border-radius-small);
+}
+
+.rounded-left-small {
+	border-radius: var(--border-radius-small) 0 0 var(--border-radius-small);
+}
+
+.rounded-right-small {
+	border-radius: 0 var(--border-radius-small) var(--border-radius-small) 0;
+}

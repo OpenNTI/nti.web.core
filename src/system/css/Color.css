@@ -1,7 +1,0 @@
-@import './config/palette.config.css';
-
-:root {
-	--action-destructive: var(--palette-red-100);
-	--action-constructive: var(--palette-green-500);
-	--action-primary: var(--palette-blue-300);
-}

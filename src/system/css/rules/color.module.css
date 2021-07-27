@@ -1,0 +1,12 @@
+@import '../config/palette.config.css';
+
+:root {
+	--color-destructive-action: var(--palette-red-100);
+	--color-constructive-action: var(--palette-green-500);
+	--color-primary-action: var(--palette-blue-300);
+	--color-secondary-action: var(--palette-grey-400);
+
+	--color-foreground-dark: var(--palette-grey-700);
+	--color-foreground: var(--palette-grey-600);
+	--color-foreground-light: var(--palette-grey-500);
+}

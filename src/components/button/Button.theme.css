@@ -1,0 +1,141 @@
+@import '../../system/css/rules/color.module.css';
+@import '../../system/css/rules/typography.module.css';
+
+:root {
+	--button-primary-background: var(--color-primary-action);
+	--button-primary-foreground: white;
+	--button-primary-inverted-background: var(--button-primary-foreground);
+	--button-primary-inverted-foreground: var(--button-primary-background);
+
+	--button-secondary-background: var(--color-secondary-action);
+	--button-secondary-foreground: var(--color-foreground);
+	--button-secondary-inverted-background: white;
+	--button-secondary-inverted-foreground: var(--button-secondary-foreground);
+
+	--button-destructive-background: var(--color-destructive-action);
+	--button-destructive-foreground: white;
+	--button-destructive-inverted-background: var(
+		--button-destructive-foreground
+	);
+	--button-destructive-inverted-foreground: var(
+		--button-destructive-background
+	);
+
+	--button-constructive-background: var(--color-constructive-action);
+	--button-constructive-foreground: white;
+	--button-constructive-inverted-background: var(
+		--button-constructive-foreground
+	);
+	--button-constructive-inverted-foreground: var(
+		--button-constructive-background
+	);
+}
+
+.button {
+	text-decoration: none;
+	display: inline-block;
+	position: relative;
+	font-family: var(--body-font-family);
+
+	& :global(.nt-icon) {
+		font-size: var(--icon-size);
+		vertical-align: middle;
+	}
+
+	& :global(.nt-icon):first-child:not(:only-child) {
+		margin-right: 0.5em;
+	}
+
+	& :global(.nt-icon):last-child:not(:only-child) {
+		margin-left: 0.5rem;
+	}
+}
+
+.button.only-icon {
+	width: var(--target-button-height);
+	height: var(--target-button-height);
+
+	& :global(.nt-icon) {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+}
+
+.button.disabled {
+	opacity: 0.7;
+	pointer-events: none;
+}
+
+.button.medium {
+	font-size: var(--font-size-300);
+	line-height: 1.125rem;
+
+	--icon-size: 1rem;
+	--target-button-height: 42px;
+}
+
+.button.primary {
+	background: var(--button-primary-background);
+	color: var(--button-primary-foreground);
+
+	&.transparent {
+		color: var(--button-primary-inverted-foreground);
+		background: none;
+	}
+
+	&.inverted {
+		background: var(--button-primary-inverted-background);
+		color: var(--button-primary-inverted-foreground);
+		box-shadow: 0 0 0 1px var(--border-grey-light);
+	}
+}
+
+.button.secondary {
+	background: var(--button-secondary-background);
+	color: var(--button-secondary-foreground);
+
+	&.transparent {
+		color: var(--button-secondary-inverted-foreground);
+		background: none;
+	}
+
+	&.inverted {
+		background: var(--button-secondary-inverted-background);
+		color: var(--button-secondary-inverted-foreground);
+		box-shadow: 0 0 0 1px var(--border-grey-light);
+	}
+}
+
+.button.destructive {
+	background: var(--button-destructive-background);
+	color: var(--button-destructive-foreground);
+
+	&.transparent {
+		color: var(--button-destructive-inverted-foreground);
+		background: none;
+	}
+
+	&.inverted {
+		background: var(--button-destructive-inverted-background);
+		color: var(--button-destructive-inverted-foreground);
+		box-shadow: 0 0 0 1px var(--button-destructive-inverted-foreground);
+	}
+}
+
+.button.constructive {
+	background: var(--button-constructive-background);
+	color: var(--button-constructive-foreground);
+
+	&.transparent {
+		color: var(--button-constructive-inverted-foreground);
+		background: none;
+	}
+
+	&.inverted {
+		background: var(--button-constructive-inverted-background);
+		color: var(--button-constructive-inverted-foreground);
+		box-shadow: 0 0 0 1px var(--button-constructive-inverted-foreground);
+	}
+}

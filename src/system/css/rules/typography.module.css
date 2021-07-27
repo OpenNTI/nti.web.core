@@ -1,4 +1,4 @@
-@import './config/palette.config.css';
+@import '../config/palette.config.css';
 
 :root {
 	--font-size-900: 2.25rem; /* 48px */

@@ -4,8 +4,7 @@
 
 import cx from 'classnames';
 
-import p from './rules/padding.module.css';
-import m from './rules/margin.module.css';
+import Styles from './rules/spacing.module.css';
 
 const PaddingTop = 'padding-top';
 const PaddingRight = 'padding-right';
@@ -16,11 +15,6 @@ const MarginTop = 'margin-top';
 const MarginRight = 'margin-right';
 const MarginBottom = 'margin-bottom';
 const MarginLeft = 'margin-left';
-
-const ClassMapping = {
-	p,
-	m,
-};
 
 const TypeToSides = {
 	p: [PaddingTop, PaddingRight, PaddingBottom, PaddingLeft],
@@ -108,7 +102,7 @@ function getSideSizes(props = {}) {
 }
 
 function getClass(type, side, size) {
-	return ClassMapping[type]?.[`${type}${side}-${size}`];
+	return Styles[`${type}${side}-${size}`];
 }
 
 /**
@@ -161,6 +155,17 @@ function getClassNames(type, sideSizes) {
 	return cx(classes);
 }
 
+function consumePaddingProps(props) {
+	return Object.keys(PropsToSides).reduce(
+		(acc, prop) => {
+			delete acc[prop];
+
+			return acc;
+		},
+		{ ...props }
+	);
+}
+
 /**
  * Get the props to apply the configured spacing.
  *
@@ -168,14 +173,15 @@ function getClassNames(type, sideSizes) {
  * @param {SpacingProps} defaults
  * @returns {{className: string}}
  */
-export function getSpacingProps(props, defaults) {
+export function getSpacingProps({ className, ...props }, defaults) {
 	const sideSizes = { ...getSideSizes(defaults), ...getSideSizes(props) };
-	const className = [
-		getClassNames('m', sideSizes),
-		getClassNames('p', sideSizes),
-	]
-		.filter(Boolean)
-		.join(' ');
 
-	return { className };
+	return {
+		className: cx(
+			className,
+			getClassNames('m', sideSizes),
+			getClassNames('p', sideSizes)
+		),
+		...consumePaddingProps(props),
+	};
 }

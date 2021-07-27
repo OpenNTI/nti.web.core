@@ -8,6 +8,12 @@
 */
 
 :root {
+	--palette-grey-000-15: rgba(0, 0, 0, 0.15);
+	--palette-grey-400: #e2e2e2; /* legacy border-grey-light */
+	--palette-grey-500: #b8b8b8; /* legacy tertiary-grey */
+	--palette-grey-600: #757474; /* legacy secondary-grey */
+	--palette-grey-700: #494949; /* legacy primary-grey */
+
 	--palette-blue-100: #f5fbff; /* legacy light-blue */
 	--palette-blue-300: #3fb3f6; /* legacy primary-blue */
 	--palette-blue-600: #168fe7; /* legacy secondary-blue */

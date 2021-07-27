@@ -1,15 +1,3 @@
 :root {
 	--grid-base-unit: 4px;
-
-	--padding-xs: var(--grid-base-unit);
-	--padding-sm: calc(var(--grid-base-unit) * 2);
-	--padding-md: calc(var(--grid-base-unit) * 3);
-	--padding-lg: calc(var(--grid-base-unit) * 4);
-	--padding-xl: calc(var(--grid-base-unit) * 8);
-
-	--margin-xs: var(--grid-base-unit);
-	--margin-sm: calc(var(--grid-base-unit) * 2);
-	--margin-md: calc(var(--grid-base-unit) * 3);
-	--margin-lg: calc(var(--grid-base-unit) * 4);
-	--margin-xl: calc(var(--grid-base-unit) * 8);
 }
