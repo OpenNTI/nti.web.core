@@ -1,0 +1,269 @@
+@import '../config/layout.config.css';
+
+:root {
+	--margin-xs: var(--grid-base-unit);
+	--margin-sm: calc(var(--grid-base-unit) * 2);
+	--margin-md: calc(var(--grid-base-unit) * 3);
+	--margin-lg: calc(var(--grid-base-unit) * 4);
+	--margin-xl: calc(var(--grid-base-unit) * 8);
+
+	--padding-xs: var(--grid-base-unit);
+	--padding-sm: calc(var(--grid-base-unit) * 2);
+	--padding-md: calc(var(--grid-base-unit) * 3);
+	--padding-lg: calc(var(--grid-base-unit) * 4);
+	--padding-xl: calc(var(--grid-base-unit) * 8);
+}
+
+/*
+	Note: The order of these selectors matters:
+	The shorthand versions must come first to ensure they don't stomp the long-form rules when used on the same element.
+
+	We want the effective style to be this, where "margin-left" is applied after "margin":
+	{
+		margin: var(--margin-sm);
+		margin-left: var(--margin-lg);
+	}
+
+	As opposed to this, where the "margin" rule stomps the "margin-left" rule:
+	{
+		margin-left: var(--margin-lg);
+		margin: var(--margin-sm);
+	}
+*/
+
+.m-xs {
+	margin: var(--margin-xs);
+}
+.m-sm {
+	margin: var(--margin-sm);
+}
+.m-md {
+	margin: var(--margin-md);
+}
+.m-lg {
+	margin: var(--margin-lg);
+}
+.m-xl {
+	margin: var(--margin-xl);
+}
+
+/* vertical/block */
+.mv-xs {
+	margin-block: var(--margin-xs);
+}
+.mv-sm {
+	margin-block: var(--margin-sm);
+}
+.mv-md {
+	margin-block: var(--margin-md);
+}
+.mv-lg {
+	margin-block: var(--margin-lg);
+}
+.mv-xl {
+	margin-block: var(--margin-xl);
+}
+
+/* horizontal/inline */
+.mh-xs {
+	margin-inline: var(--margin-xs);
+}
+.mh-sm {
+	margin-inline: var(--margin-sm);
+}
+.mh-md {
+	margin-inline: var(--margin-md);
+}
+.mh-lg {
+	margin-inline: var(--margin-lg);
+}
+.mh-xl {
+	margin-inline: var(--margin-xl);
+}
+
+/* top */
+.mt-xs {
+	margin-top: var(--margin-xs);
+}
+.mt-sm {
+	margin-top: var(--margin-sm);
+}
+.mt-md {
+	margin-top: var(--margin-md);
+}
+.mt-lg {
+	margin-top: var(--margin-lg);
+}
+.mt-xl {
+	margin-top: var(--margin-xl);
+}
+
+/* right */
+.mr-xs {
+	margin-right: var(--margin-xs);
+}
+.mr-sm {
+	margin-right: var(--margin-sm);
+}
+.mr-md {
+	margin-right: var(--margin-md);
+}
+.mr-lg {
+	margin-right: var(--margin-lg);
+}
+.mr-xl {
+	margin-right: var(--margin-xl);
+}
+
+/* bottom */
+.mb-xs {
+	margin-bottom: var(--margin-xs);
+}
+.mb-sm {
+	margin-bottom: var(--margin-sm);
+}
+.mb-md {
+	margin-bottom: var(--margin-md);
+}
+.mb-lg {
+	margin-bottom: var(--margin-lg);
+}
+.mb-xl {
+	margin-bottom: var(--margin-xl);
+}
+
+/* left */
+.ml-xs {
+	margin-left: var(--margin-xs);
+}
+.ml-sm {
+	margin-left: var(--margin-sm);
+}
+.ml-md {
+	margin-left: var(--margin-md);
+}
+.ml-lg {
+	margin-left: var(--margin-lg);
+}
+.ml-xl {
+	margin-left: var(--margin-xl);
+}
+
+/* all */
+.p-xs {
+	padding: var(--padding-xs);
+}
+.p-sm {
+	padding: var(--padding-sm);
+}
+.p-md {
+	padding: var(--padding-md);
+}
+.p-lg {
+	padding: var(--padding-lg);
+}
+.p-xl {
+	padding: var(--padding-xl);
+}
+
+/* vertical/block */
+.pv-xs {
+	padding-block: var(--padding-xs);
+}
+.pv-sm {
+	padding-block: var(--padding-sm);
+}
+.pv-md {
+	padding-block: var(--padding-md);
+}
+.pv-lg {
+	padding-block: var(--padding-lg);
+}
+.pv-xl {
+	padding-block: var(--padding-xl);
+}
+
+/* horizontal/inline */
+.ph-xs {
+	padding-inline: var(--padding-xs);
+}
+.ph-sm {
+	padding-inline: var(--padding-sm);
+}
+.ph-md {
+	padding-inline: var(--padding-md);
+}
+.ph-lg {
+	padding-inline: var(--padding-lg);
+}
+.ph-xl {
+	padding-inline: var(--padding-xl);
+}
+
+/* top */
+.pt-xs {
+	padding-top: var(--padding-xs);
+}
+.pt-sm {
+	padding-top: var(--padding-sm);
+}
+.pt-md {
+	padding-top: var(--padding-md);
+}
+.pt-lg {
+	padding-top: var(--padding-lg);
+}
+.pt-xl {
+	padding-top: var(--padding-xl);
+}
+
+/* right */
+.pr-xs {
+	padding-right: var(--padding-xs);
+}
+.pr-sm {
+	padding-right: var(--padding-sm);
+}
+.pr-md {
+	padding-right: var(--padding-md);
+}
+.pr-lg {
+	padding-right: var(--padding-lg);
+}
+.pr-xl {
+	padding-right: var(--padding-xl);
+}
+
+/* bottom */
+.pb-xs {
+	padding-bottom: var(--padding-xs);
+}
+.pb-sm {
+	padding-bottom: var(--padding-sm);
+}
+.pb-md {
+	padding-bottom: var(--padding-md);
+}
+.pb-lg {
+	padding-bottom: var(--padding-lg);
+}
+.pb-xl {
+	padding-bottom: var(--padding-xl);
+}
+
+/* left */
+.pl-xs {
+	padding-left: var(--padding-xs);
+}
+.pl-sm {
+	padding-left: var(--padding-sm);
+}
+.pl-md {
+	padding-left: var(--padding-md);
+}
+.pl-lg {
+	padding-left: var(--padding-lg);
+}
+.pl-xl {
+	padding-left: var(--padding-xl);
+}

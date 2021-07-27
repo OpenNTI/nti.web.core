@@ -1,0 +1,86 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs';
+
+import Button from '../Button';
+import { Download } from '../../icons';
+
+<Meta
+	title="Components/Button"
+	component={Button}
+	argTypes={{
+		onClick: { action: 'triggered' },
+		variant: {
+			options: [
+				'link',
+				'primary',
+				'secondary',
+				'destructive',
+				'constructive',
+			],
+			control: { type: 'select' },
+		},
+		inverted: { control: { type: 'boolean' } },
+		transparent: { control: { type: 'boolean' } },
+		rounded: { control: { type: 'boolean' } },
+		disabled: { control: { type: 'boolean' } },
+	}}
+/>
+
+export const TextOnly = ({ text, ...args }) => (
+	<Button {...args}>{text}</Button>
+);
+
+export const IconOnly = args => (
+	<Button {...args}>
+		<Download />
+	</Button>
+);
+
+export const IconFirst = ({ text, ...args }) => (
+	<Button {...args}>
+		<Download />
+		<span>{text}</span>
+	</Button>
+);
+
+export const IconLast = ({ text, ...args }) => (
+	<Button {...args}>
+		<span>{text}</span>
+		<Download />
+	</Button>
+);
+
+# Button
+
+## Text Buttons
+
+<Canvas>
+	<Story
+		name="Text Only"
+		argTypes={{ text: { control: 'text', defaultValue: 'Text' } }}
+	>
+		{TextOnly.bind({})}
+	</Story>
+</Canvas>
+
+## Icon Buttons
+
+<Canvas>
+	<Story name="Icon Only">{IconOnly.bind({})}</Story>
+</Canvas>
+
+## Text + Icon Buttons
+
+<Canvas>
+	<Story
+		name="Icon First"
+		argTypes={{ text: { control: 'text', defaultValue: 'Text' } }}
+	>
+		{IconFirst.bind({})}
+	</Story>
+	<Story
+		name="Icon Last"
+		argTypes={{ text: { control: 'text', defaultValue: 'Text' } }}
+	>
+		{IconLast.bind({})}
+	</Story>
+</Canvas>

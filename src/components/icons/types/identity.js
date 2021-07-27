@@ -4,5 +4,5 @@ export function setIcon(fn) {
 }
 
 export function isIcon(fn) {
-	return fn.isIcon;
+	return fn?.isIcon;
 }
