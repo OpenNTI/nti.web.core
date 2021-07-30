@@ -1,5 +1,5 @@
 /** @typedef {import('./get-button-props').ButtonStyleProps} ButtonStyleProps */
-/** @typedef {React.ReactComponentElement | string} AsProp */
+/** @typedef {React.ComponentType | string} AsProp */
 
 /**
  * @typedef {object} ButtonCmpProps
