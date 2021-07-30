@@ -1,6 +1,26 @@
-/** @typedef {['p', 'ph', 'pv', 'pt', 'pr', 'pb', 'pl', 'm', 'mh', 'mv', 'mt', 'mr', 'mb', 'ml']} SpacingPropName */
-/** @typedef {true|Sizes} SpacingPropValue */
-/** @typedef {{SpacingPropName: SpacingPropValue}} SpacingProps */
+/** @typedef {'xs'} ExtraSmall - extra small */
+/** @typedef {'sm'} Small */
+/** @typedef {'md'} Medium */
+/** @typedef {'lg'} Large */
+/** @typedef {'xl'} ExtraLarge */
+/** @typedef {ExtraSmall | Small | Medium | Large | ExtraLarge} SpacingPropValue */
+/**
+ * @typedef {object} SpacingProps
+ * @property {SpacingPropValue} p - set padding on all sides
+ * @property {SpacingPropValue} ph - set padding inline (left and right)
+ * @property {SpacingPropValue} pv - set padding block (top and bottom)
+ * @property {SpacingPropValue} pt - set padding top
+ * @property {SpacingPropValue} pr - set padding right
+ * @property {SpacingPropValue} pb - set padding bottom
+ * @property {SpacingPropValue} pl - set padding left
+ * @property {SpacingPropValue} m - set margin on all sides
+ * @property {SpacingPropValue} mh - set margin inline (left and right)
+ * @property {SpacingPropValue} mv - set margin block (top and bottom)
+ * @property {SpacingPropValue} mt - set margin top
+ * @property {SpacingPropValue} mr - set margin right
+ * @property {SpacingPropValue} mb - set margin bottom
+ * @property {SpacingPropValue} ml - set margin left
+ */
 
 import cx from 'classnames';
 
@@ -24,9 +44,10 @@ const TypeToSides = {
 /**
  * All possible size values/postfixes.
  *
- * @enum
+ * @enum {string}
  */
-const Sizes = ['xs', 'sm', 'md', 'lg', 'xl'];
+const Sizes = { xs: 'xs', sm: 'sm', md: 'md', lg: 'lg', xl: 'xl' };
+const SizesList = Object.keys(Sizes);
 
 /**
  * A map of prop names/prefixes to which sides they set in order [top, right, bottom, left]
@@ -68,7 +89,7 @@ const PropsToSides = Object.entries(SidesMapping).reduce(
 		*/
 		acc.set(key, getSides);
 
-		for (let size of Sizes) {
+		for (let size of SizesList) {
 			/*
 				Example Entries:
 				p-sm: () => {[PaddingTop]: 'sm', ...}

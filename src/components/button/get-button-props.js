@@ -1,3 +1,25 @@
+/** @typedef {import('../../system/css/get-spacing-props').SpacingProps} SpacingProps */
+/** @typedef {import('../../system/css/get-border-props').BorderProps} BorderProps */
+/** @typedef {'link' | 'primary' | 'secondary' | 'destructive' | 'constructive'} ButtonStyleVariant */
+/** @typedef {'medium'} SizeVariant */
+
+/**
+ * @typedef {object} ButtonStyleConfig
+ * @property {ButtonStyleVariant} variant - which style of button
+ * @property {boolean} link - inline text treatment (no padding)
+ * @property {boolean} destructive - action will cause an object to be deleted/destroyed
+ * @property {boolean} constructive - action will cause an object to be created
+ * @property {boolean} primary - main action in a set
+ * @property {boolean} secondary - auxillary actions in a set
+ * @property {SizeVariant} size - how large the button should be
+ * @property {boolean} medium
+ * @property {boolean} inverted - invert the color scheme
+ * @property {boolean} disabled - disallow triggering
+ * @property {boolean} transparent - maintain padding, but have no background on the button
+ */
+
+/** @typedef {ButtonStyleConfig & SpacingProps & BorderProps} ButtonStyleProps */
+
 import React from 'react';
 import cx from 'classnames';
 
@@ -6,13 +28,13 @@ import { getBorderProps } from '../../system/css/get-border-props';
 import {
 	VariantGetter,
 	StateGetter,
-	PropGetter,
+	PropMapper,
 } from '../../system/utils/PropGetters';
 import { isIcon } from '../icons';
 
 import Theme from './Button.theme.css';
 
-const getStyleProps = PropGetter({
+const getStyleProps = PropMapper({
 	style: VariantGetter(
 		['link', 'primary', 'secondary', 'destructive', 'constructive'],
 		'primary'
@@ -40,7 +62,13 @@ const isOnlyIcon = ({ children }) => {
 	);
 };
 
-export function getButtonProps(props) {
+/**
+ * Get the props to apply the configured button styles.
+ *
+ * @param {ButtonStyleProps & SpacingProps & BorderProps} props
+ * @returns {{className:string}}
+ */
+export function getButtonStyleProps(props) {
 	const { className, style, size, state, ...otherProps } =
 		getStyleProps(props);
 
