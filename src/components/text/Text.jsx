@@ -2,7 +2,7 @@ import React from 'react';
 
 import { rawContent, getRefHandler } from '@nti/lib-commons';
 
-import Variant from '../HighOrderComponents/Variant';
+import Variant from '../high-order/Variant';
 
 import useTransforms from './transforms/use-transforms';
 
