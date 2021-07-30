@@ -1,9 +1,26 @@
+/** @typedef {import('./get-button-props').ButtonStyleProps} ButtonStyleProps */
+/** @typedef {React.ReactComponentElement | string} AsProp */
+
+/**
+ * @typedef {object} ButtonCmpProps
+ * @property {AsProp} [as='a'] - Cmp to render the button as
+ * @property {boolean} disabled - disallow triggering the button
+ * @property {(e: Event) => void} onClick - callback when the button is triggered
+ */
+
 import React, { useCallback } from 'react';
 
 import { Events } from '@nti/lib-commons';
 
-import { getButtonProps } from './get-button-props';
+import { getButtonStyleProps } from './get-button-props';
 
+/**
+ * Render a button
+ *
+ * @param {ButtonCmpProps & ButtonStyleProps} props
+ * @param {React.Ref} ref
+ * @returns {JSX.Element}
+ */
 function Button(
 	{
 		as: Cmp = 'a',
@@ -36,7 +53,7 @@ function Button(
 
 	return (
 		<Cmp
-			{...getButtonProps({ disabled, ...otherProps })}
+			{...getButtonStyleProps({ disabled, ...otherProps })}
 			onKeyDown={handler}
 			onClick={handler}
 		/>

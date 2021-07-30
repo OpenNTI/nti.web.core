@@ -1,3 +1,9 @@
+/** @typedef {boolean} RoundedValue */
+/**
+ * @typedef {object} BorderProps
+ * @property {RoundedValue} rounded
+ */
+
 import cx from 'classnames';
 
 import Styles from './rules/border.module.css';
@@ -24,6 +30,13 @@ function getRoundingProps(props) {
 	return [null, props];
 }
 
+/**
+ * Get the props necessary to apply the given border styling
+ *
+ * @param {BorderProps} propsArg
+ * @param {BorderProps} defaultProps
+ * @returns {{className: string}}
+ */
 export function getBorderProps(propsArg, defaultProps = {}) {
 	const { className, ...props } = propsArg;
 

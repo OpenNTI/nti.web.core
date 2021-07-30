@@ -1,5 +1,11 @@
 import cx from 'classnames';
 
+/**
+ * Combine the classNames, styles, and others from multiple props
+ *
+ * @param  {...{}} propSets
+ * @returns {{}}
+ */
 export default function combineProps(...propSets) {
 	let combined = {};
 
