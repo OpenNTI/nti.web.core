@@ -5,17 +5,17 @@
 
 /**
  * @typedef {object} ButtonStyleConfig
- * @property {ButtonStyleVariant} variant - which style of button
- * @property {boolean} link - inline text treatment (no padding)
- * @property {boolean} destructive - action will cause an object to be deleted/destroyed
- * @property {boolean} constructive - action will cause an object to be created
- * @property {boolean} primary - main action in a set
- * @property {boolean} secondary - auxillary actions in a set
- * @property {SizeVariant} size - how large the button should be
- * @property {boolean} medium
- * @property {boolean} inverted - invert the color scheme
- * @property {boolean} disabled - disallow triggering
- * @property {boolean} transparent - maintain padding, but have no background on the button
+ * @property {ButtonStyleVariant=} variant - which style of button
+ * @property {boolean=} link - inline text treatment (no padding)
+ * @property {boolean=} destructive - action will cause an object to be deleted/destroyed
+ * @property {boolean=} constructive - action will cause an object to be created
+ * @property {boolean=} primary - main action in a set
+ * @property {boolean=} secondary - auxillary actions in a set
+ * @property {SizeVariant=} size - how large the button should be
+ * @property {boolean=} medium
+ * @property {boolean=} inverted - invert the color scheme
+ * @property {boolean=} disabled - disallow triggering
+ * @property {boolean=} transparent - maintain padding, but have no background on the button
  */
 
 /** @typedef {ButtonStyleConfig & SpacingProps & BorderProps} ButtonStyleProps */

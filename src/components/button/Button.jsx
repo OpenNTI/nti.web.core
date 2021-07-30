@@ -1,11 +1,13 @@
+// @ts-check
+/** @typedef {import('../../system/types').EventHandler} EventHandler */
+/** @typedef {import('../../system/types').AsProp} AsProp */
 /** @typedef {import('./get-button-props').ButtonStyleProps} ButtonStyleProps */
-/** @typedef {React.ComponentType | string} AsProp */
 
 /**
  * @typedef {object} ButtonCmpProps
  * @property {AsProp} [as='a'] - Cmp to render the button as
- * @property {boolean} disabled - disallow triggering the button
- * @property {(e: Event) => void} onClick - callback when the button is triggered
+ * @property {boolean=} disabled - disallow triggering the button
+ * @property {EventHandler=} onClick - callback when the button is triggered
  */
 
 import React, { useCallback } from 'react';
@@ -18,7 +20,7 @@ import { getButtonStyleProps } from './get-button-props';
  * Render a button
  *
  * @param {ButtonCmpProps & ButtonStyleProps} props
- * @param {React.Ref} ref
+ * @param {React.} ref
  * @returns {JSX.Element}
  */
 function Button(

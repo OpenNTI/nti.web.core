@@ -1,7 +1,7 @@
 /** @typedef {boolean} RoundedValue */
 /**
  * @typedef {object} BorderProps
- * @property {RoundedValue} rounded
+ * @property {RoundedValue=} rounded
  */
 
 import cx from 'classnames';

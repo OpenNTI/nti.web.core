@@ -6,20 +6,20 @@
 /** @typedef {ExtraSmall | Small | Medium | Large | ExtraLarge} SpacingPropValue */
 /**
  * @typedef {object} SpacingProps
- * @property {SpacingPropValue} p - set padding on all sides
- * @property {SpacingPropValue} ph - set padding inline (left and right)
- * @property {SpacingPropValue} pv - set padding block (top and bottom)
- * @property {SpacingPropValue} pt - set padding top
- * @property {SpacingPropValue} pr - set padding right
- * @property {SpacingPropValue} pb - set padding bottom
- * @property {SpacingPropValue} pl - set padding left
- * @property {SpacingPropValue} m - set margin on all sides
- * @property {SpacingPropValue} mh - set margin inline (left and right)
- * @property {SpacingPropValue} mv - set margin block (top and bottom)
- * @property {SpacingPropValue} mt - set margin top
- * @property {SpacingPropValue} mr - set margin right
- * @property {SpacingPropValue} mb - set margin bottom
- * @property {SpacingPropValue} ml - set margin left
+ * @property {SpacingPropValue=} p - set padding on all sides
+ * @property {SpacingPropValue=} ph - set padding inline (left and right)
+ * @property {SpacingPropValue=} pv - set padding block (top and bottom)
+ * @property {SpacingPropValue=} pt - set padding top
+ * @property {SpacingPropValue=} pr - set padding right
+ * @property {SpacingPropValue=} pb - set padding bottom
+ * @property {SpacingPropValue=} pl - set padding left
+ * @property {SpacingPropValue=} m - set margin on all sides
+ * @property {SpacingPropValue=} mh - set margin inline (left and right)
+ * @property {SpacingPropValue=} mv - set margin block (top and bottom)
+ * @property {SpacingPropValue=} mt - set margin top
+ * @property {SpacingPropValue=} mr - set margin right
+ * @property {SpacingPropValue=} mb - set margin bottom
+ * @property {SpacingPropValue=} ml - set margin left
  */
 
 import cx from 'classnames';
