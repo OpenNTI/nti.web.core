@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
-import Variant from '../HighOrderComponents/Variant';
+import Variant from '../high-order/Variant';
 
 import { setIcon } from './types/identity';
 import FontIcon from './types/Font-Icon';
