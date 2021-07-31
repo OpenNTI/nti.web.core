@@ -20,7 +20,7 @@ import { getButtonStyleProps } from './get-button-props';
  * Render a button
  *
  * @param {ButtonCmpProps & ButtonStyleProps} props
- * @param {*} ref
+ * @param {React.Ref<Button>} ref
  * @returns {JSX.Element}
  */
 function Button(
