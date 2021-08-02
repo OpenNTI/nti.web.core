@@ -1,7 +1,7 @@
 /** @typedef {*} PropValue - a value derived from props */
 /** @typedef {{}} RestProps - the props not used deriving the prop value */
 /** @typedef {(props:{}) => [PropValue, RestProps]} PropValueGetter */
-/** @typedef {{string: PropValueGetter}} PropMap */
+/** @typedef {Map<string, PropValueGetter>} PropMap */
 /** @typedef {(props:{}) => {}} PropMapper */
 
 /**
