@@ -1,6 +1,6 @@
 /** @typedef {boolean} RoundedValue */
 /**
- * @typedef {object} BorderProps
+ * @typedef {import('../types').Props} BorderProps
  * @property {RoundedValue=} rounded
  */
 

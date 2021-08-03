@@ -4,7 +4,7 @@
 /** @typedef {'medium'} SizeVariant */
 
 /**
- * @typedef {object} ButtonStyleConfig
+ * @typedef {import('../../system/types').Props} ButtonStyleConfig
  * @property {ButtonStyleVariant=} variant - which style of button
  * @property {boolean=} link - inline text treatment (no padding)
  * @property {boolean=} destructive - action will cause an object to be deleted/destroyed
@@ -52,20 +52,35 @@ const SizeToDefaultSpacingProps = {
 	},
 };
 
+/**
+ *
+ * @param {object} props
+ * @param {(React.ReactChildren | Array)=} props.children
+ * @returns {boolean}
+ */
 const isOnlyIcon = ({ children }) => {
-	const kids = React.Children.toArray(children);
+	const [kid, ...others] = React.Children.toArray(children);
+
+	if (others.length > 0 || !kid || typeof kid !== 'object') {
+		return false;
+	}
+
+	if (Array.isArray(kid)) {
+		return isOnlyIcon({ children: kid });
+	}
 
 	return (
-		kids.length === 1 &&
-		//kids[0].type covers all usage in the app, checking the originalType is to make it work in MDX stories.
-		(isIcon(kids[0].type) || isIcon(kids[0].props?.originalType))
+		//kids[0].type covers all usage in the app
+		('type' in kid && isIcon(kid.type)) ||
+		//checking the originalType is to make it work in MDX stories.
+		('props' in kid && isIcon(kid.props.originalType))
 	);
 };
 
 /**
  * Get the props to apply the configured button styles.
  *
- * @param {ButtonStyleProps & SpacingProps & BorderProps} props
+ * @param {ButtonStyleProps} props
  * @returns {{className:string}}
  */
 export function getButtonStyleProps(props) {

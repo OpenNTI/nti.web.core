@@ -5,7 +5,7 @@
 /** @typedef {'xl'} ExtraLarge */
 /** @typedef {ExtraSmall | Small | Medium | Large | ExtraLarge} SpacingPropValue */
 /**
- * @typedef {object} SpacingProps
+ * @typedef {import('../types').Props} SpacingProps
  * @property {SpacingPropValue=} p - set padding on all sides
  * @property {SpacingPropValue=} ph - set padding inline (left and right)
  * @property {SpacingPropValue=} pv - set padding block (top and bottom)

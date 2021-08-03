@@ -1,8 +1,10 @@
+//@ts-check
+/** @typedef {import('../types').Props} Props */
 /** @typedef {*} PropValue - a value derived from props */
 /** @typedef {{}} RestProps - the props not used deriving the prop value */
-/** @typedef {(props:{}) => [PropValue, RestProps]} PropValueGetter */
+/** @typedef {(props:Props) => [PropValue, RestProps]} PropValueGetter */
 /** @typedef {Map<string, PropValueGetter>} PropMap */
-/** @typedef {(props:{}) => {}} PropMapper */
+/** @typedef {(props:Props) => Props} PropMapper */
 
 /**
  * Generate a function to pull a single variant out of props.
