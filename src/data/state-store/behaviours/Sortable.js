@@ -1,7 +1,7 @@
 /**
  * Generate a StateStore that implements sorting.
  *
- * @template {import('./constants').Constructor} T
+ * @template {import('../../../types').Constructor} T
  * @param {T} Base
  * @mixin
  */

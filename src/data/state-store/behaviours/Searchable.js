@@ -3,7 +3,7 @@ const SearchTerm = Symbol('searchTerm');
 /**
  * Generate a StateStore that implements searching.
  *
- * @template {import('./constants').Constructor} T
+ * @template {import('../../../types').Constructor} T
  * @param {T} Base
  * @mixin
  */

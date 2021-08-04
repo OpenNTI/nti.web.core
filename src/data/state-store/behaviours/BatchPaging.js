@@ -7,7 +7,7 @@ export const Continuous = () => {}; //TODO: fill this out
  *
  * To utilize the paging have the load method return a `batch` property.
  *
- * @template {import('./constants').Constructor} T
+ * @template {import('../../../types').Constructor} T
  * @param {T} Base
  * @mixin
  */
