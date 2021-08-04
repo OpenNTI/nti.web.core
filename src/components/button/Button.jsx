@@ -1,6 +1,6 @@
 // @ts-check
-/** @typedef {import('../../system/types').EventHandler} EventHandler */
-/** @typedef {import('../../system/types').AsProp} AsProp */
+/** @typedef {import('../../types').EventHandler} EventHandler */
+/** @typedef {import('../../types').AsProp} AsProp */
 /** @typedef {import('./get-button-props').ButtonStyleProps} ButtonStyleProps */
 
 /**

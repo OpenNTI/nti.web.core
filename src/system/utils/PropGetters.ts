@@ -1,11 +1,3 @@
-//@ts-check
-/** @typedef {import('../types').Props} Props */
-/** @typedef {*} PropValue - a value derived from props */
-/** @typedef {{}} RestProps - the props not used deriving the prop value */
-/** @typedef {(props:Props) => [PropValue, RestProps]} PropValueGetter */
-/** @typedef {Map<string, PropValueGetter>} PropMap */
-/** @typedef {(props:Props) => Props} PropMapper */
-
 /**
  * Generate a function to pull a single variant out of props.
  *
@@ -14,21 +6,20 @@
  * 2. Boolean - if `props[variant]` is strictly `true`, use that variant and consume the `variant` key.
  * 3. Default - if no variant is found return `defaultVariant` and consume no keys.
  *
- * @param {string[]} variants - list of possible variants
- * @param {string} defaultVariant - fallback if no variant is found
- * @param {string} explicitProp - prop to check for an explicitly set variant
- * @returns {PropValueGetter}
+ * @param variants - list of possible variants
+ * @param defaultVariant - fallback if no variant is found
+ * @param explicitProp - prop to check for an explicitly set variant
  */
-export function VariantGetter(
-	variants,
-	defaultVariant,
+export function VariantGetter<T extends object>(
+	variants: string[],
+	defaultVariant: string,
 	explicitProp = 'variant'
-) {
+): (props: T) => [string, T] {
 	return propsArg => {
 		const props = { ...propsArg };
 
-		let variant = null;
-		let variantProp = null;
+		let variant: string = null;
+		let variantProp: string = null;
 
 		//if there is an explicit variant prop and its in the variant set use that
 		if (variants.includes(props[explicitProp])) {
@@ -45,6 +36,7 @@ export function VariantGetter(
 		return [variant, props];
 	};
 }
+
 /**
  * Generate a function to pull multiple state values out of props.
  *
@@ -52,11 +44,13 @@ export function VariantGetter(
  * 1. Boolean - if `props[state]` is strictly `true` add that state value and consume the `state` key.
  * 2. Default - if no states are found in props return `defaultState` and consume no keys.
  *
- * @param {string[]} states - list of possible states
- * @param {string[]} defaultState - fallback if no state is found
- * @returns {PropValueGetter}
+ * @param states - list of possible states
+ * @param defaultState - fallback if no state is found
  */
-export function StateGetter(states, defaultState = []) {
+export function StateGetter<T extends object>(
+	states: string[],
+	defaultState: string[] = []
+): (props: T) => [string[], T] {
 	return propsArg => {
 		const props = { ...propsArg };
 
@@ -71,15 +65,20 @@ export function StateGetter(states, defaultState = []) {
 	};
 }
 
+type Mapper = {
+	[prop: string]: <T extends object>(props: T) => [string | string[], T];
+};
+
 /**
  * Generate a function that given props returns an object with map keys set to their result and props not consumed by maps are
  *
- * @param {PropMap} map
- * @returns {PropMapper}
+ * @param map
  */
-export function PropMapper(map) {
-	return props => {
-		return Object.entries(map).reduce(
+export function PropMapper<T extends Mapper>(map: T) {
+	return <P extends object>(props: P) => {
+		const entries = Object.entries(map);
+
+		const result = entries.reduce(
 			(acc, [name, getter]) => {
 				const [value, rest] = getter(acc);
 
@@ -87,5 +86,8 @@ export function PropMapper(map) {
 			},
 			{ ...props }
 		);
+
+		return result as P &
+			{ [Prop in keyof typeof map]: ReturnType<typeof map[Prop]>[0] };
 	};
 }

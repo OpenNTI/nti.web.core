@@ -1,11 +1,6 @@
-/** @typedef {'xs'} ExtraSmall - extra small */
-/** @typedef {'sm'} Small */
-/** @typedef {'md'} Medium */
-/** @typedef {'lg'} Large */
-/** @typedef {'xl'} ExtraLarge */
-/** @typedef {ExtraSmall | Small | Medium | Large | ExtraLarge} SpacingPropValue */
+/** @typedef {'xs' | 'sm' | 'md' | 'lg' | 'xl'} SpacingPropValue */
 /**
- * @typedef {import('../types').Props} SpacingProps
+ * @typedef {object} SpacingProps
  * @property {SpacingPropValue=} p - set padding on all sides
  * @property {SpacingPropValue=} ph - set padding inline (left and right)
  * @property {SpacingPropValue=} pv - set padding block (top and bottom)
@@ -106,7 +101,7 @@ const PropsToSides = Object.entries(SidesMapping).reduce(
 /**
  * Given props return the size for each side
  *
- * @param {{}} props
+ * @param {object} props
  * @returns {{}}
  */
 function getSideSizes(props = {}) {
@@ -127,7 +122,7 @@ function getClass(type, side, size) {
 }
 
 /**
- * Return the minimum classname set to apply the side sizes for the given type
+ * Return the minimum class name set to apply the side sizes for the given type
  *
  * @param {string} type
  * @param {{}} sideSizes
@@ -147,35 +142,42 @@ function getClassNames(type, sideSizes) {
 
 	//If all sides are equal
 	if (equal(top, right, bottom, left)) {
-		//If there is a value return that class name otherwise there is no classname for this type.
+		//If there is a value return that class name otherwise there is no class name for this type.
 		return isSet(top) ? getClass(type, '', value(top)) : null;
 	}
 
 	const classes = [];
 
-	//if top and bottom are set and equal return a vertical classname
+	//if top and bottom are set and equal return a vertical class name
 	if (isSet(top) && isSet(bottom) && equal(top, bottom)) {
 		classes.push(getClass(type, 'v', value(top)));
 	} else {
-		//if top is set apply a top classname
+		//if top is set apply a top class name
 		classes.push(isSet(top) ? getClass(type, 't', value(top)) : null);
-		//if bottom is set apply a bottom classname
+		//if bottom is set apply a bottom class name
 		classes.push(isSet(bottom) ? getClass(type, 'b', value(bottom)) : null);
 	}
 
-	//if right and left are set and equal return a horizontal classname
+	//if right and left are set and equal return a horizontal class name
 	if (isSet(right) && isSet(left) && equal(right, left)) {
 		classes.push(getClass(type, 'h', value(right)));
 	} else {
-		//if right is set apply a right classname
+		//if right is set apply a right class name
 		classes.push(isSet(right) ? getClass(type, 'r', value(right)) : null);
-		//if left is set apply a left classname
+		//if left is set apply a left class name
 		classes.push(isSet(left) ? getClass(type, 'l', value(left)) : null);
 	}
 
 	return cx(classes);
 }
 
+/**
+ * Get the props to apply the configured spacing.
+ *
+ * @template T
+ * @param {T} props
+ * @returns {Omit<T, SpacingProps>}
+ */
 function consumePaddingProps(props) {
 	return Object.keys(PropsToSides).reduce(
 		(acc, prop) => {
@@ -190,9 +192,10 @@ function consumePaddingProps(props) {
 /**
  * Get the props to apply the configured spacing.
  *
- * @param {SpacingProps} props
- * @param {SpacingProps} defaults
- * @returns {{className: string}}
+ * @template {SpacingProps} T
+ * @param {T} props
+ * @param {SpacingProps=} defaults
+ * @returns {Omit<T, SpacingProps> & {className: string}}
  */
 export function getSpacingProps({ className, ...props }, defaults) {
 	const sideSizes = { ...getSideSizes(defaults), ...getSideSizes(props) };

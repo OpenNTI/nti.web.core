@@ -1,10 +1,11 @@
+//@ts-check
 /** @typedef {import('../../system/css/get-spacing-props').SpacingProps} SpacingProps */
 /** @typedef {import('../../system/css/get-border-props').BorderProps} BorderProps */
 /** @typedef {'link' | 'primary' | 'secondary' | 'destructive' | 'constructive'} ButtonStyleVariant */
 /** @typedef {'medium'} SizeVariant */
 
 /**
- * @typedef {import('../../system/types').Props} ButtonStyleConfig
+ * @typedef {object} ButtonStyleConfig
  * @property {ButtonStyleVariant=} variant - which style of button
  * @property {boolean=} link - inline text treatment (no padding)
  * @property {boolean=} destructive - action will cause an object to be deleted/destroyed
@@ -18,7 +19,7 @@
  * @property {boolean=} transparent - maintain padding, but have no background on the button
  */
 
-/** @typedef {ButtonStyleConfig & SpacingProps & BorderProps} ButtonStyleProps */
+/** @typedef {React.ComponentPropsWithoutRef<'button'> & ButtonStyleConfig & SpacingProps & BorderProps} ButtonStyleProps */
 
 import React from 'react';
 import cx from 'classnames';
@@ -45,6 +46,7 @@ const getStyleProps = PropMapper({
 	state: StateGetter(['inverted', 'disabled', 'transparent']),
 });
 
+/** @type {Record<string, SpacingProps>}}} */
 const SizeToDefaultSpacingProps = {
 	medium: {
 		pv: 'md',
@@ -53,9 +55,7 @@ const SizeToDefaultSpacingProps = {
 };
 
 /**
- *
- * @param {object} props
- * @param {(React.ReactChildren | Array)=} props.children
+ * @param {React.ComponentPropsWithoutRef<any>} props
  * @returns {boolean}
  */
 const isOnlyIcon = ({ children }) => {
@@ -107,7 +107,7 @@ export function getButtonStyleProps(props) {
 
 	const spacingProps = getSpacingProps(
 		buttonProps,
-		SizeToDefaultSpacingProps[size] ?? {}
+		SizeToDefaultSpacingProps[size]
 	);
 
 	const borderProps = getBorderProps(spacingProps);
