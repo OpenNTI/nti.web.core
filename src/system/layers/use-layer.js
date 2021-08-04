@@ -2,6 +2,12 @@ import { useState, useEffect } from 'react';
 
 import Manager from './Manager';
 
+/**
+ * A hook to create a layer to render components to.
+ *
+ * @param {import('./Manager').LayerConfig} config
+ * @returns {import('./Manager').Layer}
+ */
 export default function useLayer(config) {
 	const [layer] = useState(() => Manager.createLayer(config));
 

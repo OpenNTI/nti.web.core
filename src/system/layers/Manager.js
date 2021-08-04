@@ -1,3 +1,11 @@
+/** @typedef {Layer} Layer */
+/**
+ * @typedef {object} LayerConfig
+ * @property {string} as - tag to use for the layer
+ * @property {string} className - class to set on the layer div
+ * @property {('content' | 'app-chrome' | 'modal')} level - what position to render the layer to
+ */
+
 import EventEmitter from 'events';
 
 import ReactDOM from 'react-dom';
@@ -12,7 +20,7 @@ const NoMask = 'no-mask';
 
 class Layer extends EventEmitter {
 	#node = null;
-	#covered = false;
+	#masked = false;
 
 	constructor(node) {
 		super();
@@ -20,36 +28,65 @@ class Layer extends EventEmitter {
 		this.#node = node;
 	}
 
+	/**
+	 * Listen for updates to the Layer
+	 *
+	 * @param {() => void} fn -
+	 * @returns {() => void} - unsubscribe function
+	 */
 	subscribe(fn) {
 		this.addListener('change', fn);
 
 		return () => this.removeListener('change', fn);
 	}
 
+	/**
+	 * @type {HTMLElement} - element associated with the layer
+	 */
 	get node() {
 		return this.#node;
 	}
 
+	/**
+	 * @type {string} - the level the layer is on
+	 */
 	get level() {
 		return this.#node.getAttribute(LayerLevelAttr);
 	}
 
+	/**
+	 * @type {boolean} - if the layer masks layers beneath it
+	 */
 	get masks() {
 		return this.#node.getAttribute(LayerMaskAttr) === Mask;
 	}
 
-	get covered() {
-		return this.#covered;
+	/**
+	 * @type {boolean} - if the layer is masked by another layer
+	 */
+	get masked() {
+		return this.#masked;
 	}
 
-	setCovered(covered) {
-		if (covered !== this.covered) {
-			this.#covered = covered;
-			this.#node.setAttribute('aria-hidden', covered);
+	/**
+	 * Mark the layer as being masked (or not) by another layer.
+	 *
+	 * @param {boolean} masked
+	 */
+	setMasked(masked) {
+		if (masked !== this.masked) {
+			this.#masked = masked;
+			this.#node.setAttribute('aria-hidden', masked);
 			this.emit('changed');
 		}
 	}
 
+	/**
+	 * Create a portal to the layer to render `children` to.
+	 *
+	 * @param {JSX.Element} children
+	 * @returns {import('react').ReactElement}
+	 */
 	createPortal(children) {
 		return ReactDOM.createPortal(children, this.#node);
 	}
@@ -57,10 +94,9 @@ class Layer extends EventEmitter {
 
 class LayerManager {
 	static Levels = [
-		{ name: 'static' },
-		{ name: 'modal', masks: true },
+		{ name: 'content', masks: true },
 		{ name: 'app-chrome' },
-		{ name: 'prompt', masks: true },
+		{ name: 'modal', masks: true },
 	];
 
 	#levelMap = null;
@@ -116,6 +152,12 @@ class LayerManager {
 		}
 	}
 
+	/**
+	 * Create a new layer
+	 *
+	 * @param {LayerConfig} config
+	 * @returns {Layer}
+	 */
 	createLayer({ as = 'div', className, level }) {
 		const layer = new Layer(
 			createDOM({
@@ -136,6 +178,12 @@ class LayerManager {
 		return layer;
 	}
 
+	/**
+	 * Update an existing layer
+	 *
+	 * @param {Layer} layer
+	 * @param {LayerConfig} config
+	 */
 	updateLayer(layer, { as, className, level }) {
 		//TODO: decide if we need to update the tag if `as` is different
 		if (layer.node.className !== className) {
@@ -149,6 +197,11 @@ class LayerManager {
 		}
 	}
 
+	/**
+	 * Remove an existing layer
+	 *
+	 * @param {Layer} layer
+	 */
 	removeLayer(layer) {
 		removeNode(layer.node);
 		this.#layers.delete(layer.node);
