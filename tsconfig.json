@@ -1,6 +1,9 @@
 {
 	"exclude": [".git", ".npm", "node_modules", "dist"],
 	"compilerOptions": {
+		"esModuleInterop": true,
+		"allowJs": true,
+		"noEmit": true,
 		"plugins": [
 			{
 				"name": "typescript-styled-plugin"
