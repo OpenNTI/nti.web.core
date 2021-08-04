@@ -12,8 +12,8 @@ import ReactDOM from 'react-dom';
 
 import { createDOM, removeNode } from '@nti/lib-dom';
 
-const LayerLevelAttr = 'data-layer-level';
-const LayerMaskAttr = 'data-layer-mask';
+export const LayerLevelAttr = 'data-layer-level';
+export const LayerMaskAttr = 'data-layer-mask';
 
 const Mask = 'mask';
 const NoMask = 'no-mask';
@@ -142,13 +142,13 @@ class LayerManager {
 	updateAria() {
 		const layers = this.getLayers();
 
-		let masked = true;
+		let masked = false;
 
 		for (let i = layers.length - 1; i >= 0; i--) {
 			const layer = layers[i];
 
 			layer.setMasked(masked);
-			masked = layer.masks;
+			masked = masked || layer.masks;
 		}
 	}
 
@@ -158,7 +158,8 @@ class LayerManager {
 	 * @param {LayerConfig} config
 	 * @returns {Layer}
 	 */
-	createLayer({ as = 'div', className, level }) {
+	createLayer(config = {}) {
+		const { as = 'div', className = '', level = 'modal' } = config;
 		const layer = new Layer(
 			createDOM({
 				tag: as,
