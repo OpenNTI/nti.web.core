@@ -2,17 +2,15 @@ import React from 'react';
 
 import { SimpleHeader } from './headers/Simple';
 
-/** @typedef {import('./Table').Column} Column */
-
 const NONE = () => null;
 
 /**
- * @param {React.ComponentPropsWithoutRef<'div'>} props
- * @param {import('../../types').AsProp=} [props.as='tr']
- * @param {Column[]} props.columns
+ * @param {Object} props
+ * @param {import('../../types').AsProp=} props.as
+ * @param {import('./Table').ColumnStatic[]} props.columns
  * @param {string=} props.sortOn
  * @param {string=} props.sortDirection
- * @param {import('./Table').SortChangeHandler} props.onSortChange
+ * @param {import('../../types').SortChangeHandler=} props.onSortChange
  * @returns {JSX.Element}
  */
 export function Header({
@@ -23,33 +21,44 @@ export function Header({
 	onSortChange,
 	...otherProps
 }) {
+	const hasHeader = columns.some(x => x.HeaderComponent || x.Name);
 	const InnerCmp = Cmp === 'tr' ? 'th' : 'div';
+	const Wrapper = Cmp === 'tr' ? 'thead' : React.Fragment;
 
 	return (
-		<Cmp>
-			{columns.map(
-				(
-					{ HeaderComponent = NONE, cssClassName, Name, SortKey },
-					i
-				) => (
-					(HeaderComponent =
-						HeaderComponent === NONE && Name
-							? SimpleHeader
-							: HeaderComponent),
-					(
-						<InnerCmp key={i} className={cssClassName}>
-							<HeaderComponent
-								onSortChange={onSortChange}
-								name={Name}
-								sortDirection={sortDirection}
-								sortKey={SortKey}
-								sortOn={sortOn}
-								{...otherProps}
-							/>
-						</InnerCmp>
-					)
-				)
-			)}
-		</Cmp>
+		hasHeader && (
+			<Wrapper>
+				<Cmp>
+					{columns.map(
+						(
+							{
+								HeaderComponent = NONE,
+								cssClassName,
+								Name,
+								SortKey,
+							},
+							i
+						) => (
+							(HeaderComponent =
+								HeaderComponent === NONE && Name
+									? SimpleHeader
+									: HeaderComponent),
+							(
+								<InnerCmp key={i} className={cssClassName}>
+									<HeaderComponent
+										onSortChange={onSortChange}
+										name={Name}
+										sortDirection={sortDirection}
+										sortKey={SortKey}
+										sortOn={sortOn}
+										{...otherProps}
+									/>
+								</InnerCmp>
+							)
+						)
+					)}
+				</Cmp>
+			</Wrapper>
+		)
 	);
 }

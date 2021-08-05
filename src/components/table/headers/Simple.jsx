@@ -14,7 +14,7 @@ const Box = styled.div`
 	&.sortable {
 		cursor: pointer;
 
-		i {
+		& > i[class*='icon-chevron-'] {
 			margin-left: 5px;
 		}
 	}
@@ -46,16 +46,19 @@ export function SimpleHeader({
 
 	const isSorted = sortKey && sortOn === sortKey;
 	const showChevron = sortKey && onSortChange && isSorted;
-
-	const classes = cx({
-		sortable: Boolean(onSortChange) && Boolean(sortKey),
-		sorted: isSorted,
-		asc: isSorted && sortDirection === ASCENDING,
-		desc: isSorted && sortDirection === DESCENDING,
-	});
+	const sortable = Boolean(onSortChange) && Boolean(sortKey);
 
 	return (
-		<Box onClick={sort} className={classes}>
+		<Box
+			sortable={sortable}
+			onClick={sort}
+			className={cx({
+				sortable,
+				sorted: isSorted,
+				asc: isSorted && sortDirection === ASCENDING,
+				desc: isSorted && sortDirection === DESCENDING,
+			})}
+		>
 			<span>{typeof name === 'function' ? name() : name}</span>
 			{showChevron ? (
 				<i

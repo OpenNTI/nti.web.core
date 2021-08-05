@@ -1,27 +1,8 @@
 import React from 'react';
 
+import { Footer } from './Footer';
 import { Header } from './Header';
 import { Row } from './Row';
-
-const EMPTY = () => null;
-
-/** @typedef {(sortOn: string, sortDirection: string) => void} SortChangeHandler */
-/** @typedef {(item: any, e: Event) => void} ClickHandler */
-
-/**
- * @typedef {Object} ColumnProps
- * @property {string=} className
- * @property {any} item
- */
-/**
- * @typedef {React.Component<ColumnProps, any, any>} Column
- * @property {React.Component=} HeaderComponent
- * @property {React.Component=} FooterComponent
- * @property {React.Component=} Name
- * @property {string=} cssClassName
- * @property {string=} SortKey
- * @property {boolean=} rendersContainer
- */
 
 const T = styled.table`
 	/* By default, tables shrink to fit their contents, nearly all NextThought's
@@ -48,31 +29,35 @@ const T = styled.table`
  * "FooterComponent" if you need a header/footer. These static properties will be
  * used to flag whether or not to add the thead/tfoot.
  *
- *   class ExampleColumn extends React.Component {
- *   	static propTypes = {
- *   		item: PropTypes.object.isRequired
- *   	}
  *
- *   	static HeaderComponent = () => <div/>	// These can be imported and assigned
- *   											// if you have a complex header/footer
- *   	static FooterComponent = () => <div/>
+ * Class Example:
  *
- *   	render () {
- *   		return (
- *   			<div />
- *   		);
- *   	}
- *   }
+ *     class ExampleColumn extends React.Component {
  *
- * @param {Object} props
- * @param {string=} props.className
- * @param {Column[]} props.columns
- * @param {any[]=} props.items
- * @param {string=} props.rowClassName
- * @param {string=} props.sortOn
- * @param {string=} props.sortDirection
- * @param {SortChangeHandler=} props.onSortChange
- * @param {ClickHandler=} props.onRowClick
+ *     	static HeaderComponent = () => <div/>
+ *     	static FooterComponent = () => <div/>
+ *
+ *     	render () {
+ *     		return (
+ *     			<div />
+ *     		);
+ *     	}
+ *     }
+ *
+ * Function Example:
+ *
+ * ```js
+ * ExampleColumn.HeaderComponent = () => <div/>
+ *
+ * function ExampleColumn ({item}) {
+ *   return (
+ *   	<div />
+ *   );
+ * }
+ * ```
+ *
+ * @template T
+ * @param {import('./Table').TableProps<T>} props
  * @returns {JSX.Element}
  */
 export function Table({
@@ -86,55 +71,49 @@ export function Table({
 	onRowClick,
 	...props
 }) {
-	const hasHeader = columns.some(x => x.HeaderComponent || x.Name);
-	const hasFooter = columns.some(x => x.FooterComponent);
-
 	return (
 		<T className={className}>
-			{hasHeader && (
-				<thead>
-					<Header
-						columns={columns}
-						sortOn={sortOn}
-						sortDirection={sortDirection}
-						onSortChange={onSortChange}
-						{...props}
-					/>
-				</thead>
-			)}
-
-			<tbody>
-				{
-					/*allow for any iterable*/ [...items].map((item, row) => (
-						<Row
-							key={row}
-							item={item}
-							columns={columns}
-							className={
-								!rowClassName
-									? void 0
-									: rowClassName(item, row, items)
-							}
-							onClick={onRowClick}
-							{...props}
-						/>
-					))
-				}
-			</tbody>
-
-			{hasFooter && (
-				<tfoot>
-					<tr>
-						{columns.map(
-							({ FooterComponent = EMPTY, cssClassName }, i) => (
-								<th key={i} className={cssClassName}>
-									<FooterComponent {...props} />
-								</th>
-							)
-						)}
-					</tr>
-				</tfoot>
-			)}
+			<Header
+				{...{
+					columns,
+					sortOn,
+					sortDirection,
+					onSortChange,
+				}}
+				{...props}
+			/>
+			<Body
+				{...{
+					columns,
+					items,
+					rowClassName,
+					onRowClick,
+					...props,
+				}}
+			/>
+			<Footer {...{ columns }} />
 		</T>
+	);
+}
+
+/**
+ * @template T
+ * @param {import('./Table').CommonTableProps<T> & import('./Table').TableBodyProps<T>} props
+ * @returns {JSX.Element}
+ */
+function Body({ columns, items, rowClassName, onRowClick: onClick, ...props }) {
+	return (
+		<tbody>
+			{
+				/*allow for any iterable*/
+				[...items].map((item, row) => (
+					<Row
+						key={row}
+						className={rowClassName?.(item, row, items)}
+						{...{ item, columns, onClick, ...props }}
+					/>
+				))
+			}
+		</tbody>
 	);
 }
