@@ -2,7 +2,6 @@
 /** @typedef {(Left | Right | Center | LeftOrRight)} HorizontalAlignments */
 /** @typedef {{top: number, left: number, bottom: number, right: number}} Position */
 /** @typedef {{width: number, height: number}} Size */
-/** @typedef {(Position & Size)} ClientRect */
 
 import { Vertical, Horizontal } from './alignment-axis';
 import getPseudoElementSpace from './get-psuedo-element-space';
@@ -32,7 +31,7 @@ export const ByPrimaryAxis = {
 			 * 		|  Trigger |
 			 *
 			 * @type {Function}
-			 * @param {ClientRect} triggerRect the rect for the trigger
+			 * @param {DOMRect} triggerRect the rect for the trigger
 			 * @param {HTMLElement} flyout the flyout dom node
 			 * @param {Size} viewSize the size of the viewport
 			 * @returns {Position} the vertical positioning
@@ -54,7 +53,7 @@ export const ByPrimaryAxis = {
 			 * 		|  Flyout  |
 			 *
 			 * @type {Function}
-			 * @param {ClientRect} triggerRect the rect for the trigger
+			 * @param {DOMRect} triggerRect the rect for the trigger
 			 * @returns {Position} the vertical positioning
 			 */
 			[Bottom]({ bottom }) {
@@ -72,7 +71,7 @@ export const ByPrimaryAxis = {
 			 * Else put it to which side has the most space.
 			 *
 			 * @type {Function}
-			 * @param {ClientRect} triggerRect the rect for the trigger
+			 * @param {DOMRect} triggerRect the rect for the trigger
 			 * @param {HTMLElement} flyout the flyout dom node
 			 * @param {Size} viewSize the size of the viewport
 			 * @param {{top: number, bottom: number}} reservedMargin the space to reserve between the edge of the screen
@@ -126,7 +125,7 @@ export const ByPrimaryAxis = {
 			 * 		|  Flyout      |
 			 *
 			 * @type {Function}
-			 * @param {ClientRect} triggerRect the rect for the trigger
+			 * @param {DOMRect} triggerRect the rect for the trigger
 			 * @returns {Position} the horizontal positioning
 			 */
 			[Left]({ left }) {
@@ -146,7 +145,7 @@ export const ByPrimaryAxis = {
 			 * 		|  Flyout      |
 			 *
 			 * @type {Function}
-			 * @param {ClientRect} triggerRect the rect for the trigger
+			 * @param {DOMRect} triggerRect the rect for the trigger
 			 * @param {HTMLElement} flyout the flyout dom node
 			 * @param {Size} viewSize the size of the viewport
 			 * @returns {Object} the horizontal positioning
@@ -165,7 +164,7 @@ export const ByPrimaryAxis = {
 			 * Else if it will fit to the left, align right.
 			 * Else align to which ever side has the most space
 			 *
-			 * @param {ClientRect} triggerRect
+			 * @param {DOMRect} triggerRect
 			 * @param {HTMLElement} flyout
 			 * @param {Size} viewSize
 			 * @returns {Position}
@@ -217,7 +216,7 @@ export const ByPrimaryAxis = {
 			 * 		  |  Flyout |
 			 *
 			 * @type {Function}
-			 * @param {ClientRect} triggerRect the rect for the trigger
+			 * @param {DOMRect} triggerRect the rect for the trigger
 			 * @param {HTMLElement} flyout the flyout dom node
 			 * @returns {Position} the horizontal positioning
 			 */
