@@ -1,12 +1,11 @@
 import React from 'react';
 
 /** @typedef {(item: any, e: Event) => void} EventHandler */
-/** @typedef {import('./Table').Column} Column */
 
 /**
- *
+ * @template T
  * @param {Object} props
- * @param {Column[]} props.columns
+ * @param {import('./Table').Column<T>[]} props.columns
  * @param {any} props.item
  * @param {EventHandler=} props.onClick
  * @returns {JSX.Element}
@@ -17,12 +16,12 @@ export function Row({ columns, item, onClick, ...props }) {
 	return (
 		<tr onClick={clickHandler}>
 			{columns.map((Cell, cell) =>
-				Cell.rendersContainer ? (
+				Cell.RendersContainer ? (
 					<Cell key={cell} item={item} {...props} />
 				) : (
 					<td
 						key={cell}
-						className={Cell.cssClassName}
+						className={Cell.CSSClassName}
 						data-name={
 							typeof Cell.Name === 'string' ? Cell.Name : void 0
 						}

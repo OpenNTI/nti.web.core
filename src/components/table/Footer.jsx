@@ -8,20 +8,16 @@ const EMPTY = () => null;
  * @returns {JSX.Element}
  */
 export function Footer({ columns, ...props }) {
-	const hasFooter = columns.some(x => x.FooterComponent);
-	return (
-		hasFooter && (
-			<tfoot>
-				<tr>
-					{columns.map(
-						({ FooterComponent = EMPTY, cssClassName }, i) => (
-							<th key={i} className={cssClassName}>
-								<FooterComponent {...props} />
-							</th>
-						)
-					)}
-				</tr>
-			</tfoot>
-		)
+	const hasFooter = columns?.some(x => x.FooterComponent);
+	return !hasFooter ? null : (
+		<tfoot>
+			<tr>
+				{columns.map(({ FooterComponent = EMPTY, CSSClassName }, i) => (
+					<th key={i} className={CSSClassName}>
+						<FooterComponent {...props} />
+					</th>
+				))}
+			</tr>
+		</tfoot>
 	);
 }

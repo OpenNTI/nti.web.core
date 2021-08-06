@@ -29,30 +29,24 @@ const T = styled.table`
  * "FooterComponent" if you need a header/footer. These static properties will be
  * used to flag whether or not to add the thead/tfoot.
  *
- *
- * Class Example:
- *
- *     class ExampleColumn extends React.Component {
- *
- *     	static HeaderComponent = () => <div/>
- *     	static FooterComponent = () => <div/>
- *
- *     	render () {
- *     		return (
- *     			<div />
- *     		);
- *     	}
- *     }
- *
- * Function Example:
- *
  * ```js
  * ExampleColumn.HeaderComponent = () => <div/>
- *
  * function ExampleColumn ({item}) {
  *   return (
  *   	<div />
  *   );
+ * }
+ *
+ * // or Class:
+ *
+ * class ExampleColumn extends React.Component {
+ * 	static HeaderComponent = () => <div/>
+ * 	static FooterComponent = () => <div/>
+ * 	render () {
+ * 		return (
+ * 			<div />
+ * 		);
+ * 	}
  * }
  * ```
  *
@@ -62,25 +56,22 @@ const T = styled.table`
  */
 export function Table({
 	className,
+
 	columns,
 	items,
+
 	rowClassName,
-	sortOn,
-	sortDirection,
-	onSortChange,
 	onRowClick,
-	...props
+
+	...extraProps
 }) {
 	return (
 		<T className={className}>
 			<Header
 				{...{
 					columns,
-					sortOn,
-					sortDirection,
-					onSortChange,
+					...extraProps,
 				}}
-				{...props}
 			/>
 			<Body
 				{...{
@@ -88,7 +79,7 @@ export function Table({
 					items,
 					rowClassName,
 					onRowClick,
-					...props,
+					...extraProps,
 				}}
 			/>
 			<Footer {...{ columns }} />
@@ -106,7 +97,7 @@ function Body({ columns, items, rowClassName, onRowClick: onClick, ...props }) {
 		<tbody>
 			{
 				/*allow for any iterable*/
-				[...items].map((item, row) => (
+				[...(items || [])].map((item, row) => (
 					<Row
 						key={row}
 						className={rowClassName?.(item, row, items)}

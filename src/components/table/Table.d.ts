@@ -6,9 +6,9 @@ export interface ColumnStatic {
 	HeaderComponent?: React.Component;
 	FooterComponent?: React.Component;
 	Name?: React.Component;
-	cssClassName?: string;
-	SortKey?: string;
-	rendersContainer?: boolean;
+	CSSClassName?: string;
+	SortOn?: string;
+	RendersContainer?: boolean;
 }
 
 interface ColumnProps<T> extends IntrinsicProps {
@@ -34,7 +34,7 @@ export type RowClassNameGetter<T> = (
 export interface SortProps {
 	sortOn?: string;
 	sortDirection?: string;
-	onSortChange?: SortChangeHandler;
+	onChangeSort?: SortChangeHandler;
 }
 
 export interface TableBodyProps<T> {

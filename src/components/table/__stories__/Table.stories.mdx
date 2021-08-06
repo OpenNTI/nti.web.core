@@ -1,13 +1,99 @@
 import { Meta, Canvas, Story } from '@storybook/addon-docs';
+import { useReducer } from 'react';
 
 import { Table } from '../Table';
 
 <Meta title="Components/Table" component={Table} />
 
-export const Basic = () => <Table columns={[]} items={[1, 2, 3, 4, 5]} />;
+export const ExampleColumnA = Object.assign(({ item }) => `item: ${item}`, {
+	Name: 'Example Column A',
+});
+
+export const ExampleColumnB = Object.assign(
+	({ item }) => `item: ${item} + 1 = ${item + 1}`,
+	{ Name: 'Example Column B' }
+);
+
+export const Basic = () => (
+	<Table
+		columns={[() => 'Foo', ExampleColumnA, ExampleColumnB]}
+		items={[1, 2, 3, 4, 5]}
+	/>
+);
+
+export const NameColumn = ({ item }) => item.name;
+NameColumn.Name = 'Name';
+NameColumn.SortOn = 'name'; // note the case of the property. Capital first letter suggests its constant. The lower-case version is the 'current state'
+
+export const ValueColumn = ({ item }) => item.value;
+ValueColumn.Name = 'Value';
+ValueColumn.SortOn = 'value';
+
+export const Sorting = () => {
+	const [state, setState] = useReducer((s, a) => ({ ...s, ...a }), {
+		sortOn: 'name',
+		sortDirection: 'ascending',
+		items: [
+			{ name: 'A', value: 9 },
+			{ name: 'B', value: 8 },
+			{ name: 'C', value: 7 },
+			{ name: 'D', value: 6 },
+		],
+	});
+	const sort = (sortOn, sortDirection) => {
+		const items = state.items.slice().sort((a, b) => {
+			const up = sortDirection === 'ascending' ? 1 : -1;
+			const down = up === 1 ? -1 : 1;
+			return a[sortOn] > b[sortOn] ? up : down;
+		});
+		setState({ sortOn, sortDirection, items });
+	};
+	return (
+		<Table
+			onChangeSort={sort}
+			columns={[NameColumn, ValueColumn]}
+			{...state}
+		/>
+	);
+};
 
 # Table
 
+This is a generic Table component that takes two props: columns & items.
+
+To define a Column component, make its primary function render the cell in the
+body of the table. Add static class properties called "HeaderComponent" and/or
+"FooterComponent" if you need a header/footer. These static properties will be
+used to flag whether or not to add the thead/tfoot.
+
+### Column Implementation Example:
+
+```js
+ExampleColumn.HeaderComponent = () => <div />;
+function ExampleColumn({ item }) {
+	return <div />;
+}
+
+// or in class form:
+class ExampleColumn extends React.Component {
+	static HeaderComponent = () => <div />;
+	static FooterComponent = () => <div />;
+	render() {
+		return <div />;
+	}
+}
+```
+
+## Basic usage
+
 <Canvas>
 	<Story name="Basic">{Basic.bind({})}</Story>
+</Canvas>
+
+## Sorting
+
+The expectation of the Table component is to be pure. The columns used are expected to take on the burden of being aware of the data they represent and defining their own header. However, that being said, it still provides a simple "Just make it work" option. This example showcases the simplest form.
+
+<Canvas>
+	<Story name="Sorting">{Sorting.bind({})}</Story>
 </Canvas>
