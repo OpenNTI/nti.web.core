@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 
-import { ASCENDING, DESCENDING } from '../Constants';
+import { ASCENDING, DESCENDING } from '../../constants';
 
 const Box = styled.div`
 	font-size: 10px;
