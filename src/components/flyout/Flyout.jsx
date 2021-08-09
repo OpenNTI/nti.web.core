@@ -3,11 +3,12 @@
 
 /**
  * @typedef {object} FlyoutCmpProps
- * @property {boolean} Open - control wether or not the flyout is open
+ * @property {boolean} [open=false] - control wether or not the flyout is open
  * @property {object} alignTo - Where to align the flyout. If there is a child of `Flyout.Trigger` you don't need to pass this.
+ * @property {boolean} [autoDismissOnAction=false] - automatically dismiss the flyout when its clicked
  */
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 
 import { useId } from '../hooks/use-id';
 import { Slot } from '../layout/Slot';
@@ -27,6 +28,8 @@ Flyout.Content = Content;
 export default function Flyout({
 	open: openProp,
 	alignTo: alginToProp,
+	autoDismissOnAction,
+
 	children,
 
 	...otherProps
@@ -35,6 +38,7 @@ export default function Flyout({
 
 	const [openState, setOpen] = useState(false);
 	const open = openProp != null ? openProp : openState;
+	const dismiss = useCallback(() => setOpen(false), [setOpen]);
 
 	const triggerRef = useRef();
 	const alignTo = alginToProp != null ? { current: alginToProp } : triggerRef;
@@ -50,6 +54,7 @@ export default function Flyout({
 			id,
 			open,
 			alignTo,
+			onClick: autoDismissOnAction ? dismiss : null,
 			...otherProps,
 		},
 	};
