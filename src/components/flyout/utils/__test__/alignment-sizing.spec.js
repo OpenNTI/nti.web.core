@@ -1,9 +1,9 @@
 /* eslint-env jest */
-import { ByPrimaryAxis } from '../alignment-sizes';
+import { SizeByAxis } from '../alignment-sizes';
 
 describe('Alignment Sizing', () => {
 	describe('Vertical Axis is Primary', () => {
-		const Sizings = ByPrimaryAxis.vertical;
+		const Sizings = SizeByAxis.vertical;
 
 		test('Match Side', () => {
 			const size = Sizings['match-side']({ width: 200 });

@@ -5,7 +5,7 @@ import { Vertical } from './alignment-axis';
 const MatchSize = 'match-side';
 const Default = 'default';
 
-export const ByPrimaryAxis = {
+export const SizeByAxis = {
 	[Vertical]: {
 		/**
 		 * Match the width of the flyout to the width of the button

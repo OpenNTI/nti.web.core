@@ -1,6 +1,6 @@
 /* eslint-env jest */
 
-import { ByPrimaryAxis } from '../alignment-positions';
+import { PositionByAxis } from '../alignment-positions';
 
 const viewSize = { height: 1000, width: 1000 };
 
@@ -8,7 +8,7 @@ describe('Alignment Positions', () => {
 	const flyout = { offsetHeight: 250, offsetWidth: 250 };
 
 	describe('Vertical Axis is Primary', () => {
-		const Alignments = ByPrimaryAxis.vertical;
+		const Alignments = PositionByAxis.vertical;
 
 		describe('Vertical Alignments', () => {
 			test('Forced Top Alignment', () => {

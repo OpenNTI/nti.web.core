@@ -16,7 +16,7 @@ const LeftOrRight = 'left-or-right';
 const Center = 'center';
 const Default = 'default';
 
-export const ByPrimaryAxis = {
+export const PositionByAxis = {
 	//TODO: add horizontal positioning
 
 	[Vertical]: {
@@ -91,10 +91,10 @@ export const ByPrimaryAxis = {
 				const topSpace = top - (reservedTop || 0);
 				const bottomSpace = viewHeight - bottom - (reservedBottom || 0);
 
-				const bottomAlignment = ByPrimaryAxis[Vertical][Vertical][
+				const bottomAlignment = PositionByAxis[Vertical][Vertical][
 					Bottom
 				](...arguments);
-				const topAlignment = ByPrimaryAxis[Vertical][Vertical][Top](
+				const topAlignment = PositionByAxis[Vertical][Vertical][Top](
 					...arguments
 				);
 
@@ -177,10 +177,10 @@ export const ByPrimaryAxis = {
 				const leftSpace = left;
 				const rightSpace = viewWidth - right;
 
-				const leftAlignment = ByPrimaryAxis[Vertical][Horizontal][Left](
-					...arguments
-				);
-				const rightAlignment = ByPrimaryAxis[Vertical][Horizontal][
+				const leftAlignment = PositionByAxis[Vertical][Horizontal][
+					Left
+				](...arguments);
+				const rightAlignment = PositionByAxis[Vertical][Horizontal][
 					Right
 				](...arguments);
 
@@ -234,7 +234,7 @@ export const ByPrimaryAxis = {
 			},
 
 			[Default](...args) {
-				return ByPrimaryAxis[Vertical][Horizontal][Center];
+				return PositionByAxis[Vertical][Horizontal][Center](...args);
 			},
 		},
 	},
