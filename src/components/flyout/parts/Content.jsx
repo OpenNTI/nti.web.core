@@ -1,5 +1,11 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import cx from 'classnames';
+
+import {
+	focusDescendantOrElement,
+	addClickOutListener,
+	addKeyboardBlurListener,
+} from '@nti/lib-dom';
 
 import { useLayer } from '../../../system/layers/use-layer';
 import { getSpacingProps } from '../../../system/css/get-spacing-props';
@@ -31,24 +37,64 @@ const getInnerStyles = alignment =>
 		return acc;
 	}, {});
 
-export default function FlyoutContent({ className, id, ...props }) {
+export default function FlyoutContent({
+	className,
+	id,
+	onClickOut,
+	onKeyboardBlur,
+	...props
+}) {
+	const { alignTo } = props;
 	const layer = useLayer({ level: 'top' });
 
 	const flyoutRef = useRef();
 	const alignment = useAlignment({ flyoutRef, ...props });
 
+	useEffect(() => {
+		if (!alignment.hidden) {
+			const timeout = setTimeout(() => {
+				focusDescendantOrElement(flyoutRef.current);
+			}, 1);
+
+			return () => clearTimeout(timeout);
+		}
+	}, [alignment.hidden]);
+
+	useEffect(() => {
+		if (alignment.hidden || !alignTo || !flyoutRef.current) {
+			return;
+		}
+
+		const cleanupClickOut = addClickOutListener(
+			flyoutRef.current,
+			e => (alignTo.current?.onClickOut?.(e), onClickOut?.(e))
+		);
+
+		const cleanupKeyboardBlur = addKeyboardBlurListener(
+			flyoutRef.current,
+			e => (alignTo.current?.onKeyboardBlur?.(e), onKeyboardBlur?.(e))
+		);
+
+		return () => (cleanupClickOut(), cleanupKeyboardBlur());
+	}, [alignment.hidden, alignTo, flyoutRef.current]);
+
 	if (alignment.hidden) {
 		return null;
 	}
 
-	const { className: flyoutClass } = getFlyoutProps({ alignment, ...props });
-
 	const outerStyles = getOuterStyles(alignment);
 	const innerStyles = getInnerStyles(alignment);
 
+	if (outerStyles.top) {
+		outerStyles['--flyout-top'] = outerStyles.top;
+	}
+
+	if (innerStyles.maxHeight) {
+		innerStyles['--flyout-max-height'] = innerStyles.maxHeight;
+	}
+
 	return layer.createPortal(
 		<ZBooster
-			className={flyoutClass}
 			id={id}
 			ref={flyoutRef}
 			aria-expanded="true"
@@ -57,17 +103,20 @@ export default function FlyoutContent({ className, id, ...props }) {
 				visibility:
 					!alignment || alignment.aligning ? 'hidden' : void 0,
 				...outerStyles,
-				'--flyout-top': outerStyles.top,
 			}}
+			{...getFlyoutProps({ alignment, ...alignment.otherProps })}
 		>
 			<div className={Theme.arrow} aria-hidden="true" />
 			<div
 				{...getBorderProps(
-					getSpacingProps({
-						style: innerStyles,
-						className: cx(Theme.flyoutInner, className),
-						...alignment.otherProps,
-					}),
+					getSpacingProps(
+						{
+							style: innerStyles,
+							className: cx(Theme.flyoutInner, className),
+							...alignment.otherProps,
+						},
+						{ p: 'md' }
+					),
 					{ rounded: true }
 				)}
 			/>

@@ -12,6 +12,8 @@ export default function Flyout({
 	open: openProp,
 	alignTo: alginToProp,
 	children,
+
+	...otherProps
 }) {
 	const id = useId('flyout');
 
@@ -32,6 +34,7 @@ export default function Flyout({
 			id,
 			open,
 			alignTo,
+			...otherProps,
 		},
 	};
 

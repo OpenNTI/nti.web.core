@@ -24,7 +24,11 @@ const getStyleProps = PropMapper({
 	),
 
 	alignmentCls: ValueGetter(
-		({ verticalAlign, horizontalAlign, alignment }) => {
+		({ alignment }) => {
+			if (!alignment) {
+				return '';
+			}
+
 			const classes = [];
 
 			if (alignment.top != null) {
@@ -33,7 +37,10 @@ const getStyleProps = PropMapper({
 				classes.push('top');
 			}
 
-			if (!horizontalAlign || horizontalAlign === 'center') {
+			if (
+				!alignment.horizontalAlign ||
+				alignment.horizontalAlign === 'center'
+			) {
 				classes.push('center');
 			} else if (alignment.left != null) {
 				classes.push('left');
@@ -43,11 +50,15 @@ const getStyleProps = PropMapper({
 
 			return classes.join(' ');
 		},
-		['verticalAlign', 'horizontalAlign', 'alignment']
+		['alignment']
 	),
 
-	states: StateGetter(['arrow', 'dark']),
+	states: StateGetter(['arrow', 'dark', 'constrain']),
 });
+
+const StatesToClass = {
+	arrow: Theme.hasArrow,
+};
 
 /**
  * @param {(AlignmentProps & FlyoutProps)} props
@@ -62,7 +73,7 @@ export function getFlyoutProps(props) {
 			Theme.flyout,
 			Theme[primaryAxis],
 			Theme[alignmentCls],
-			states.map(s => Theme[s])
+			states.map(s => StatesToClass[s] ?? Theme[s])
 		),
 		...otherProps,
 	};

@@ -41,7 +41,7 @@ export function getBorderProps(propsArg, defaultProps = {}) {
 	const { className, ...props } = propsArg;
 
 	const providedRoundingProps = getRoundingProps(props);
-	const wasProvidedRoundingProps = Boolean(providedRoundingProps);
+	const wasProvidedRoundingProps = Boolean(providedRoundingProps[0]);
 
 	const roundingProps =
 		providedRoundingProps ?? getRoundingProps(defaultProps);

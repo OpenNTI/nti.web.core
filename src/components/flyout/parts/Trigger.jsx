@@ -13,7 +13,7 @@ function FlyoutToggleTrigger({ open, setOpen, ...otherProps }, ref) {
 		() => ({
 			getNode: () => buttonRef.current,
 
-			contentClickOutListener: e => {
+			onClickOut: e => {
 				if (
 					open &&
 					e.target !== buttonRef.current &&
@@ -23,7 +23,7 @@ function FlyoutToggleTrigger({ open, setOpen, ...otherProps }, ref) {
 				}
 			},
 
-			contentKeyboardBlur: e => {
+			onKeyboardBlur: e => {
 				if (open) {
 					setOpen(false);
 					buttonRef.current.focus();

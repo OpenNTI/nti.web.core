@@ -35,6 +35,7 @@ function Button(
 	return (
 		<Cmp
 			ref={ref}
+			tabIndex={0}
 			{...getButtonStyleProps({ disabled, ...otherProps })}
 			{...useActionable(onClick, { disabled })}
 		/>

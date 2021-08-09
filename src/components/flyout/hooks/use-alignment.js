@@ -99,6 +99,10 @@ export function useAlignment({
 
 			alignTo: alignToNode,
 			isFixed,
+
+			primaryAxis,
+			verticalAlign,
+			horizontalAlign,
 		};
 
 		if (constrain) {
