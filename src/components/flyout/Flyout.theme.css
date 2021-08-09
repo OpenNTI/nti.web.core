@@ -1,3 +1,84 @@
+@import '../../system/css/rules/border.module.css';
+
+:root {
+	--flyout-arrow-size: 15px;
+	--flyout-arrow-edge-offset: min(
+		calc(var(--flyout-align-width, 100%) * 0.05),
+		1rem
+	);
+}
+
+.flyout.has-arrow.vertical-axis {
+	& .arrow {
+		display: block;
+	}
+
+	&.right {
+		& .arrow {
+			right: var(--flyout-arrow-edge-offset);
+		}
+	}
+
+	&.left {
+		& .arrow {
+			left: var(--flyout-arrow-edge-offset);
+		}
+	}
+
+	&.center {
+		& .arrow {
+			left: 50%;
+			transform: translateX(-50%);
+		}
+	}
+
+	&.top {
+		padding-bottom: var(--flyout-arrow-size);
+
+		& .arrow {
+			bottom: var(--flyout-arrow-size);
+			transform: rotate(180deg);
+		}
+	}
+
+	&.bottom {
+		padding-top: var(--flyout-arrow-size);
+
+		& .arrow {
+			top: var(--flyout-arrow-size);
+		}
+	}
+}
+
+.flyout:focus,
+.flyout:focus-within {
+	& .flyout-inner {
+		box-shadow: 0 0 4px 0 var(--focus-border-color);
+	}
+
+	& .arrow::after {
+		box-shadow: 0 0 4px 0 var(--focus-border-color);
+	}
+}
+
+.arrow {
+	display: none;
+	position: absolute;
+	clip: rect(-15px, 25px, 0, -10px);
+	padding: 0;
+	margin: 0;
+
+	&::after {
+		content: '';
+		box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.21);
+		width: 15px;
+		height: 15px;
+		background: white;
+		transform: translateY(-50%) rotate(45deg);
+		display: block;
+	}
+}
+
 .flyout-inner {
 	box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.21);
 	background: white;

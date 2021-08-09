@@ -95,16 +95,19 @@ export default function FlyoutContent({
 
 	return layer.createPortal(
 		<ZBooster
-			id={id}
 			ref={flyoutRef}
-			aria-expanded="true"
-			style={{
-				position: alignment.isFixed ? 'fixed' : 'absolute',
-				visibility:
-					!alignment || alignment.aligning ? 'hidden' : void 0,
-				...outerStyles,
-			}}
-			{...getFlyoutProps({ alignment, ...alignment.otherProps })}
+			{...getFlyoutProps({
+				...alignment.otherProps,
+				id,
+				alignment,
+				'aria-expanded': 'true',
+				style: {
+					position: alignment.isFixed ? 'fixed' : 'absolute',
+					visibility:
+						!alignment || alignment.aligning ? 'hidden' : void 0,
+					...outerStyles,
+				},
+			})}
 		>
 			<div className={Theme.arrow} aria-hidden="true" />
 			<div

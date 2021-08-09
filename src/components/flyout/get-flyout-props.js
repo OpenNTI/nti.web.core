@@ -19,14 +19,14 @@ import { Vertical } from './utils/alignment-axis';
 
 const getStyleProps = PropMapper({
 	primaryAxis: ValueGetter(
-		({ primaryAxis = Vertical }) => `axis-${primaryAxis}`,
+		({ primaryAxis = Vertical }) => `${primaryAxis}-axis`,
 		['primaryAxis']
 	),
 
-	alignmentCls: ValueGetter(
+	alignmentClasses: ValueGetter(
 		({ alignment }) => {
-			if (!alignment) {
-				return '';
+			if (!alignment || alignment.aligning) {
+				return [];
 			}
 
 			const classes = [];
@@ -48,7 +48,7 @@ const getStyleProps = PropMapper({
 				classes.push('right');
 			}
 
-			return classes.join(' ');
+			return classes;
 		},
 		['alignment']
 	),
@@ -65,14 +65,26 @@ const StatesToClass = {
  * @returns {{className:string}}
  */
 export function getFlyoutProps(props) {
-	const { primaryAxis, alignmentCls, states, ...otherProps } =
+	const { alignment } = props;
+	const { primaryAxis, alignmentClasses, states, styles, ...otherProps } =
 		getStyleProps(props);
 
+	const flyoutStyles = {
+		...(styles ?? {}),
+	};
+
+	if (alignment.alignTo) {
+		flyoutStyles[
+			'--flyout-align-width'
+		] = `${alignment.alignTo.clientWidth}px`;
+	}
+
 	return {
+		styles: flyoutStyles,
 		className: cx(
 			Theme.flyout,
 			Theme[primaryAxis],
-			Theme[alignmentCls],
+			alignmentClasses.map(a => Theme[a]),
 			states.map(s => StatesToClass[s] ?? Theme[s])
 		),
 		...otherProps,

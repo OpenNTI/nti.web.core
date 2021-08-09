@@ -169,7 +169,7 @@ export function useAlignment({
 			(prev.width !== flyoutSizeRef.current.width ||
 				prev.height !== flyoutSizeRef.current.height)
 		) {
-			this.realign();
+			realign();
 		}
 	});
 	//#endregion
