@@ -1,3 +1,12 @@
+/** @typedef {import('../get-flyout-props').FlyoutProps} FlyoutProps */
+/** @typedef {import('../hooks/use-alignment').AlignmentProps} AlignmentProps */
+
+/**
+ * @typedef {object} FlyoutCmpProps
+ * @property {boolean} Open - control wether or not the flyout is open
+ * @property {object} alignTo - Where to align the flyout. If there is a child of `Flyout.Trigger` you don't need to pass this.
+ */
+
 import React, { useState, useRef } from 'react';
 
 import { useId } from '../hooks/use-id';
@@ -8,6 +17,13 @@ import Content from './parts/Content';
 
 Flyout.Trigger = Trigger;
 Flyout.Content = Content;
+
+/**
+ * Render a flyout.
+ *
+ * @param {(FlyoutProps & FlyoutCmpProps & AlignmentProps)} props
+ * @returns {JSX.Element}
+ */
 export default function Flyout({
 	open: openProp,
 	alignTo: alginToProp,

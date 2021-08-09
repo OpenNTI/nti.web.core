@@ -8,9 +8,9 @@ import { Events } from '@nti/lib-commons';
  *
  * @param {EventHandler} action
  * @param {object} config
- * @param {boolean} config.disabled
- * @param {EventHandler} config.onClick
- * @param {EventHandler} config.onKeyDown
+ * @param {boolean=} config.disabled
+ * @param {EventHandler=} config.onClick
+ * @param {EventHandler=} config.onKeyDown
  * @returns {{onClick: EventHandler, onKeyDown: EventHandler}}
  */
 export function useActionable(action, { disabled, onClick, onKeyDown }) {

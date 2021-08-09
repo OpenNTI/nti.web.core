@@ -10,6 +10,8 @@
  * @property {EventHandler=} onClick - callback when the button is triggered
  */
 
+/** @typedef {(ButtonCmpProps & ButtonStyleProps)} ButtonProps */
+
 import React from 'react';
 
 import { getButtonStyleProps } from './get-button-props';
@@ -18,7 +20,7 @@ import { useActionable } from './hooks/use-actionable';
 /**
  * Render a button
  *
- * @param {ButtonCmpProps & ButtonStyleProps} props
+ * @param {ButtonProps} props
  * @param {React.Ref<Button>} ref
  * @returns {JSX.Element}
  */

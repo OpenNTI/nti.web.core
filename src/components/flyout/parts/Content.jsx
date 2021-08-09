@@ -1,3 +1,5 @@
+/** @typedef {import('../../../types').EventHandler} EventHandler */
+
 import { useEffect, useRef } from 'react';
 import cx from 'classnames';
 
@@ -37,6 +39,12 @@ const getInnerStyles = alignment =>
 		return acc;
 	}, {});
 
+/**
+ * The contents of a flyout.
+ *
+ * @param {{onClickOut: EventHandler, onKeyboardBlur: EventHandler}} props
+ * @returns {JSX.Element}
+ */
 export default function FlyoutContent({
 	className,
 	id,

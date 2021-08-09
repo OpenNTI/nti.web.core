@@ -1,3 +1,9 @@
+/** @typedef {import('../../button/Button').ButtonProps} ButtonProps */
+/**
+ * @typedef {object} TriggerProps
+ * @property {boolean=} hover
+ */
+
 import React, { useCallback, useImperativeHandle, useRef } from 'react';
 
 import Button from '../../button/Button';
@@ -36,6 +42,13 @@ function FlyoutToggleTrigger({ open, setOpen, ...otherProps }, ref) {
 	return <Button ref={buttonRef} onClick={onClick} {...otherProps} />;
 }
 
+/**
+ * A button to launch a flyout
+ *
+ * @param {(ButtonProps & TriggerProps)} props
+ * @param {React.Ref<FlyoutTriggerSwitch>} ref
+ * @returns {JSX.Element}
+ */
 const FlyoutTriggerSwitch = ({ hover, ...props }, ref) =>
 	hover ? FlyoutHoverTrigger(props, ref) : FlyoutToggleTrigger(props, ref);
 
