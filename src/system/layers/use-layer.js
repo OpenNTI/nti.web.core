@@ -8,7 +8,7 @@ import Manager from './Manager';
  * @param {import('./Manager').LayerConfig} config
  * @returns {import('./Manager').Layer}
  */
-export default function useLayer(config) {
+export function useLayer(config) {
 	const [layer] = useState(() => Manager.createLayer(config));
 
 	useEffect(() => {

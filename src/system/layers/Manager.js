@@ -121,11 +121,11 @@ class LayerManager {
 	}
 
 	getInserter(level) {
-		const index = l => this.#levelMap[l].index;
+		const container = this.getContainer();
 
+		const index = l => this.#levelMap[l]?.index ?? Infinity;
 		const insertIndex = index(level);
 
-		const container = this.getContainer();
 		const layers = this.getLayers();
 
 		for (let layer of layers) {
