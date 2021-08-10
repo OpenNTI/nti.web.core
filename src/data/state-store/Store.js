@@ -10,12 +10,14 @@ import { useProperties } from '../hooks/use-properties';
 import { createReader } from './Reader';
 import Action from './Action';
 import PropertyChangeEmitter from './PropertyChangeEmitter';
+import * as Behaviors from './behaviors/Behaviors';
 
 const LifeCycles = ['load', 'unload'];
 
 const BuildPredicate = Store => check => check instanceof Store;
-export default class StateStore extends PropertyChangeEmitter {
+export class StateStore extends PropertyChangeEmitter {
 	static Action = Action;
+	static Behaviors = Behaviors;
 
 	static create(...args) {
 		const Store = this;

@@ -54,7 +54,7 @@ DataContext.useContext = () => useContext(Context);
  * @param {DataContextProps} props
  * @returns {JSX.Element}
  */
-export default function DataContext({ store, ...otherProps }) {
+export function DataContext({ store, ...otherProps }) {
 	const { stores } = useContext(Context);
 	const context = useMemo(
 		() => ({ stores: [...stores, store] }),
