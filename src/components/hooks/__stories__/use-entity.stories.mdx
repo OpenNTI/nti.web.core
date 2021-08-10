@@ -1,0 +1,29 @@
+import { Meta, ArgsTable } from '@storybook/addon-docs';
+
+<Meta title="Components/docs/hooks/useEntity" />
+
+# useEntity
+
+Resolves an identifier (e.g. username) into the full entity.
+
+```javascript
+import { useEntity } from '@nti/web-core/components';
+
+function Sample() {
+	const { entity } = useEntity('test-user');
+
+	return <div>{entity?.displayName}</div>;
+}
+```
+
+The `error` property indicates a failure to resolve the entity.
+
+```javascript
+import { useEntity } from '@nti/web-core/components';
+
+function Sample() {
+	const { entity, error } = useEntity('test-user');
+
+	return error ? <div>Error!</div> : <div>{entity?.displayName}</div>;
+}
+```

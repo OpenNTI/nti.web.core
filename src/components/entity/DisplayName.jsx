@@ -2,14 +2,14 @@
 /** @typedef {import('./types').EntityProp} EntityProp */
 /** @typedef {import('../../types').AsProp} AsProp */
 
-import { Suspense } from 'react';
 import cx from 'classnames';
 
 import { getAppUsername } from '@nti/web-client';
 import t, { scoped } from '@nti/lib-locale';
 
 // import { filterProps } from '../utils/filter-props.js';
-import { useEntity } from '../hooks/use-entity.js';
+
+import { BaseEntity } from './BaseEntity';
 
 const strings = scoped('web-core.components.entity.DisplayName', {
 	deactivated: '%(name)s(Inactive)',
@@ -33,11 +33,7 @@ const filterProps = p => p;
  * @returns {JSX.Element}
  */
 export function DisplayName(props) {
-	return (
-		<Suspense fallback={<span />}>
-			<DisplayNameContent {...props} />
-		</Suspense>
-	);
+	return <BaseEntity {...props}>{DisplayNameContent}</BaseEntity>;
 }
 
 // DisplayName.propTypes = {
@@ -77,7 +73,7 @@ DisplayName.from = from;
 
 function DisplayNameContent({
 	as,
-	entity: ent,
+	entity,
 	className,
 	localeKey,
 	tag = as,
@@ -86,8 +82,6 @@ function DisplayNameContent({
 	mark,
 	...otherProps
 }) {
-	const { entity } = useEntity(ent);
-
 	const Tag = tag || (localeKey ? 'address' : 'span');
 
 	let name = from(entity);

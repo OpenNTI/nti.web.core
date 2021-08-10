@@ -3,7 +3,7 @@ import React from 'react';
 import { DisplayName } from '../DisplayName';
 
 export default {
-	title: 'DisplayName',
+	title: 'Components/entity/DisplayName',
 	component: DisplayName,
 	argTypes: {
 		entity: { control: 'text' },
