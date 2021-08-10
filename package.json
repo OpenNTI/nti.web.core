@@ -2,6 +2,9 @@
   "name": "@nti/web-core",
   "version": "1.0.0",
   "description": "",
+  "private": true,
+  "author": "nextthought",
+  "license": "UNLICENSED",
   "main": "src/index.js",
   "exports": {
     ".": "./src/index.js",
@@ -22,13 +25,6 @@
     "type": "git",
     "url": "git+https://github.com/NextThought/nti.web.core.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/NextThought/nti.web.core/issues"
-  },
-  "homepage": "https://github.com/NextThought/nti.web.core#readme",
   "dependencies": {
     "@nti/lib-commons": "NextThought/nti.lib.commons",
     "uuid": "^8.3.0"
