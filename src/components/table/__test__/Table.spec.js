@@ -12,7 +12,7 @@ describe('Table', () => {
 		expect(c.asFragment()).toMatchInlineSnapshot();
 	});
 
-	test('Basic With Sorting', () => {
+	test.skip('Basic With Sorting', () => {
 		const A = Table.asBasicColumn(({ item }) => item, 'A', 'foo');
 		const B = Table.asBasicColumn(({ item }) => item * 2, 'B', 'bar');
 
