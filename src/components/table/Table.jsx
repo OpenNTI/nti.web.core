@@ -108,3 +108,17 @@ function Body({ columns, items, rowClassName, onRowClick: onClick, ...props }) {
 		</tbody>
 	);
 }
+
+/** @typedef {() => string} NameGetter */
+
+/**
+ * Apply static Type keys to the component so it is a basic column.
+ *
+ * @template T
+ * @param {React.ComponentType<T>} CellComponent
+ * @param {string | NameGetter} name
+ * @param {string} sortOn
+ * @returns {typeof CellComponent}
+ */
+Table.asBasicColumn = (CellComponent, name, sortOn = null) =>
+	Object.assign(CellComponent, { Name: name, SortOn: sortOn });

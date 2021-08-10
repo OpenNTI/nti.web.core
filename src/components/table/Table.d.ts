@@ -5,7 +5,7 @@ import { IntrinsicProps, SortChangeHandler } from '../../types';
 export interface ColumnStatic {
 	HeaderComponent?: React.Component;
 	FooterComponent?: React.Component;
-	Name?: React.Component;
+	Name?: string | (() => string);
 	CSSClassName?: string;
 	SortOn?: string;
 	RendersContainer?: boolean;

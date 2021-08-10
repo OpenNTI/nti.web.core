@@ -20,7 +20,8 @@ const Box = styled.div`
 `;
 
 /** @typedef {{SortOn?: string} & import('../Table').SortProps} Sortable */
-/** @typedef {{name?: string}} Named */
+/** @typedef {() => string} NameGetter */
+/** @typedef {{name?: string | NameGetter}} Named */
 
 /**
  *
