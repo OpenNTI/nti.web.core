@@ -5,16 +5,15 @@
 
 /**
  * @typedef {object} AlignmentProps
- * @property {boolean} open
- * @property {React.Ref<*>} flyoutRef
- * @property {object} alignTo
- * @property {object} parent
- * @property {Axis} [primaryAxis=Vertical]
- * @property {VerticalAlignments} verticalAlign
- * @property {HorizontalAlignments} [horizontalAlign='center']
- * @property {Sizing} sizing
- * @property {boolean} constrain
- * @property {{top: number, bottom: number}} reservedMargin
+ * @property {boolean} open - manually control if the flyout is open or closed
+ * @property {object} alignTo - what to align the flyout too, not needed if you use `Flyout.Trigger`
+ * @property {object} parent - container to compute the alignments against
+ * @property {Axis} [primaryAxis=Vertical] - drives which axis of alignTo the flyout will appear. vertical=above/below, horizontal=left/right
+ * @property {VerticalAlignments} verticalAlign - how to align in the vertical axis
+ * @property {HorizontalAlignments} [horizontalAlign='center'] - how to align in the horizontal axis
+ * @property {Sizing} sizing - how to size the flyout
+ * @property {boolean} constrain - do not allow the flyout to be positioned outside the screen
+ * @property {{top: number, bottom: number}} reservedMargin - how much of a gap to leave when constrained
  */
 
 /**
@@ -29,7 +28,7 @@
  * @property {boolean} isFixed
  * @property {object} otherProps
  */
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import { Vertical } from '../utils/alignment-axis';
 import { getAlignmentInfo } from '../utils/get-alignment-info';
@@ -43,7 +42,7 @@ const resolveAlignTo = ref => ref.current?.getNode?.() ?? ref.current;
 
 /**
  *
- * @param {AlignmentProps} alignment
+ * @param {(AlignmentProps & {flyoutRef: React.Ref<*>})} alignment
  * @returns {Alignment}
  */
 export function useAlignment({
@@ -130,7 +129,7 @@ export function useAlignment({
 		setAlignment(newAlignment);
 	};
 
-	React.useEffect(() => {
+	useEffect(() => {
 		//if we are in the aligning state, go ahead and align...
 		if (alignment.aligning) {
 			align();
@@ -150,7 +149,7 @@ export function useAlignment({
 	//#region Flyout Size Monitor
 	const flyoutSizeRef = useRef();
 	//This effect will run every render to see if the flyout has changed size
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!open || alignment.aligning || !flyoutRef?.current) {
 			return;
 		}
@@ -175,7 +174,7 @@ export function useAlignment({
 	//#endregion
 
 	//#region Open Shut
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!open && !alignment.hidden) {
 			setAlignment({ hidden: true });
 		} else if (open && alignment.hidden) {
@@ -187,7 +186,8 @@ export function useAlignment({
 	//#endregion
 
 	//#region Listeners
-	React.useEffect(() => {
+	//listen for scroll and resize to re-compute the alignment
+	useEffect(() => {
 		if (!open) {
 			return;
 		}

@@ -2,7 +2,6 @@
 /** @typedef {import('./hooks/use-alignment').Alignment} Alignment */
 /**
  * @typedef {object} FlyoutProps
- * @property {Alignment} alignment
  * @property {boolean} arrow
  * @property {boolean} dark
  */
@@ -61,7 +60,7 @@ const StatesToClass = {
 };
 
 /**
- * @param {(AlignmentProps & FlyoutProps)} props
+ * @param {(AlignmentProps & FlyoutProps & {alignment: Alignment})} props
  * @returns {{className:string}}
  */
 export function getFlyoutProps(props) {

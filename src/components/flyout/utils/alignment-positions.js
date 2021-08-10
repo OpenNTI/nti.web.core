@@ -16,10 +16,15 @@ const LeftOrRight = 'left-or-right';
 const Center = 'center';
 const Default = 'default';
 
+/**
+ * Methods to compute the styles for vertical and horizontal alignments by the `Primary Axis`
+ */
 export const PositionByAxis = {
 	//TODO: add horizontal positioning
 
+	//Primary Axis
 	[Vertical]: {
+		//Vertical Alignment
 		[Vertical]: {
 			/**
 			 * Align the bottom of the flyout to the top of the trigger.
@@ -114,6 +119,7 @@ export const PositionByAxis = {
 				return position;
 			},
 		},
+		//Horizontal Alignment
 		[Horizontal]: {
 			/**
 			 * Align the left of the flyout to the left of the trigger.

@@ -1,5 +1,5 @@
-/** @typedef {import('../get-flyout-props').FlyoutProps} FlyoutProps */
-/** @typedef {import('../hooks/use-alignment').AlignmentProps} AlignmentProps */
+/** @typedef {import('./get-flyout-props').FlyoutProps} FlyoutProps */
+/** @typedef {import('./hooks/use-alignment').AlignmentProps} AlignmentProps */
 
 /**
  * @typedef {object} FlyoutCmpProps
@@ -22,7 +22,7 @@ Flyout.Content = Content;
 /**
  * Render a flyout.
  *
- * @param {(FlyoutProps & FlyoutCmpProps & AlignmentProps)} props
+ * @param {(AlignmentProps & FlyoutProps)} props
  * @returns {JSX.Element}
  */
 export default function Flyout({
@@ -43,7 +43,7 @@ export default function Flyout({
 	const triggerRef = useRef();
 	const alignTo = alginToProp != null ? { current: alginToProp } : triggerRef;
 
-	const PropsByCmp = {
+	const slotProps = {
 		[Trigger]: {
 			'aria-controls': id,
 			ref: triggerRef,
@@ -60,14 +60,14 @@ export default function Flyout({
 	};
 
 	if (open) {
-		PropsByCmp[Trigger]['aria-expanded'] = true;
+		slotProps[Trigger]['aria-expanded'] = true;
 	}
 
 	return (
 		<Slot.List
 			slots={[Trigger, Content]}
 			map={(slot, child) => {
-				const extraProps = PropsByCmp[slot];
+				const extraProps = slotProps[slot];
 
 				return extraProps
 					? React.cloneElement(child, extraProps)
