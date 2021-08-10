@@ -1,6 +1,6 @@
 /* eslint-env jest */
 
-import getViewportRelativeAlignments from '../get-viewport-relative-alignments';
+import { getViewportRelativeAlignments } from '../get-viewport-relative-alignments';
 
 describe('getViewportRelativeAlignments', () => {
 	test('getViewportRelativeAlignments', () => {
