@@ -2,7 +2,7 @@
 import { renderHook } from '@testing-library/react-hooks';
 
 import { useRead } from '../use-read';
-import Context from '../../Context';
+import { DataContext as Context } from '../../Context';
 
 function MockStores(stores) {
 	return stores.map((s, i) => ({

@@ -1,7 +1,7 @@
 /** @typedef {(store: import('./use-store').StoreInstance) => boolean} Predicate */
 /** @typedef {Predicate|import('./use-store').StoreInstance} PredicateOrStore */
 
-import Context from '../Context';
+import { DataContext } from '../Context';
 
 const Identity = x => x;
 
@@ -12,7 +12,7 @@ const Identity = x => x;
  * @returns {*}
  */
 export function useRead(predicate) {
-	const { stores } = Context.useContext();
+	const { stores } = DataContext.useContext();
 	const filtered = predicate?.read
 		? [predicate]
 		: stores.filter(predicate ?? Identity);

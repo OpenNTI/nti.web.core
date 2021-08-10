@@ -1,5 +1,5 @@
 /* eslint-env jest */
-import Store from '../Store';
+import { StateStore as Store } from '../Store';
 
 import { MockAction, pump } from './utils';
 
