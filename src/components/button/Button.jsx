@@ -10,16 +10,17 @@
  * @property {EventHandler=} onClick - callback when the button is triggered
  */
 
-import React, { useCallback } from 'react';
+/** @typedef {(ButtonCmpProps & ButtonStyleProps)} ButtonProps */
 
-import { Events } from '@nti/lib-commons';
+import React from 'react';
 
 import { getButtonStyleProps } from './get-button-props';
+import { useActionable } from './hooks/use-actionable';
 
 /**
  * Render a button
  *
- * @param {ButtonCmpProps & ButtonStyleProps} props
+ * @param {ButtonProps} props
  * @param {React.Ref<Button>} ref
  * @returns {JSX.Element}
  */
@@ -33,31 +34,12 @@ function Button(
 	},
 	ref
 ) {
-	const handler = useCallback(
-		e => {
-			// This handler is called for clicks, and keyDown.
-			// This filter only allows "clicks" from physical clicks and "keyDown" events from Space or Enter.
-			if (disabled || !Events.isActionable(e)) {
-				if (disabled) {
-					e.preventDefault();
-
-					//FIXME: disabled elements do not swallow events...
-					// they simply do not act on them, and let the event to propagate
-					e.stopPropagation();
-				}
-				return false;
-			}
-
-			onClick?.(e);
-		},
-		[disabled, onClick]
-	);
-
 	return (
 		<Cmp
+			ref={ref}
+			tabIndex={0}
 			{...getButtonStyleProps({ disabled, ...otherProps })}
-			onKeyDown={handler}
-			onClick={handler}
+			{...useActionable(onClick, { disabled })}
 		/>
 	);
 }

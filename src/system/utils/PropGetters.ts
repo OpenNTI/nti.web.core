@@ -65,6 +65,28 @@ export function StateGetter<T extends object>(
 	};
 }
 
+/**
+ * Generate a function that will map props to a single value and remove the used props.
+ *
+ * @param getter
+ * @param usedProps
+ */
+export function ValueGetter<T extends object>(
+	getter: (props: T) => string,
+	usedProps: [string]
+): (props: T) => [string, T] {
+	return propsArg => {
+		const props = { ...propsArg };
+		const result = getter(props);
+
+		for (let prop of usedProps ?? []) {
+			delete props[prop];
+		}
+
+		return [result, props];
+	};
+}
+
 type Mapper = {
 	[prop: string]: <T extends object>(props: T) => [string | string[], T];
 };

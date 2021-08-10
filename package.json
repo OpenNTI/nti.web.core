@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@nti/lib-commons": "NextThought/nti.lib.commons",
+    "@nti/lib-dom": "NextThought/nti.lib.dom",
     "uuid": "^8.3.0"
   },
   "devDependencies": {

@@ -41,15 +41,16 @@ export function getBorderProps(propsArg, defaultProps = {}) {
 	const { className, ...props } = propsArg;
 
 	const providedRoundingProps = getRoundingProps(props);
-	const wasProvidedRoundingProps = Boolean(providedRoundingProps);
+	const wasProvidedRoundingProps = Boolean(providedRoundingProps[0]);
 
-	const roundingProps =
-		providedRoundingProps ?? getRoundingProps(defaultProps);
+	const roundingProps = wasProvidedRoundingProps
+		? providedRoundingProps
+		: getRoundingProps(defaultProps);
 
 	const roundingClassName = roundingProps[0];
 	const restProps = wasProvidedRoundingProps
 		? providedRoundingProps[1]
-		: propsArg;
+		: props;
 
 	return { className: cx(roundingClassName, className), ...restProps };
 }

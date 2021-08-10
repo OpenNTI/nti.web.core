@@ -1,0 +1,74 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs';
+
+import Flyout from '../Flyout';
+
+<Meta
+	title="Components/Flyout"
+	component={Flyout}
+	argTypes={{
+		verticalAlign: {
+			options: ['top', 'bottom'],
+			control: { type: 'select' },
+		},
+		horizontalAlign: {
+			options: ['left', 'right', 'center', 'left-or-right'],
+			control: { type: 'select' },
+		},
+		arrow: {
+			control: { type: 'boolean' },
+		},
+		constrain: {
+			control: { type: 'boolean' },
+		},
+	}}
+/>
+
+export const Triggered = props => (
+	<Flyout {...props}>
+		<Flyout.Trigger>Open!</Flyout.Trigger>
+		<Flyout.Content>Flyout Content</Flyout.Content>
+	</Flyout>
+);
+
+export const WithInputs = props => (
+	<Flyout {...props}>
+		<Flyout.Trigger>Open!</Flyout.Trigger>
+		<Flyout.Content>
+			<input placeholder="Input One" />
+			<br />
+			<input placeholder="Input Two" />
+		</Flyout.Content>
+	</Flyout>
+);
+
+export const FocusManagement = props => (
+	<>
+		<input placeholder="Before Flyout" />
+		<br />
+		<br />
+		<Flyout {...props}>
+			<Flyout.Trigger>Open!</Flyout.Trigger>
+			<Flyout.Content>
+				<input placeholder="Inside Flyout" />
+			</Flyout.Content>
+		</Flyout>
+		<br />
+		<br />
+		<input placeholder="After Flyout" />
+	</>
+);
+
+# Flyout
+
+## With Trigger
+
+<Canvas>
+	<Story name="Info Only">{Triggered.bind({})}</Story>
+	<Story name="Inputs">{WithInputs.bind({})}</Story>
+</Canvas>
+
+## Focus Management
+
+[WAI-ARIA]('https://www.w3.org/TR/wai-aria-practices-1.2/#menu')
+
+<Story name="Focus Managment">{FocusManagement}</Story>
