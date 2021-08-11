@@ -1,27 +1,15 @@
 import React from 'react';
+import cx from 'classnames';
 
+import { VariantGetter } from '../../system/utils/PropGetters';
+
+import Theme from './Table.theme.css';
 import { Footer } from './Footer';
 import { Header } from './Header';
 import { Row } from './Row';
-
-const T = styled.table`
-	/* By default, tables shrink to fit their contents, nearly all NextThought's
-	   use of tables are for grids, so make this 100% like other "block" elements */
-	width: 100%;
-
-	/* https://developer.mozilla.org/en-US/docs/Web/CSS/table-layout
-	  Table and column widths are set by the widths of table and col elements or
-	  by the width of the first row of cells. Cells in subsequent rows do not
-	  affect column widths. */
-	table-layout: fixed;
-
-	/* HTML spec defines the default table cells have individual borders.
-	   We typically want thin shared borders. */
-	border-collapse: collapse;
-	border-spacing: 0;
-`;
-
 export { SimpleTableHeader } from './headers/Simple';
+
+const getTableVariant = VariantGetter(['plain', 'rowBorders'], 'plain');
 
 /**
  * A Generic Table component that takes two props: columns & items.
@@ -67,8 +55,10 @@ export function Table({
 
 	...extraProps
 }) {
+	const [variant] = getTableVariant(extraProps);
+
 	return (
-		<T className={className}>
+		<table className={cx(className, Theme.table, Theme[variant])}>
 			<Header
 				{...{
 					columns,
@@ -85,7 +75,7 @@ export function Table({
 				}}
 			/>
 			<Footer {...{ columns }} />
-		</T>
+		</table>
 	);
 }
 
