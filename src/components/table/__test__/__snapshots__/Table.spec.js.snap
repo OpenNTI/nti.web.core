@@ -2,7 +2,9 @@
 
 exports[`Table Basic 1`] = `
 <DocumentFragment>
-  <table>
+  <table
+    class="table plain"
+  >
     <thead>
       <tr>
         <th>
@@ -53,7 +55,9 @@ exports[`Table Basic 1`] = `
 
 exports[`Table Basic With Sorting 1`] = `
 <DocumentFragment>
-  <table>
+  <table
+    class="table plain"
+  >
     <thead>
       <tr>
         <th>
@@ -111,7 +115,9 @@ exports[`Table Basic With Sorting 1`] = `
 
 exports[`Table Basic With Sorting 2`] = `
 <DocumentFragment>
-  <table>
+  <table
+    class="table plain"
+  >
     <thead>
       <tr>
         <th>
@@ -169,7 +175,9 @@ exports[`Table Basic With Sorting 2`] = `
 
 exports[`Table Basic With Sorting 3`] = `
 <DocumentFragment>
-  <table>
+  <table
+    class="table plain"
+  >
     <thead>
       <tr>
         <th>
@@ -227,7 +235,9 @@ exports[`Table Basic With Sorting 3`] = `
 
 exports[`Table Column can render its TD 1`] = `
 <DocumentFragment>
-  <table>
+  <table
+    class="table plain"
+  >
     <tbody>
       <tr>
         <td
@@ -243,7 +253,9 @@ exports[`Table Column can render its TD 1`] = `
 
 exports[`Table Custom Footer 1`] = `
 <DocumentFragment>
-  <table>
+  <table
+    class="table plain"
+  >
     <tbody>
       <tr>
         <td>
@@ -269,7 +281,9 @@ exports[`Table Custom Footer 1`] = `
 
 exports[`Table Custom Header 1`] = `
 <DocumentFragment>
-  <table>
+  <table
+    class="table plain"
+  >
     <thead>
       <tr>
         <th>
