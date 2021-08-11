@@ -5,14 +5,14 @@ import { render } from '@testing-library/react';
 import { Table } from '../Table';
 
 describe('Table', () => {
-	test.skip('Basic', () => {
+	test('Basic', () => {
 		const A = Table.asBasicColumn(({ item }) => item, 'A');
 		const B = Table.asBasicColumn(({ item }) => item * 2, 'B');
 		const c = render(<Table columns={[A, B]} items={[1, 2]} />);
-		expect(c.asFragment()).toMatchInlineSnapshot();
+		expect(c.asFragment()).toMatchSnapshot();
 	});
 
-	test.skip('Basic With Sorting', () => {
+	test('Basic With Sorting', () => {
 		const A = Table.asBasicColumn(({ item }) => item, 'A', 'foo');
 		const B = Table.asBasicColumn(({ item }) => item * 2, 'B', 'bar');
 
@@ -24,7 +24,7 @@ describe('Table', () => {
 				sortDirection="ascending"
 			/>
 		);
-		expect(c.asFragment()).toMatchInlineSnapshot();
+		expect(c.asFragment()).toMatchSnapshot();
 	});
 
 	test.todo('Column can render its TD');

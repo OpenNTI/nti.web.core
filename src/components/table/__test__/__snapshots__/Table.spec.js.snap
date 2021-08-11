@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Table Basic 1`] = `
+<DocumentFragment>
+  <table>
+    <thead>
+      <tr>
+        <th>
+          <div>
+            <span>
+              A
+            </span>
+          </div>
+        </th>
+        <th>
+          <div>
+            <span>
+              B
+            </span>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td
+          data-name="A"
+        >
+          1
+        </td>
+        <td
+          data-name="B"
+        >
+          2
+        </td>
+      </tr>
+      <tr>
+        <td
+          data-name="A"
+        >
+          2
+        </td>
+        <td
+          data-name="B"
+        >
+          4
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</DocumentFragment>
+`;
+
+exports[`Table Basic With Sorting 1`] = `
+<DocumentFragment>
+  <table>
+    <thead>
+      <tr>
+        <th>
+          <div>
+            <span>
+              A
+            </span>
+          </div>
+        </th>
+        <th>
+          <div>
+            <span>
+              B
+            </span>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td
+          data-name="A"
+        >
+          1
+        </td>
+        <td
+          data-name="B"
+        >
+          2
+        </td>
+      </tr>
+      <tr>
+        <td
+          data-name="A"
+        >
+          2
+        </td>
+        <td
+          data-name="B"
+        >
+          4
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</DocumentFragment>
+`;
