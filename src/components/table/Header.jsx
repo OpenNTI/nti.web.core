@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SimpleHeader } from './headers/Simple';
+import { SimpleTableHeader } from './headers/Simple';
 
 const NONE = () => null;
 
@@ -25,7 +25,7 @@ export function Header({ as: Cmp = 'tr', columns, ...otherProps }) {
 					) => (
 						(HeaderComponent =
 							HeaderComponent === NONE && Name
-								? SimpleHeader
+								? SimpleTableHeader
 								: HeaderComponent),
 						(
 							<InnerCmp key={i} className={CSSClassName}>

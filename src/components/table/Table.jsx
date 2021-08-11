@@ -21,6 +21,8 @@ const T = styled.table`
 	border-spacing: 0;
 `;
 
+export { SimpleTableHeader } from './headers/Simple';
+
 /**
  * A Generic Table component that takes two props: columns & items.
  *

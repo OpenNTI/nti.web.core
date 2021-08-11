@@ -28,7 +28,7 @@ const Box = styled.div`
  * @param {Named & Sortable} props
  * @returns {JSX.Element}
  */
-export function SimpleHeader({
+export function SimpleTableHeader({
 	onChangeSort,
 	SortOn, // note the case of the property. Capital first letter suggests its constant. (it comes from a static property of the column component)
 	sortOn, // this lower-case version is the 'current state'.
