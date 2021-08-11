@@ -1,7 +1,7 @@
 import React from 'react';
 import { formatISO, parseJSON } from 'date-fns';
 
-import Text from '../text/Text';
+import { Text } from '../text/Text';
 import Variant from '../high-order/Variant';
 
 import {

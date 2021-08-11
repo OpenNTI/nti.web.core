@@ -7,7 +7,7 @@ import { getTypographyProps } from '../../system/css/get-typography-props';
 
 import useTransforms from './transforms/use-transforms';
 
-const Text = React.forwardRef((props, ref) => {
+const TextImpl = (props, ref) => {
 	const [transformedRef, transformedProps] = useTransforms(props);
 	const {
 		as: Cmp = 'span',
@@ -24,10 +24,10 @@ const Text = React.forwardRef((props, ref) => {
 			{...getTypographyProps({ ...otherProps, ...contentProps })}
 		/>
 	);
-});
+};
+
+export const Text = React.forwardRef(TextImpl);
 
 Text.displayName = 'NTIText';
 
 Text.Translator = getString => Variant(Text, { getString }, 'translator');
-
-export default Text;
