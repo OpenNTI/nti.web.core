@@ -1,2 +1,2 @@
 export { Table } from './table/Table';
-export * from './menu';
+export * from './menu/Menu';
