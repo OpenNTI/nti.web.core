@@ -22,6 +22,7 @@ describe('Table', () => {
 				items={[1, 2]}
 				sortOn="bar"
 				sortDirection="ascending"
+				onChangeSort={jest.fn()}
 			/>
 		);
 		expect(c.asFragment()).toMatchSnapshot();

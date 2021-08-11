@@ -57,17 +57,24 @@ exports[`Table Basic With Sorting 1`] = `
     <thead>
       <tr>
         <th>
-          <div>
+          <div
+            class="sortable sortable"
+          >
             <span>
               A
             </span>
           </div>
         </th>
         <th>
-          <div>
+          <div
+            class="sortable sorted asc sortable"
+          >
             <span>
               B
             </span>
+            <i
+              class="icon-chevron-down"
+            />
           </div>
         </th>
       </tr>
