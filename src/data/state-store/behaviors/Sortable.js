@@ -7,30 +7,30 @@
  */
 export const Sortable = Base =>
 	class extends Base {
-		static DefaultSortProperty = null;
+		static DefaultSortOn = null;
 		static DefaultSortDirection = null;
 
 		constructor() {
 			super();
 
 			this.setParams({
-				sortProperty: this.constructor.DefaultSortProperty,
-				sortDirection: this.constructor.DefaultSortDirection,
+				sortOn: this.constructor.DefaultSortOn,
+				sortOrder: this.constructor.DefaultSortDirection,
 			});
 		}
 
 		setSort(property, direction) {
 			this.setParams({
-				sortProperty: property,
-				sortDirection: direction,
+				sortOn: property,
+				sortOrder: direction,
 			});
 		}
 
 		setSortProperty(property) {
-			this.setParams({ sortProperty: property });
+			this.setParams({ sortOn: property });
 		}
 
 		setSortDirection(direction) {
-			this.setParams({ sortDirection: direction });
+			this.setParams({ sortOrder: direction });
 		}
 	};
