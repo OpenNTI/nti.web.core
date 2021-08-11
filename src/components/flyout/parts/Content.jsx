@@ -1,6 +1,6 @@
 /** @typedef {import('../../../types').EventHandler} EventHandler */
 
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import cx from 'classnames';
 
 import {
@@ -86,6 +86,10 @@ export default function FlyoutContent({
 		return () => (cleanupClickOut(), cleanupKeyboardBlur());
 	}, [alignment.hidden, alignTo, flyoutRef.current]);
 
+	const onFocusOutCatch = useCallback(e => {
+		alignTo.current?.onFocusOutCatch?.(e);
+	}, alignTo);
+
 	if (alignment.hidden) {
 		return null;
 	}
@@ -128,6 +132,7 @@ export default function FlyoutContent({
 					{ rounded: true }
 				)}
 			/>
+			<div tabIndex={0} aria-hidden="true" onFocus={onFocusOutCatch} />
 		</ZBooster>
 	);
 }

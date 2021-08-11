@@ -35,6 +35,13 @@ function FlyoutToggleTrigger({ open, setOpen, ...otherProps }, ref) {
 					buttonRef.current.focus();
 				}
 			},
+
+			onFocusOutCatch: e => {
+				if (open) {
+					setOpen(false);
+					buttonRef.current.focus();
+				}
+			},
 		}),
 		[open, setOpen]
 	);
