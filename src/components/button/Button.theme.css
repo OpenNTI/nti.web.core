@@ -37,6 +37,7 @@
 	display: inline-block;
 	position: relative;
 	font-family: var(--body-font-family);
+	cursor: pointer;
 
 	& :global(.nt-icon) {
 		font-size: var(--icon-size);
@@ -75,6 +76,14 @@
 
 	--icon-size: 1rem;
 	--target-button-height: 42px;
+}
+
+.button.header {
+	font-size: var(--font-size-900);
+	line-height: 1.3;
+
+	--icon-size: 1rem;
+	--target-button-height: 52px;
 }
 
 .button.primary {

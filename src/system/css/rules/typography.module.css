@@ -1,7 +1,7 @@
 @import '../config/palette.config.css';
 
 :root {
-	--font-size-900: 2.25rem; /* 48px */
+	--font-size-900: 2.25rem; /* 36px */
 	--font-size-800: 1.5rem; /* 24px */
 	--font-size-700: 1.375rem; /* 22px */
 	--font-size-600: 1.25rem; /* 20px */
@@ -10,5 +10,15 @@
 	--font-size-300: 0.875rem; /* 14px */
 	--font-size-200: 0.625rem; /* 10px */
 
-	/* TODO: pull font families into the system */
+	/*
+		TODO: pull font families into the system
+	*/
+}
+
+.header-one {
+	font: normal 400 var(--font-size-900) / 1.3 var(--body-font-family);
+}
+
+.body {
+	font: normal 400 var(--font-size-300) / 1.3 var(--body-font-family);
 }

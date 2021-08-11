@@ -64,3 +64,8 @@ ChevronIcon.Right.propTypes = ChevronIcon.propTypes;
 ChevronIcon.Up.propTypes = ChevronIcon.propTypes;
 
 export const Chevron = setIcon(ChevronIcon);
+
+Chevron.Down = setIcon(ChevronIcon.Down);
+Chevron.Left = setIcon(ChevronIcon.Left);
+Chevron.Right = setIcon(ChevronIcon.Right);
+Chevron.Up = setIcon(ChevronIcon.Up);

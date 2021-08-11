@@ -120,14 +120,11 @@ export default function FlyoutContent({
 			<div className={Theme.arrow} aria-hidden="true" />
 			<div
 				{...getBorderProps(
-					getSpacingProps(
-						{
-							style: innerStyles,
-							className: cx(Theme.flyoutInner, className),
-							...alignment.otherProps,
-						},
-						{ p: 'md' }
-					),
+					getSpacingProps({
+						style: innerStyles,
+						className: cx(Theme.flyoutInner, className),
+						...alignment.otherProps,
+					}),
 					{ rounded: true }
 				)}
 			/>

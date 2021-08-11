@@ -8,7 +8,12 @@
  * @property {boolean} [autoDismissOnAction=false] - automatically dismiss the flyout when its clicked
  */
 
-import React, { useState, useRef, useCallback } from 'react';
+import React, {
+	useState,
+	useRef,
+	useCallback,
+	useImperativeHandle,
+} from 'react';
 
 import { useId } from '../hooks/use-id';
 import { Slot } from '../layout/Slot';
@@ -16,24 +21,25 @@ import { Slot } from '../layout/Slot';
 import Trigger from './parts/Trigger';
 import Content from './parts/Content';
 
-Flyout.Trigger = Trigger;
-Flyout.Content = Content;
-
 /**
  * Render a flyout.
  *
  * @param {(AlignmentProps & FlyoutProps)} props
+ * @param {React.Ref<FlyoutCmp>} ref
  * @returns {JSX.Element}
  */
-export default function Flyout({
-	open: openProp,
-	alignTo: alginToProp,
-	autoDismissOnAction,
+function FlyoutCmp(
+	{
+		open: openProp,
+		alignTo: alginToProp,
+		autoDismissOnAction,
 
-	children,
+		children,
 
-	...otherProps
-}) {
+		...otherProps
+	},
+	ref
+) {
 	const id = useId('flyout');
 
 	const [openState, setOpen] = useState(false);
@@ -42,6 +48,8 @@ export default function Flyout({
 
 	const triggerRef = useRef();
 	const alignTo = alginToProp != null ? { current: alginToProp } : triggerRef;
+
+	useImperativeHandle(ref, () => ({ dismiss }), [dismiss]);
 
 	const slotProps = {
 		[Trigger]: {
@@ -77,3 +85,8 @@ export default function Flyout({
 		/>
 	);
 }
+
+export const Flyout = React.forwardRef(FlyoutCmp);
+
+Flyout.Trigger = Trigger;
+Flyout.Content = Content;

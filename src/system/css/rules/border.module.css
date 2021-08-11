@@ -3,6 +3,8 @@
 :root {
 	--border-radius-small: 4px;
 
+	--border-grey-light: var(--palette-grey-400);
+
 	--focus-border-color: var(--palette-blue-300);
 }
 

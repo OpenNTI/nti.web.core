@@ -13,7 +13,8 @@ import { Events } from '@nti/lib-commons';
  * @param {EventHandler=} config.onKeyDown
  * @returns {{onClick: EventHandler, onKeyDown: EventHandler}}
  */
-export function useActionable(action, { disabled, onClick, onKeyDown }) {
+export function useActionable(action, config = {}) {
+	const { disabled, onClick, onKeyDown } = config;
 	const handler = useCallback(
 		e => {
 			// This handler is called for clicks, and keyDown.
