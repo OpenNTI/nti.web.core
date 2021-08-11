@@ -1,6 +1,7 @@
 /** @typedef {'xs' | 'sm' | 'md' | 'lg' | 'xl'} SpacingPropValue */
+
 /**
- * @typedef {object} SpacingProps
+ * @typedef {object} PaddingProps
  * @property {SpacingPropValue=} p - set padding on all sides
  * @property {SpacingPropValue=} ph - set padding inline (left and right)
  * @property {SpacingPropValue=} pv - set padding block (top and bottom)
@@ -8,6 +9,10 @@
  * @property {SpacingPropValue=} pr - set padding right
  * @property {SpacingPropValue=} pb - set padding bottom
  * @property {SpacingPropValue=} pl - set padding left
+ */
+
+/**
+ * @typedef {object} MarginProps
  * @property {SpacingPropValue=} m - set margin on all sides
  * @property {SpacingPropValue=} mh - set margin inline (left and right)
  * @property {SpacingPropValue=} mv - set margin block (top and bottom)
@@ -16,6 +21,8 @@
  * @property {SpacingPropValue=} mb - set margin bottom
  * @property {SpacingPropValue=} ml - set margin left
  */
+
+/** @typedef {(PaddingProps & MarginProps)} SpacingProps */
 
 import cx from 'classnames';
 
@@ -206,6 +213,23 @@ export function getSpacingProps({ className, ...props }, defaults) {
 			getClassNames('m', sideSizes),
 			getClassNames('p', sideSizes)
 		),
+		...consumePaddingProps(props),
+	};
+}
+
+/**
+ * Get the props to apply the configured spacing.
+ *
+ * @template {SpacingProps} T
+ * @param {T} props
+ * @param {MarginProps=} defaults
+ * @returns {Omit<T, MarginProps> & {className: string}}
+ */
+export function getMarginProps({ className, ...props }, defaults) {
+	const sideSizes = { ...getSideSizes(defaults), ...getSideSizes(props) };
+
+	return {
+		className: cx(className, getClassNames('m', sideSizes)),
 		...consumePaddingProps(props),
 	};
 }
