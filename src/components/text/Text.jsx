@@ -3,6 +3,7 @@ import React from 'react';
 import { rawContent, getRefHandler } from '@nti/lib-commons';
 
 import Variant from '../high-order/Variant';
+import { getTypographyProps } from '../../system/css/get-typography-props';
 
 import useTransforms from './transforms/use-transforms';
 
@@ -20,8 +21,7 @@ const Text = React.forwardRef((props, ref) => {
 	return (
 		<Cmp
 			ref={getRefHandler(ref, transformedRef)}
-			{...otherProps}
-			{...contentProps}
+			{...getTypographyProps({ ...otherProps, ...contentProps })}
 		/>
 	);
 });

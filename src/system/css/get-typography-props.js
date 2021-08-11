@@ -10,18 +10,45 @@ const getTypographyVariant = VariantGetter(
 	'typography'
 );
 
+const getColorVariant = VariantGetter(
+	['light', 'dark', 'regular'],
+	'regular',
+	'color'
+);
+
+function getVariantOrDefault(getter, props, defaults) {
+	const provided = getter(props);
+
+	if (provided[0]) {
+		return provided;
+	}
+
+	const [defaultProp] = getter(defaults);
+
+	return [defaultProp, props];
+}
+
 export function getTypographyProps(propsArg, defaults) {
 	const { className, ...props } = propsArg;
 
-	const providedTypeProps = getTypographyVariant(props);
-	const wasProvidedTypeProps = Boolean(providedTypeProps[0]);
+	const [typeClass, restTypeProps] = getVariantOrDefault(
+		getTypographyVariant,
+		props,
+		defaults
+	);
+	const [colorClass, restColorProps] = getVariantOrDefault(
+		getColorVariant,
+		restTypeProps,
+		defaults
+	);
 
-	const typeProps = wasProvidedTypeProps
-		? providedTypeProps
-		: getTypographyVariant(defaults);
-
-	const typeClassName = Styles[typeProps[0]];
-	const restProps = wasProvidedTypeProps ? providedTypeProps[1] : props;
-
-	return { className: cx(typeClassName, className), ...restProps };
+	return {
+		className: cx(
+			className,
+			(typeClass || colorClass) && Styles.typography,
+			Styles[typeClass],
+			Styles[colorClass]
+		),
+		...restColorProps,
+	};
 }
