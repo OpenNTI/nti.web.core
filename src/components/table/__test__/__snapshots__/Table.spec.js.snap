@@ -58,7 +58,7 @@ exports[`Table Basic With Sorting 1`] = `
       <tr>
         <th>
           <div
-            class="sortable sortable"
+            class="sortable"
           >
             <span>
               A
@@ -67,7 +67,7 @@ exports[`Table Basic With Sorting 1`] = `
         </th>
         <th>
           <div
-            class="sortable sorted asc sortable"
+            class="sortable sorted asc"
           >
             <span>
               B
@@ -102,6 +102,190 @@ exports[`Table Basic With Sorting 1`] = `
           data-name="B"
         >
           4
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</DocumentFragment>
+`;
+
+exports[`Table Basic With Sorting 2`] = `
+<DocumentFragment>
+  <table>
+    <thead>
+      <tr>
+        <th>
+          <div
+            class="sortable enabled"
+          >
+            <span>
+              A
+            </span>
+          </div>
+        </th>
+        <th>
+          <div
+            class="sortable sorted asc enabled"
+          >
+            <span>
+              B
+            </span>
+            <i
+              class="icon-chevron-down"
+            />
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td
+          data-name="A"
+        >
+          1
+        </td>
+        <td
+          data-name="B"
+        >
+          2
+        </td>
+      </tr>
+      <tr>
+        <td
+          data-name="A"
+        >
+          2
+        </td>
+        <td
+          data-name="B"
+        >
+          4
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</DocumentFragment>
+`;
+
+exports[`Table Basic With Sorting 3`] = `
+<DocumentFragment>
+  <table>
+    <thead>
+      <tr>
+        <th>
+          <div
+            class="sortable enabled"
+          >
+            <span>
+              A
+            </span>
+          </div>
+        </th>
+        <th>
+          <div
+            class="sortable sorted desc enabled"
+          >
+            <span>
+              B
+            </span>
+            <i
+              class="icon-chevron-up"
+            />
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td
+          data-name="A"
+        >
+          1
+        </td>
+        <td
+          data-name="B"
+        >
+          2
+        </td>
+      </tr>
+      <tr>
+        <td
+          data-name="A"
+        >
+          2
+        </td>
+        <td
+          data-name="B"
+        >
+          4
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</DocumentFragment>
+`;
+
+exports[`Table Column can render its TD 1`] = `
+<DocumentFragment>
+  <table>
+    <tbody>
+      <tr>
+        <td
+          data-custom="td"
+        >
+          foo
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</DocumentFragment>
+`;
+
+exports[`Table Custom Footer 1`] = `
+<DocumentFragment>
+  <table>
+    <tbody>
+      <tr>
+        <td>
+          foo
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th>
+          <div
+            class="custom"
+            data-footer="custom"
+          >
+            My Footer
+          </div>
+        </th>
+      </tr>
+    </tfoot>
+  </table>
+</DocumentFragment>
+`;
+
+exports[`Table Custom Header 1`] = `
+<DocumentFragment>
+  <table>
+    <thead>
+      <tr>
+        <th>
+          <div
+            class="custom"
+            data-header="custom"
+          >
+            My Header
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          foo
         </td>
       </tr>
     </tbody>

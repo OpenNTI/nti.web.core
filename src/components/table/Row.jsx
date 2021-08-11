@@ -5,16 +5,17 @@ import React from 'react';
 /**
  * @template T
  * @param {Object} props
+ * @param {string=} props.className
  * @param {import('./Table').Column<T>[]} props.columns
  * @param {any} props.item
  * @param {EventHandler=} props.onClick
  * @returns {JSX.Element}
  */
-export function Row({ columns, item, onClick, ...props }) {
+export function Row({ className, columns, item, onClick, ...props }) {
 	const clickHandler = !onClick ? null : e => onClick(item, e);
 
 	return (
-		<tr onClick={clickHandler}>
+		<tr onClick={clickHandler} className={className}>
 			{columns.map((Cell, cell) =>
 				Cell.RendersContainer ? (
 					<Cell key={cell} item={item} {...props} />

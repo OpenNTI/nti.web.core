@@ -10,12 +10,12 @@ const Box = styled.div`
 	text-transform: uppercase;
 	text-align: left;
 
-	&.sortable {
+	&.enabled {
 		cursor: pointer;
+	}
 
-		& > i[class*='icon-chevron-'] {
-			margin-left: 5px;
-		}
+	& > i[class*='icon-chevron-'] {
+		margin-left: 5px;
 	}
 `;
 
@@ -35,24 +35,26 @@ export function SimpleTableHeader({
 	sortDirection,
 	name,
 }) {
-	const sortable = Boolean(onChangeSort) && Boolean(SortOn);
+	const sortable = Boolean(SortOn);
 	const isSorted = sortable && sortOn === SortOn;
-	const showChevron = isSorted && onChangeSort;
-	const sort = () =>
-		SortOn &&
-		onChangeSort?.(
-			SortOn,
-			isSorted
-				? // Only toggle direction when already sorted on.
-				  sortDirection === ASCENDING
-					? DESCENDING
-					: ASCENDING
-				: // when changing what is sorted on, always reset direction to ascending.
-				  ASCENDING
-		);
+	const showChevron = isSorted;
+	const sort =
+		onChangeSort &&
+		(() =>
+			SortOn &&
+			onChangeSort(
+				SortOn,
+				isSorted
+					? // Only toggle direction when already sorted on.
+					  sortDirection === ASCENDING
+						? DESCENDING
+						: ASCENDING
+					: // when changing what is sorted on, always reset direction to ascending.
+					  ASCENDING
+			));
 	return (
 		<Box
-			sortable={sortable}
+			enabled={!!sort}
 			onClick={sort}
 			className={cx({
 				sortable,
