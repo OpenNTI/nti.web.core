@@ -13,10 +13,10 @@ export const Continuous = () => {}; //TODO: fill this out
  */
 export const Discrete = Base =>
 	class extends Base {
-		PageSize = 25;
+		static PageSize = 25;
 
-		PageSizeParam = 'batchSize';
-		PageOffsetParam = 'batchStart';
+		static PageSizeParam = 'batchSize';
+		static PageOffsetParam = 'batchStart';
 
 		constructor() {
 			super();
@@ -26,8 +26,8 @@ export const Discrete = Base =>
 			this.addDependentProperty('currentPage', 'batch');
 
 			this.setParams({
-				[this.PageSizeParam]: this.PageSize,
-				[this.PageOffsetParam]: 0,
+				[this.constructor.PageSizeParam]: this.constructor.PageSize,
+				[this.constructor.PageOffsetParam]: 0,
 			});
 		}
 
@@ -81,7 +81,8 @@ export const Discrete = Base =>
 
 		loadPage(index) {
 			this.setParam({
-				[this.PageOffsetParam]: this.PageSize * Math.max(index - 1, 0),
+				[this.constructor.PageOffsetParam]:
+					this.PageSize * Math.max(index - 1, 0),
 			});
 		}
 	};

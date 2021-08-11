@@ -25,14 +25,31 @@ export class StateStore extends PropertyChangeEmitter {
 		return new Store(...args);
 	}
 
-	static useStore() {
-		return useStore(this);
+	/**
+	 * Create and track an instance of this store
+	 *
+	 * @template T
+	 * @param {...*} args
+	 * @returns {T}
+	 */
+	static useStore(...args) {
+		return useStore(this, ...args);
 	}
 
+	/**
+	 * Find the closest instance of this store and use its read value.
+	 *
+	 * @returns {*}
+	 */
 	static useRead() {
 		return useRead(BuildPredicate(this));
 	}
 
+	/**
+	 * Find the closes instance of this store and use its properties.
+	 *
+	 * @returns {*}
+	 */
 	static useProperties() {
 		return useProperties(BuildPredicate(this));
 	}
@@ -78,7 +95,7 @@ export class StateStore extends PropertyChangeEmitter {
 				throw new Error('DataStore life-cycles cannot be actions');
 			}
 
-			if (value.bindStore) {
+			if (value?.bindStore) {
 				delete this[key];
 				Object.defineProperty(this, key, {
 					value: value.bindStore(binding(key)),

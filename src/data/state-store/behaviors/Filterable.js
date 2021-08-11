@@ -7,20 +7,33 @@
  */
 export const Filterable = Base =>
 	class extends Base {
-		FilterParam = 'filter';
-		DefaultFilter = null;
+		static FilterParam = 'filter';
+		static DefaultFilter = null;
 
 		constructor() {
 			super();
 
-			this.setParams({
-				filter: this.DefaultFilter,
-			});
+			const filterParam = this.constructor.FilterParam;
+			const defaultFilter = this.constructor.DefaultFilter;
+
+			if (filterParam !== 'filter') {
+				this.addDependentProperty('filter', filterParam);
+
+				Object.defineProperty(this, 'filter', {
+					get: () => this.getProperty(filterParam),
+				});
+			}
+
+			if (defaultFilter) {
+				this.setParams({
+					[filterParam]: defaultFilter,
+				});
+			}
 		}
 
 		setFilter(filter) {
 			this.setParams({
-				filter,
+				[this.constructor.FilterParam]: filter,
 			});
 		}
 	};

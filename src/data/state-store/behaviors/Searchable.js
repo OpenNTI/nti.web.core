@@ -9,7 +9,7 @@ const SearchTerm = Symbol('searchTerm');
  */
 export const Searchable = Base =>
 	class extends Base {
-		SearchBuffer = 300;
+		static SearchBuffer = 300;
 
 		constructor() {
 			super();
@@ -44,7 +44,7 @@ export const Searchable = Base =>
 				this.#searchBuffer = setTimeout(() => {
 					this.#searchBuffering = false;
 					this.setParams({ searchTerm: term });
-				}, this.SearchBuffer);
+				}, this.constructor.SearchBuffer);
 			}
 		}
 	};
