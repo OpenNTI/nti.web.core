@@ -52,9 +52,12 @@ export const Discrete = Base =>
 				return null;
 			}
 
-			return batch.FilteredTotalItemCount != null
-				? batch.FilteredTotalItemCount
-				: batch.TotalCount;
+			const total =
+				batch.FilteredTotalItemCount != null
+					? batch.FilteredTotalItemCount
+					: batch.total;
+
+			return Math.ceil(total / this.constructor.PageSize);
 		}
 
 		/**
@@ -80,9 +83,9 @@ export const Discrete = Base =>
 		}
 
 		loadPage(index) {
-			this.setParam({
+			this.setParams({
 				[this.constructor.PageOffsetParam]:
-					this.PageSize * Math.max(index - 1, 0),
+					this.constructor.PageSize * Math.max(index - 1, 0),
 			});
 		}
 	};
