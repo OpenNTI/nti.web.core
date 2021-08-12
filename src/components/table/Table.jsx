@@ -19,8 +19,10 @@ const ColumnToPlaceholder = column => {
 		return <Cmp />;
 	};
 
-	PlaceholderColumn.FooterComponent = column.FooterComponent;
-	PlaceholderColumn.HeaderComponent = column.HeaderComponent;
+	PlaceholderColumn.FooterComponent =
+		column.HeaderPlaceholderComponent ?? column.FooterComponent;
+	PlaceholderColumn.HeaderComponent =
+		column.HeaderPlaceholderComponent ?? column.HeaderComponent;
 	PlaceholderColumn.Name = column.Name;
 	PlaceholderColumn.CSSClassName = column.CSSClassName;
 
