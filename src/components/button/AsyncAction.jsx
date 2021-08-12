@@ -1,3 +1,4 @@
+// @ts-check
 import React, { useState } from 'react';
 import cx from 'classnames';
 
@@ -131,10 +132,9 @@ export function AsyncAction({
 	renderFinalState,
 	...props
 }) {
+	/** @type {[AsyncState, (state: AsyncState) => void]} */
 	const [status, setStatus] = useState(initialState);
 	const go = useExecutor(setStatus, onClick);
-
-	const css = cx('async-action', status, className);
 
 	const final = renderFinalState?.(status) ?? (
 		<i
@@ -145,7 +145,7 @@ export function AsyncAction({
 	return (
 		<Structure
 			{...props}
-			className={css}
+			className={cx('async-action', status, className)}
 			onClick={!props.disabled && status === NORMAL ? go : void 0}
 			asyncState={status}
 			disabled={status === DISABLED || props.disabled}

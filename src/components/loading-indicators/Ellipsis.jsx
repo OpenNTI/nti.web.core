@@ -56,7 +56,7 @@ const Dot = styled.li`
 	}
 `;
 
-export function Ellipsis({ mask, ...props }) {
+export function Ellipsis({ mask = false, ...props }) {
 	return (
 		<Container {...{ mask, ...props }}>
 			<Dot />

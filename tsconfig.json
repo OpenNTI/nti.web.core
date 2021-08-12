@@ -4,6 +4,7 @@
 		"esModuleInterop": true,
 		"allowJs": true,
 		"noEmit": true,
+		"jsx": "react",
 		"plugins": [
 			{
 				"name": "typescript-styled-plugin"

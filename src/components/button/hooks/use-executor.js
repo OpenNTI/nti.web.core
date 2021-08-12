@@ -1,3 +1,4 @@
+// @ts-check
 import { useCallback, useEffect } from 'react';
 
 import { wait } from '@nti/lib-commons';
@@ -22,7 +23,7 @@ const MIN_DELAY_BEFORE_FINISHING = 1000; // milliseconds
  * @property {Selection} hide - Set final state to be hidden
  * @property {Selection} reset - Set final state to reset to initial state
  * @property {Selection} retain - Do not change state after async resolution
- * @property {FinalizeCallback} call - Call function on final state after async resolution
+ * @property {(fn: FinalizeCallback) => void} call - Call function on final state after async resolution
  */
 /** @typedef {(buttonTransition:Promise<unknown>, finalStateSelection: FinalStateSelection) => Promise<any>} AsyncHandler */
 
@@ -44,6 +45,7 @@ export function useExecutor(set, onClick) {
 				e.stopPropagation();
 			}
 
+			/** @type {AsyncState|FinalizeCallback|null} */
 			let reset = NORMAL;
 			let done;
 			let error = false;
@@ -54,7 +56,7 @@ export function useExecutor(set, onClick) {
 				hide: () => (reset = HIDE),
 				reset: () => (reset = NORMAL),
 				retain: () => (reset = null),
-				call: fn => (reset = fn),
+				call: (/** @type {FinalizeCallback} */ fn) => (reset = fn),
 			};
 			// Ensure the react component has redrawn. (using setState's callback)
 			set(PROCESSING);
