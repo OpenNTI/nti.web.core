@@ -8,28 +8,56 @@ import { Download } from '../../icons';
 	component={AsyncAction}
 	argTypes={{
 		onClick: { action: 'triggered' },
+		initialState: {
+			control: { type: 'select' },
+			options: [
+				'disabled',
+				'hide',
+				'normal',
+				'processing',
+				'finished',
+				'finished-error',
+			],
+		},
+		variant: {
+			control: { type: 'select' },
+			options: [
+				'link',
+				'primary',
+				'secondary',
+				'destructive',
+				'constructive',
+			],
+			control: { type: 'select' },
+		},
+		inverted: { control: { type: 'boolean' } },
+		transparent: { control: { type: 'boolean' } },
+		rounded: { control: { type: 'boolean' } },
+		disabled: { control: { type: 'boolean' } },
 	}}
 />
 
 export const TextOnly = ({ text, ...args }) => (
-	<AsyncAction {...args}>{text}</AsyncAction>
+	<AsyncAction key={args.initialState} {...args}>
+		{text}
+	</AsyncAction>
 );
 
 export const IconOnly = args => (
-	<AsyncAction {...args}>
+	<AsyncAction key={args.initialState} {...args}>
 		<Download />
 	</AsyncAction>
 );
 
 export const IconFirst = ({ text, ...args }) => (
-	<AsyncAction {...args}>
+	<AsyncAction key={args.initialState} {...args}>
 		<Download />
 		<span>{text}</span>
 	</AsyncAction>
 );
 
 export const IconLast = ({ text, ...args }) => (
-	<AsyncAction {...args}>
+	<AsyncAction key={args.initialState} {...args}>
 		<span>{text}</span>
 		<Download />
 	</AsyncAction>
