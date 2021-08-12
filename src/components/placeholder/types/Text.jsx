@@ -3,6 +3,8 @@
 import React from 'react';
 import cx from 'classnames';
 
+import { getTypographyProps } from '../../../system/css/get-typography-props';
+import { getMarginProps } from '../../../system/css/get-spacing-props';
 import Theme from '../Placeholder.theme.css';
 
 import { generator } from './generator';
@@ -28,8 +30,14 @@ function TextPlaceholder({
 }) {
 	return (
 		<Cmp
-			className={cx(className, Theme.text, { [Theme.full]: !text })}
-			{...otherProps}
+			{...getMarginProps(
+				getTypographyProps({
+					className: cx(className, Theme.text, {
+						[Theme.full]: !text,
+					}),
+					...otherProps,
+				})
+			)}
 		>
 			<span aria-hidden>{text || 'w'}</span>
 			<Base flat={flat} />

@@ -82,6 +82,10 @@ export const Discrete = Base =>
 			return this.getCurrentPageFromBatch(this.getProperty('batch'));
 		}
 
+		get pageSize() {
+			return this.constructor.PageSize;
+		}
+
 		loadPage(index) {
 			this.setParams({
 				[this.constructor.PageOffsetParam]:

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { useSharedDOM } from '../../hooks/use-shared-dom.js';
+import { Placeholder } from '../../placeholder/Placeholder';
 import { Square } from '../../image/SquareImg';
 import { BLANK_AVATAR, BLANK_GROUP_AVATAR } from '../constants/DataURIs';
 import { BaseEntity } from '../BaseEntity';
@@ -33,6 +34,8 @@ export const Avatar = styled(ResolveWrapper, { allowAs: true })`
 		object-fit: contain;
 	}
 `;
+
+Avatar.Placeholder = props => <Placeholder.Image {...getAvatarProps(props)} />;
 
 Avatar.propTypes = {
 	...BaseEntity.propTypes,

@@ -27,6 +27,7 @@
 .text {
 	display: inline-block;
 	position: relative;
+	overflow: hidden;
 	color: rgba(0, 0, 0, 0);
 
 	&.full {
@@ -43,6 +44,10 @@
 }
 
 .image {
+	display: inline-block;
+	position: relative;
+	overflow: hidden;
+
 	& .placeholder {
 		position: absolute;
 		top: 0;

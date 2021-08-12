@@ -122,6 +122,19 @@ function bindAction(
 
 		running: { get: () => current instanceof Promise },
 		error: { get: () => (current instanceof Error ? current : null) },
+
+		read: {
+			value: () => {
+				if (current instanceof Promise) {
+					throw current;
+				}
+				if (current instanceof Error) {
+					throw current;
+				}
+
+				return current;
+			},
+		},
 	});
 
 	return action;

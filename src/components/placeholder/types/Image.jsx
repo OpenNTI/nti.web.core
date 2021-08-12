@@ -4,6 +4,8 @@
 import React from 'react';
 import cx from 'classnames';
 
+import { getMarginProps } from '../../../system/css/get-spacing-props';
+import { getBorderProps } from '../../../system/css/get-border-props';
 import { AspectRatio } from '../../box/AspectRatio';
 import Theme from '../Placeholder.theme.css';
 
@@ -23,14 +25,31 @@ import { Base } from './Base';
  * @param {(ImagePlaceholderProps & AspectRatioProps)} param0
  * @returns {JSX.Element}
  */
-function ImagePlaceholder({ className, aspectRatio, flat, ...otherProps }) {
+function ImagePlaceholder({
+	className,
+	aspectRatio,
+	as: Cmp = 'div',
+	flat,
+	...otherProps
+}) {
+	const Wrapper = aspectRatio != null ? AspectRatio : Cmp;
+	const wrapperProps = {};
+
+	if (aspectRatio != null) {
+		wrapperProps.aspectRatio = aspectRatio;
+	}
+
 	return (
-		<AspectRatio
-			aspectRatio={aspectRatio}
-			className={cx(className, Theme.image)}
+		<Wrapper
+			{...getMarginProps(
+				getBorderProps({
+					className: cx(className, Theme.image),
+					...wrapperProps,
+				})
+			)}
 		>
 			<Base flat={flat} />
-		</AspectRatio>
+		</Wrapper>
 	);
 }
 

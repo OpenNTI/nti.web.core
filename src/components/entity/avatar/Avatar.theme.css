@@ -61,7 +61,7 @@ svg.avatar {
 	}
 }
 
-.avatar.circular {
+.circular {
 	border-radius: 100%;
 	object-fit: contain;
 	object-position: center;

@@ -59,7 +59,9 @@ export class StateStore extends PropertyChangeEmitter {
 
 		this.#reader = createReader(this);
 
-		setTimeout(() => this.#setupActions());
+		this.onceSetup = new Promise(fulfill =>
+			setTimeout(() => (this.#setupActions(), fulfill()))
+		);
 
 		//Set these up in the constructor, so they cannot be overridden
 		this.addDependentProperty('reader', ['load']);
@@ -187,6 +189,7 @@ export class StateStore extends PropertyChangeEmitter {
 			this.#loadTimeout = setTimeout(async () => {
 				this.#loadTimeout = null;
 
+				await this.onceSetup;
 				await this.load();
 			}, 1);
 		}

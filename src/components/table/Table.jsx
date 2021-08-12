@@ -2,6 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 
 import { VariantGetter } from '../../system/utils/PropGetters';
+import { Placeholder } from '../placeholder/Placeholder';
 
 import Theme from './Table.theme.css';
 import { Footer } from './Footer';
@@ -10,6 +11,29 @@ import { Row } from './Row';
 export { SimpleTableHeader } from './headers/Simple';
 
 const getTableVariant = VariantGetter(['plain', 'ruled'], 'plain');
+
+const ColumnToPlaceholder = column => {
+	const PlaceholderColumn = () => {
+		const Cmp = column.Placeholder ?? Placeholder.Text;
+
+		return <Cmp />;
+	};
+
+	PlaceholderColumn.FooterComponent = column.FooterComponent;
+	PlaceholderColumn.HeaderComponent = column.HeaderComponent;
+	PlaceholderColumn.Name = column.Name;
+	PlaceholderColumn.CSSClassName = column.CSSClassName;
+
+	return PlaceholderColumn;
+};
+
+export const TablePlaceholder = ({ rows, columns, ...otherProps }) => (
+	<Table
+		items={Array.from({ length: rows })}
+		columns={columns.map(ColumnToPlaceholder)}
+		{...otherProps}
+	/>
+);
 
 /**
  * A Generic Table component that takes two props: columns & items.
