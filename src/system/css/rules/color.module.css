@@ -12,6 +12,7 @@
 	--color-foreground: var(--palette-grey-600);
 	--color-foreground-light: var(--palette-grey-500);
 
+	--color-selected-background-dark: var(--palette-blue-300);
 	--color-selected-background: var(--palette-blue-300-25);
 	--color-selected-background-light: var(--palette-blue-300-05);
 }

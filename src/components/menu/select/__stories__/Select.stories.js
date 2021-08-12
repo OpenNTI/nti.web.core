@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { MenuSelect as Select } from '../Select';
+import { SelectMenu as Select } from '../Select';
 
 export const Basic = props => {
 	const options = React.useMemo(() =>
