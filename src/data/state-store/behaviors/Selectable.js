@@ -12,6 +12,7 @@ export const Selectable = Base =>
 
 			this.addDependentProperty('isSelected', 'selection');
 			this.addDependentProperty('isAllSelected', 'selection');
+			this.addDependentProperty('selectionCount', 'selection');
 		}
 
 		/**
@@ -34,6 +35,10 @@ export const Selectable = Base =>
 		 */
 		getSelectable() {
 			return this.getProperty('items');
+		}
+
+		get selectionCount() {
+			return (this.getProperty('selection') ?? []).length;
 		}
 
 		/**
