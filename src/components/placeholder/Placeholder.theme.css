@@ -1,0 +1,63 @@
+:root {
+	--placeholder-color: var(--palette-grey-400);
+}
+
+.placeholder.flat {
+	background-color: var(--placeholder-color);
+}
+
+.placeholder.shimmer {
+	&:not(.on-screen) {
+		background-color: var(--placeholder-color);
+	}
+
+	&.on-screen {
+		animation: placeholdershimmer 2s infinite;
+		background: linear-gradient(
+			105deg,
+			var(--placeholder-color) 40%,
+			white 50%,
+			var(--placeholder-color) 60%
+		);
+		background-size: 1000px 100%;
+		background-attachment: fixed;
+	}
+}
+
+.text {
+	display: inline-block;
+	position: relative;
+	color: rgba(0, 0, 0, 0);
+
+	&.full {
+		display: block;
+	}
+
+	& .placeholder {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+}
+
+.image {
+	& .placeholder {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+}
+
+@keyframes placeholdershimmer {
+	0% {
+		background-position: -1000px 0;
+	}
+
+	100% {
+		background-position: 1000px 0;
+	}
+}
