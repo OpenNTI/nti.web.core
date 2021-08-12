@@ -9,7 +9,7 @@ import { Header } from './Header';
 import { Row } from './Row';
 export { SimpleTableHeader } from './headers/Simple';
 
-const getTableVariant = VariantGetter(['plain', 'rowBorders'], 'plain');
+const getTableVariant = VariantGetter(['plain', 'ruled'], 'plain');
 
 /**
  * A Generic Table component that takes two props: columns & items.

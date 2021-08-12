@@ -17,7 +17,7 @@
 	border-spacing: 0;
 }
 
-.table.row-borders {
+.table.ruled {
 	tr {
 		border-bottom: 1px solid var(--border-grey-light);
 	}
