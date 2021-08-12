@@ -88,8 +88,13 @@ const isOnlyIcon = ({ children }) => {
  * @returns {{className:string}}
  */
 export function getButtonStyleProps(props) {
-	const { className, style, size, state, ...otherProps } =
-		getStyleProps(props);
+	const {
+		className,
+		style,
+		size,
+		state = [],
+		...otherProps
+	} = getStyleProps(props);
 
 	if (style === 'link') {
 		return { className: cx(Theme[style], className), ...otherProps };
@@ -102,7 +107,7 @@ export function getButtonStyleProps(props) {
 			Theme.button,
 			Theme[style],
 			Theme[size],
-			state.map(s => Theme[s]),
+			state?.map?.(s => Theme[s]),
 			{
 				[Theme.onlyIcon]: isOnlyIcon(props),
 			}

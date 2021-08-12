@@ -1,0 +1,72 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs';
+
+import { AsyncAction } from '../AsyncAction';
+import { Download } from '../../icons';
+
+<Meta
+	title="Components/AsyncAction"
+	component={AsyncAction}
+	argTypes={{
+		onClick: { action: 'triggered' },
+	}}
+/>
+
+export const TextOnly = ({ text, ...args }) => (
+	<AsyncAction {...args}>{text}</AsyncAction>
+);
+
+export const IconOnly = args => (
+	<AsyncAction {...args}>
+		<Download />
+	</AsyncAction>
+);
+
+export const IconFirst = ({ text, ...args }) => (
+	<AsyncAction {...args}>
+		<Download />
+		<span>{text}</span>
+	</AsyncAction>
+);
+
+export const IconLast = ({ text, ...args }) => (
+	<AsyncAction {...args}>
+		<span>{text}</span>
+		<Download />
+	</AsyncAction>
+);
+
+# AsyncAction
+
+## Text Buttons
+
+<Canvas>
+	<Story
+		name="Text Only"
+		argTypes={{ text: { control: 'text', defaultValue: 'Text' } }}
+	>
+		{TextOnly.bind({})}
+	</Story>
+</Canvas>
+
+## Icon Buttons
+
+<Canvas>
+	<Story name="Icon Only">{IconOnly.bind({})}</Story>
+</Canvas>
+
+## Text + Icon Buttons
+
+<Canvas>
+	<Story
+		name="Icon First"
+		argTypes={{ text: { control: 'text', defaultValue: 'Text' } }}
+	>
+		{IconFirst.bind({})}
+	</Story>
+	<Story
+		name="Icon Last"
+		argTypes={{ text: { control: 'text', defaultValue: 'Text' } }}
+	>
+		{IconLast.bind({})}
+	</Story>
+</Canvas>
