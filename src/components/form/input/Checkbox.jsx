@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 
+import { getSpacingProps } from '../../../system/css/get-spacing-props';
 import { VariantGetter } from '../../../system/utils/PropGetters';
 import { Text } from '../../text/Text';
 
@@ -11,7 +12,10 @@ const getStyleVariant = VariantGetter(['blue', 'green'], 'blue');
 function CheckboxImpl(propsArg, ref) {
 	const [style, props] = getStyleVariant(propsArg);
 
-	const { disabled, label, name, ...otherProps } = props;
+	const { className, disabled, label, name, ...otherProps } = getSpacingProps(
+		props,
+		{ p: 'md' }
+	);
 
 	return (
 		<label

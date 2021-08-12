@@ -1,9 +1,10 @@
 .checkbox {
-	position: relative;
-	line-height: 1; /* fixes a safari issue where clicking the label doesn't affect the checkbox */
-
 	--checkbox-size: 1rem;
 	--checkbox-reserved-space: calc(var(--checkbox-size) + 10px);
+
+	position: relative;
+	cursor: pointer;
+	line-height: 1; /* fixes a safari issue where clicking the label doesn't affect the checkbox */
 
 	& > input[type='checkbox'] {
 		opacity: 0;
@@ -22,7 +23,14 @@
 }
 
 .label {
-	margin-left: var(--checkbox-reserved-space);
+	display: inline-block;
+	position: relative;
+	padding-left: var(--checkbox-reserved-space);
+
+	&:empty {
+		padding-top: var(--checkbox-size);
+		padding-left: var(--checkbox-size);
+	}
 
 	&::before {
 		content: '';
