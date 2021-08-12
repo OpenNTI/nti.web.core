@@ -76,7 +76,6 @@ const Sizer = styled.span`
 
 const Structure = styled.button`
 	position: relative;
-	background-color: transparent;
 
 	&.async-state-disable {
 		opacity: 0.5;
