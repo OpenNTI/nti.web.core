@@ -33,7 +33,7 @@ export const Selectable = Base =>
 		 * @returns {Array}
 		 */
 		getSelectable() {
-			return this.get('items');
+			return this.getProperty('items');
 		}
 
 		/**
@@ -43,7 +43,7 @@ export const Selectable = Base =>
 		 * @returns {boolean}
 		 */
 		isSelected(item) {
-			const selection = this.get('selection') ?? [];
+			const selection = this.getProperty('selection') ?? [];
 
 			return (
 				selection.findIndex(s => this.isSameSelectable(s, item)) !== -1
@@ -57,7 +57,7 @@ export const Selectable = Base =>
 		 */
 		isAllSelected() {
 			const selectable = this.getSelectable();
-			const selection = this.get('selection');
+			const selection = this.getProperty('selection');
 
 			if (!selectable?.length || !selection?.length) {
 				return false;
@@ -78,7 +78,7 @@ export const Selectable = Base =>
 				return;
 			}
 
-			const selection = this.get('selection') ?? [];
+			const selection = this.getProperty('selection') ?? [];
 
 			this.updateState({
 				selection: [...selection, item],
@@ -97,7 +97,7 @@ export const Selectable = Base =>
 				return;
 			}
 
-			const selection = this.get('selection') ?? [];
+			const selection = this.getProperty('selection') ?? [];
 
 			this.updateState({
 				selection: selection.filter(s => s !== item),
@@ -136,7 +136,7 @@ export const Selectable = Base =>
 		 */
 		deselectAll() {
 			const selectable = this.getSelectable() ?? [];
-			const current = this.get('selection') ?? [];
+			const current = this.getProperty('selection') ?? [];
 
 			if (!selectable?.length || !current?.length) {
 				return;
