@@ -116,7 +116,7 @@ export const Selectable = Base =>
 				return;
 			}
 
-			const current = this.get('selection') ?? [];
+			const current = this.getProperty('selection') ?? [];
 
 			let newSelection = [...current];
 
