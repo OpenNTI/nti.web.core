@@ -36,7 +36,7 @@ import { isIcon } from '../icons';
 import Theme from './Button.theme.css';
 
 const getStyleProps = PropMapper({
-	style: VariantGetter(
+	buttonStyle: VariantGetter(
 		['link', 'primary', 'secondary', 'destructive', 'constructive'],
 		'primary'
 	),
@@ -90,7 +90,7 @@ const isOnlyIcon = ({ children }) => {
 export function getButtonStyleProps(props) {
 	const {
 		className,
-		style,
+		buttonStyle: style,
 		size,
 		state = [],
 		...otherProps

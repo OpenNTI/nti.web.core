@@ -24,7 +24,7 @@ import { useActionable } from './hooks/use-actionable';
  * @param {React.Ref<Button>} ref
  * @returns {JSX.Element}
  */
-function Button(
+function ButtonImpl(
 	{
 		as: Cmp = 'a',
 		disabled,
@@ -44,4 +44,4 @@ function Button(
 	);
 }
 
-export default React.forwardRef(Button);
+export const Button = React.forwardRef(ButtonImpl);

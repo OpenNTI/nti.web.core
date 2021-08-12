@@ -6,7 +6,7 @@
 
 import React, { useCallback, useImperativeHandle, useRef } from 'react';
 
-import Button from '../../button/Button';
+import { Button } from '../../button/Button';
 
 function FlyoutHoverTrigger({ open, setOpen }, ref) {}
 

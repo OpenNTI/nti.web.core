@@ -70,6 +70,7 @@ export function useExecutor(set, onClick) {
 				set(FINISHED);
 			} catch (e) {
 				if (e === 'canceled') {
+					set(NORMAL);
 					return;
 				}
 

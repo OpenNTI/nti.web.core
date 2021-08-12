@@ -5,9 +5,9 @@ import cx from 'classnames';
 import { wait } from '@nti/lib-commons';
 
 import { Ellipsis } from '../loading-indicators/Ellipsis';
-import { styled } from '../../styles';
+import { styled } from '../../styles.d.ts';
 
-import Button from './Button';
+import { Button } from './Button';
 import {
 	useExecutor,
 	DISABLED,
