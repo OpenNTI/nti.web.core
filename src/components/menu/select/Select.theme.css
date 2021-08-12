@@ -8,6 +8,10 @@
 	margin: 0;
 }
 
+.no-options {
+	pointer-events: none;
+}
+
 .menu > li {
 	display: flex;
 	flex-direction: row;

@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 
 import { ChevronIcon } from '../../icons/Chevron';
 import { Flyout } from '../../flyout/Flyout';
@@ -38,7 +39,9 @@ export function SelectMenu(props) {
 			<Flyout.Trigger
 				variant="secondary"
 				transparent
-				className={Theme.menuTrigger}
+				className={cx(Theme.menuTrigger, {
+					[Theme.noOptions]: !hasOptions,
+				})}
 				data-testid={`${name}-trigger`}
 				{...(VariantToTriggerProps[variant] ?? {})}
 			>
