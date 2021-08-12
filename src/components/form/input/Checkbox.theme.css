@@ -1,0 +1,55 @@
+.checkbox {
+	position: relative;
+	line-height: 1; /* fixes a safari issue where clicking the label doesn't affect the checkbox */
+
+	--checkbox-size: 1rem;
+	--checkbox-reserved-space: calc(var(--checkbox-size) + 10px);
+
+	& > input[type='checkbox'] {
+		opacity: 0;
+		position: absolute;
+	}
+}
+
+.checkbox.blue {
+	--unselected-image: url(./assets/base.png);
+	--selected-image: url(./assets/select.png);
+}
+
+.checkbox.green {
+	--unselected-image: url(./assets/base.png);
+	--selected-image: url(./assets/select-green.png);
+}
+
+.label {
+	margin-left: var(--checkbox-reserved-space);
+
+	&::before {
+		content: '';
+		position: absolute;
+		top: 2px;
+		left: 0;
+		width: var(--checkbox-size);
+		height: var(--checkbox-size);
+		background: transparent center/100% no-repeat;
+		background-image: var(--unselected-image);
+	}
+}
+
+.checkbox > input[type='checkbox']:checked + .label::before {
+	background-image: var(--selected-image);
+}
+
+.checkbox > input[type='checkbox']:disabled + .label {
+	opacity: 0.5;
+	pointer-events: none;
+
+	&::before {
+		opacity: 0.5;
+	}
+}
+
+.checkbox > input[type='checkbox']:focus + .label::before {
+	box-shadow: 0 0 1px 1px var(--focus-border-color);
+	border-radius: 4px;
+}
