@@ -15,7 +15,7 @@ export function Base({ className, as: Cmp = 'div', ...props }) {
 	return (
 		<Cmp
 			className={cx(className, Theme.placeholder, Theme[style], {
-				[Theme.onScreen]: onScreen,
+				[Theme.offScreen]: !onScreen,
 			})}
 			{...useOnScreen(setOnScreen)}
 			{...otherProps}
