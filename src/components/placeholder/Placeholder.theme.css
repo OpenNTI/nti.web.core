@@ -2,25 +2,23 @@
 	--placeholder-color: var(--palette-grey-400);
 }
 
-.placeholder.flat {
+.flat {
 	background-color: var(--placeholder-color);
 }
 
-.placeholder.shimmer {
-	&:not(.on-screen) {
-		background-color: var(--placeholder-color);
-	}
+.shimmer {
+	animation: placeholdershimmer 2s infinite;
+	background: linear-gradient(
+		105deg,
+		var(--placeholder-color) 40%,
+		white 50%,
+		var(--placeholder-color) 60%
+	);
+	background-size: 1000px 100%;
+	background-attachment: fixed;
 
-	&.on-screen {
-		animation: placeholdershimmer 2s infinite;
-		background: linear-gradient(
-			105deg,
-			var(--placeholder-color) 40%,
-			white 50%,
-			var(--placeholder-color) 60%
-		);
-		background-size: 1000px 100%;
-		background-attachment: fixed;
+	&.off-screen {
+		visibility: hidden;
 	}
 }
 

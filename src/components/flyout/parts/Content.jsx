@@ -86,9 +86,12 @@ export default function FlyoutContent({
 		return () => (cleanupClickOut(), cleanupKeyboardBlur());
 	}, [alignment.hidden, alignTo, flyoutRef.current]);
 
-	const onFocusOutCatch = useCallback(e => {
-		alignTo.current?.onFocusOutCatch?.(e);
-	}, alignTo);
+	const onFocusOutCatch = useCallback(
+		e => {
+			alignTo.current?.onFocusOutCatch?.(e);
+		},
+		[alignTo]
+	);
 
 	if (alignment.hidden) {
 		return null;
