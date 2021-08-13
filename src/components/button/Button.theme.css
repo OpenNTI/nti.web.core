@@ -130,7 +130,7 @@
 	&.inverted {
 		background: var(--button-destructive-inverted-background);
 		color: var(--button-destructive-inverted-foreground);
-		box-shadow: 0 0 0 1px var(--button-destructive-inverted-foreground);
+		box-shadow: 0 0 0 1px var(--border-grey-light);
 	}
 }
 
@@ -146,6 +146,6 @@
 	&.inverted {
 		background: var(--button-constructive-inverted-background);
 		color: var(--button-constructive-inverted-foreground);
-		box-shadow: 0 0 0 1px var(--button-constructive-inverted-foreground);
+		box-shadow: 0 0 0 1px var(--border-grey-light);
 	}
 }
