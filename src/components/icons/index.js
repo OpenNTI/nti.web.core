@@ -1,5 +1,6 @@
 export { isIcon } from './types/identity';
 export { Add } from './Add';
+export { AddFriend } from './AddFriend';
 export { Alert } from './Alert';
 export { Arrow } from './Arrow';
 export { Check } from './Check';
