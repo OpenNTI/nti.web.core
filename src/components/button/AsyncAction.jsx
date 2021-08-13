@@ -5,7 +5,6 @@ import cx from 'classnames';
 import { wait } from '@nti/lib-commons';
 
 import { Ellipsis } from '../loading-indicators/Ellipsis';
-import { styled } from '../../styles.d.ts';
 
 import { Button } from './Button';
 import {
@@ -19,7 +18,6 @@ import {
 } from './hooks/use-executor';
 
 //#region Structural Styles
-
 /** @type {React.FunctionComponent<React.LiHTMLAttributes & {processing?: boolean}>} (Layer) */
 const Layer = styled.li`
 	flex: 0 0 100%;
