@@ -1,1 +1,1 @@
-src/data/index.js
+export * from './src/data/index.js';
