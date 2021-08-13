@@ -21,6 +21,7 @@ export { Pencil } from './Pencil';
 export { Person } from './Person';
 export { Plus } from './Plus';
 export { Report } from './Report';
+export { Reset } from './Reset';
 export { Search } from './Search';
 export { Share } from './Share';
 export { TrashCan } from './TrashCan';
