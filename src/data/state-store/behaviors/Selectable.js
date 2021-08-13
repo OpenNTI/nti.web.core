@@ -153,4 +153,8 @@ export const Selectable = Base =>
 				),
 			});
 		}
+
+		clearSelection() {
+			this.updateState({ selection: [] });
+		}
 	};
