@@ -18,6 +18,8 @@ export const Discrete = Base =>
 		static PageSizeParam = 'batchSize';
 		static PageOffsetParam = 'batchStart';
 
+		static PageResetParams = [];
+
 		constructor() {
 			super();
 
@@ -91,5 +93,21 @@ export const Discrete = Base =>
 				[this.constructor.PageOffsetParam]:
 					this.constructor.PageSize * Math.max(index - 1, 0),
 			});
+		}
+
+		mergeParams(newParams, oldParams) {
+			const merged = super.mergeParams(newParams, oldParams);
+
+			for (let reset of this.constructor.PageResetParams) {
+				if (
+					newParams[reset] != null &&
+					oldParams[reset] != null &&
+					newParams[reset] !== oldParams[reset]
+				) {
+					merged[this.constructor.PageOffsetParam] = 0;
+				}
+			}
+
+			return merged;
 		}
 	};

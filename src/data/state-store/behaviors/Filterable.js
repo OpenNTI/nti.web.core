@@ -10,6 +10,8 @@ export const Filterable = Base =>
 		static FilterParam = 'filter';
 		static DefaultFilter = null;
 
+		static PageResetParams = ['filter'];
+
 		constructor() {
 			super();
 
