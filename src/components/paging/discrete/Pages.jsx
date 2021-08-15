@@ -76,5 +76,8 @@ function getDisplayRange(total, current, display) {
 	const before = display / 2 - 1;
 	const after = display / 2;
 
-	return [Math.max(current - before, 1), Math.min(current + after, total)];
+	return [
+		Math.max(current - before, 1),
+		Math.min(current + after, total + 1),
+	];
 }
