@@ -1,0 +1,8 @@
+.error-message {
+	/* This makes the error message component take up the full height even when empty */
+
+	&[aria-hidden='true']::before {
+		content: 'W';
+		opacity: 0;
+	}
+}
