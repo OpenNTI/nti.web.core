@@ -18,7 +18,9 @@ export const Discrete = Base =>
 		static PageSizeParam = 'batchSize';
 		static PageOffsetParam = 'batchStart';
 
-		static PageResetParams = [];
+		static get PageResetParams() {
+			return Base.PageResetParams ?? [];
+		}
 
 		constructor() {
 			super();

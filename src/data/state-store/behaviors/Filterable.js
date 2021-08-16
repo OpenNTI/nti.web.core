@@ -10,7 +10,17 @@ export const Filterable = Base =>
 		static FilterParam = 'filter';
 		static DefaultFilter = null;
 
-		static PageResetParams = ['filter'];
+		static get PageResetParams() {
+			const base = Base.PageResetParams ?? [];
+
+			return [...base, this.FilterParam];
+		}
+
+		static get SelectionResetParams() {
+			const base = Base.SelectionResetParams ?? [];
+
+			return [...base, this.FilterParam];
+		}
 
 		constructor() {
 			super();

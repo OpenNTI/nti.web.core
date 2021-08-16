@@ -7,6 +7,10 @@
  */
 export const Selectable = Base =>
 	class extends Base {
+		static get ResetSelectionParams() {
+			return Base.ResetSelectionParams() ?? [];
+		}
+
 		constructor() {
 			super();
 
@@ -156,5 +160,21 @@ export const Selectable = Base =>
 
 		clearSelection() {
 			this.updateState({ selection: [] });
+		}
+
+		onParamsUpdate(current, prev) {
+			const baseCleanup = super.onParamsUpdate();
+
+			for (let reset of this.constructor.SelectionResetParams) {
+				if (
+					current[reset] != null &&
+					prev[reset] != null &&
+					current[reset] !== prev[reset]
+				) {
+					this.clearSelection();
+				}
+			}
+
+			return baseCleanup;
 		}
 	};
