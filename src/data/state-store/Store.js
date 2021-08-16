@@ -253,12 +253,13 @@ export class StateStore extends PropertyChangeEmitter {
 	 * @param {StoreState} newState
 	 */
 	updateState(newState = {}) {
+		const oldState = this.#state;
 		const updated = Object.keys(newState);
 		const merged = this.mergeState(newState, this.#state);
 
 		this.#state = merged;
 
-		this.#stateDidUpdate(this.#state);
+		this.#stateDidUpdate(this.#state, oldState);
 		this.onChange(updated);
 	}
 
@@ -271,14 +272,15 @@ export class StateStore extends PropertyChangeEmitter {
 	 * NOTE: returned `cleanup` must remove those listeners
 	 *
 	 * @abstract
-	 * @param {StoreState} state - the updated store state
+	 * @param {StoreState} currentState - the updated store state
+	 * @param {StoreState} prevState - the previous store state
 	 * @returns {Cleanup}
 	 */
-	onStateUpdate(state) {}
+	onStateUpdate(currentState, prevState) {}
 	#stateChangeCleanup = null;
-	#stateDidUpdate(state) {
+	#stateDidUpdate(...args) {
 		this.#stateChangeCleanup?.();
-		this.#stateChangeCleanup = this.onStateUpdate(state);
+		this.#stateChangeCleanup = this.onStateUpdate(...args);
 	}
 	//#endregion
 
@@ -320,12 +322,13 @@ export class StateStore extends PropertyChangeEmitter {
 			return;
 		}
 
+		const oldParams = this.#params;
 		const changed = this.didParamsChange(params, this.#params);
 
 		this.#params = this.mergeParams(params, this.#params);
 
 		if (changed) {
-			this.#paramsDidUpdate(this.#params);
+			this.#paramsDidUpdate(this.#params, oldParams);
 			this.reload();
 			this.onChange(Object.keys(params));
 		}
@@ -340,15 +343,16 @@ export class StateStore extends PropertyChangeEmitter {
 	 * NOTE: returned `cleanup` must remove those listeners
 	 *
 	 * @abstract
-	 * @param {StoreParams} params
+	 * @param {StoreParams} currentParams
+	 * @param {StoreParams} oldParams
 	 * @returns {Cleanup}
 	 */
-	onParamsUpdate(params) {}
+	onParamsUpdate(currentParams, oldParams) {}
 	#paramsChangeCleanup = null;
-	#paramsDidUpdate(params) {
+	#paramsDidUpdate(...args) {
 		this.#paramsChangeCleanup?.();
 
-		this.#paramsChangeCleanup = this.onParamsUpdate(params);
+		this.#paramsChangeCleanup = this.onParamsUpdate(...args);
 	}
 
 	//#endregion
