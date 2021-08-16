@@ -15,4 +15,6 @@
 	--color-selected-background-dark: var(--palette-blue-300);
 	--color-selected-background: var(--palette-blue-300-25);
 	--color-selected-background-light: var(--palette-blue-300-05);
+
+	--color-error: var(--palette-red-100);
 }

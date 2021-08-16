@@ -5,15 +5,21 @@ import { VariantGetter } from '../utils/PropGetters';
 import Styles from './rules/typography.module.css';
 
 const getTypographyVariant = VariantGetter(
-	['header-one', 'body'],
+	['header-one', 'subhead-one', 'body'],
 	null,
-	'typography'
+	'type'
 );
 
 const getColorVariant = VariantGetter(
-	['light', 'dark', 'regular'],
+	['light', 'dark', 'regular', 'error'],
 	'regular',
 	'color'
+);
+
+const getAlignVariant = VariantGetter(
+	['left', 'center', 'right'],
+	null,
+	'align'
 );
 
 function getVariantOrDefault(getter, props, defaults) {
@@ -41,14 +47,20 @@ export function getTypographyProps(propsArg, defaults) {
 		restTypeProps,
 		defaults
 	);
+	const [alignClass, restAlignProps] = getVariantOrDefault(
+		getAlignVariant,
+		restColorProps,
+		defaults
+	);
 
 	return {
 		className: cx(
 			className,
 			(typeClass || colorClass) && Styles.typography,
 			Styles[typeClass],
-			Styles[colorClass]
+			Styles[colorClass],
+			Styles[alignClass]
 		),
-		...restColorProps,
+		...restAlignProps,
 	};
 }

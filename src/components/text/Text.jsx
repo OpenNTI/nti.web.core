@@ -4,6 +4,7 @@ import { rawContent, getRefHandler } from '@nti/lib-commons';
 
 import Variant from '../high-order/Variant';
 import { getTypographyProps } from '../../system/css/get-typography-props';
+import { getSpacingProps } from '../../system/css/get-spacing-props';
 
 import useTransforms from './transforms/use-transforms';
 
@@ -21,12 +22,22 @@ const TextImpl = (props, ref) => {
 	return (
 		<Cmp
 			ref={getRefHandler(ref, transformedRef)}
-			{...getTypographyProps({ ...otherProps, ...contentProps })}
+			{...otherProps}
+			{...contentProps}
 		/>
 	);
 };
 
 export const Text = React.forwardRef(TextImpl);
+
+export const Typography = React.forwardRef((props, ref) =>
+	TextImpl(
+		{
+			...getSpacingProps(getTypographyProps(props)),
+		},
+		ref
+	)
+);
 
 Text.displayName = 'NTIText';
 

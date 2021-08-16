@@ -22,7 +22,7 @@ function MenuItem({ option, getText, active, onClick }) {
 					},
 					{ pv: 'md', pl: 'xl', pr: 'lg' }
 				),
-				{ typography: 'body' }
+				{ type: 'body' }
 			)}
 		>
 			{active && <CheckIcon className={Theme.check} />}
