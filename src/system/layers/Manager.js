@@ -160,14 +160,17 @@ class LayerManager {
 	 */
 	createLayer(config = {}) {
 		const { as = 'div', className = '', level = 'modal' } = config;
-		const layer = new Layer(
-			createDOM({
-				tag: as,
-				class: className,
-				[LayerLevelAttr]: level,
-				[LayerMaskAttr]: this.#levelMap[level]?.masks ? Mask : NoMask,
-			})
-		);
+		const domObject = {
+			tag: as,
+			[LayerLevelAttr]: level,
+			[LayerMaskAttr]: this.#levelMap[level]?.masks ? Mask : NoMask,
+		};
+
+		if (className) {
+			domObject.class = className;
+		}
+
+		const layer = new Layer(createDOM(domObject));
 
 		const inserter = this.getInserter(level);
 		inserter(layer.node);

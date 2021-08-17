@@ -79,7 +79,7 @@ export function getFlyoutProps(props) {
 	}
 
 	return {
-		styles: flyoutStyles,
+		style: flyoutStyles,
 		className: cx(
 			Theme.flyout,
 			Theme[primaryAxis],
