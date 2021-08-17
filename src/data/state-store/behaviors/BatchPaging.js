@@ -28,11 +28,16 @@ export const Discrete = Base =>
 			this.addDependentProperty('items', 'batch');
 			this.addDependentProperty('totalPages', 'batch');
 			this.addDependentProperty('currentPage', 'batch');
+		}
 
-			this.setParams({
+		getInitialParams() {
+			const base = super.getInitialParams();
+
+			return {
 				[this.constructor.PageSizeParam]: this.constructor.PageSize,
 				[this.constructor.PageOffsetParam]: 0,
-			});
+				...base,
+			};
 		}
 
 		/**

@@ -7,8 +7,16 @@
  */
 export const Filterable = Base =>
 	class extends Base {
-		static FilterParam = 'filter';
+		static get FilterParam() {
+			return Base.FilterParam ?? 'filter';
+		}
 		static DefaultFilter = null;
+
+		static get StatefulParams() {
+			const base = Base.StatefulParams ?? [];
+
+			return [...base, this.FilterParam];
+		}
 
 		static get PageResetParams() {
 			const base = Base.PageResetParams ?? [];
@@ -26,7 +34,6 @@ export const Filterable = Base =>
 			super();
 
 			const filterParam = this.constructor.FilterParam;
-			const defaultFilter = this.constructor.DefaultFilter;
 
 			if (filterParam !== 'filter') {
 				this.addDependentProperty('filter', filterParam);
@@ -35,12 +42,23 @@ export const Filterable = Base =>
 					get: () => this.getProperty(filterParam),
 				});
 			}
+		}
+
+		getInitialParams() {
+			const base = super.getInitialParams();
+			const filter = {};
+
+			const filterParam = this.constructor.FilterParam;
+			const defaultFilter = this.constructor.DefaultFilter;
 
 			if (defaultFilter) {
-				this.setParams({
-					[filterParam]: defaultFilter,
-				});
+				filter[filterParam] = defaultFilter;
 			}
+
+			return {
+				...filter,
+				...base,
+			};
 		}
 
 		setFilter(filter) {

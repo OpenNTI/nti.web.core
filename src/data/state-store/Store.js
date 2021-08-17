@@ -60,7 +60,14 @@ export class StateStore extends PropertyChangeEmitter {
 		this.#reader = createReader(this);
 
 		this.onceSetup = new Promise(fulfill =>
-			setTimeout(() => (this.#setupActions(), fulfill()))
+			setTimeout(
+				() => (
+					this.#setupActions(),
+					this.#initializeParams(),
+					this.#initializeState(),
+					fulfill()
+				)
+			)
 		);
 
 		//Set these up in the constructor, so they cannot be overridden
@@ -236,6 +243,13 @@ export class StateStore extends PropertyChangeEmitter {
 	//#region State
 	#state = {};
 
+	getInitialState() {
+		return {};
+	}
+	#initializeState() {
+		this.#state = this.getInitialState();
+	}
+
 	/**
 	 * Merge new store state into the old store state.
 	 *
@@ -286,6 +300,13 @@ export class StateStore extends PropertyChangeEmitter {
 
 	//#region Param
 	#params = {};
+
+	getInitialParams() {
+		return {};
+	}
+	#initializeParams() {
+		this.#params = this.getInitialParams();
+	}
 
 	/**
 	 * Check if the new params have newer data than the old params
