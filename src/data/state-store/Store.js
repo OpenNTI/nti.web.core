@@ -65,6 +65,7 @@ export class StateStore extends PropertyChangeEmitter {
 					this.#setupActions(),
 					this.#initializeParams(),
 					this.#initializeState(),
+					this.initializeBehavior?.(),
 					fulfill()
 				)
 			)
@@ -139,6 +140,16 @@ export class StateStore extends PropertyChangeEmitter {
 		];
 
 		return options.find(p => p !== undefined);
+	}
+
+	/**
+	 * Get a param off the store.
+	 *
+	 * @param {string} property
+	 * @returns {*}
+	 */
+	getParam(property) {
+		return this.#params[property];
 	}
 
 	#reader = null;

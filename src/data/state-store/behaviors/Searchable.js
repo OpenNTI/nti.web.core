@@ -1,4 +1,4 @@
-const SearchTerm = Symbol('searchTerm');
+const PendingSearchTerm = Symbol('searchTermPending');
 
 /**
  * Generate a StateStore that implements searching.
@@ -9,16 +9,22 @@ const SearchTerm = Symbol('searchTerm');
  */
 export const Searchable = Base =>
 	class extends Base {
-		static SearchBuffer = 300;
+		SearchParam = 'searchTerm';
+		SearchBuffer = 300;
 
-		constructor() {
-			super();
+		get PageResetParams() {
+			const base = super.PageResetParams ?? [];
 
-			this.addDependentProperty('searchTerm', SearchTerm);
+			return [...base, this.SearchParam];
+		}
+
+		initializeBehavior() {
+			super.initializeBehavior?.();
+			this.addDependentProperty('searchTerm', PendingSearchTerm);
 		}
 
 		get searchTerm() {
-			return this.get(SearchTerm);
+			return this.getProperty(PendingSearchTerm);
 		}
 
 		get isSearchBuffering() {
@@ -32,19 +38,22 @@ export const Searchable = Base =>
 			//NOTE: We are pushing the search term into the state as it updates.
 			//we are hiding it behind a symbol to avoid any confusion with the buffered
 			//search param value.
-			this.updateState({ [SearchTerm]: term });
+			this.updateState({ [PendingSearchTerm]: term });
 
 			this.#searchBuffering = true;
 			clearTimeout(this.#searchBuffer);
 
 			if (!term) {
 				this.#searchBuffering = false;
-				this.setParams({ searchTerm: null });
+
+				if (this.getParam(this.SearchParam)) {
+					this.setParams({ [this.SearchParam]: null });
+				}
 			} else {
 				this.#searchBuffer = setTimeout(() => {
 					this.#searchBuffering = false;
-					this.setParams({ searchTerm: term });
-				}, this.constructor.SearchBuffer);
+					this.setParams({ [this.SearchParam]: term });
+				}, this.SearchBuffer);
 			}
 		}
 	};

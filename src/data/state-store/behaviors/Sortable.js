@@ -7,23 +7,23 @@
  */
 export const Sortable = Base =>
 	class extends Base {
-		static SortOnParam = 'sortOn';
-		static SortOrderParam = 'sortOrder';
+		SortOnParam = 'sortOn';
+		SortOrderParam = 'sortOrder';
 
-		static DefaultSortOn = null;
-		static DefaultSortOrder = null;
+		DefaultSortOn = null;
+		DefaultSortOrder = null;
 
-		static get StatefulParams() {
-			const base = Base.StatefulParams ?? [];
+		get StatefulParams() {
+			const base = super.StatefulParams ?? [];
 
 			return [...base, this.SortOnParam, this.SortOrderParam];
 		}
 
-		constructor() {
-			super();
+		initializeBehavior() {
+			super.initializeBehavior?.();
 
-			const sortOnParam = this.constructor.sortOnParam;
-			const sortOrderParam = this.constructor.SortOrderParam;
+			const sortOnParam = this.sortOnParam;
+			const sortOrderParam = this.SortOrderParam;
 
 			if (sortOnParam !== 'sortOn') {
 				this.addDependentProperty('sortOn', sortOnParam);
@@ -46,14 +46,14 @@ export const Sortable = Base =>
 			const base = super.getInitialParams();
 			const sort = {};
 
-			const sortOn = this.constructor.DefaultSortOn;
-			const sortOrder = this.constructor.DefaultSortOrder;
+			const sortOn = this.DefaultSortOn;
+			const sortOrder = this.DefaultSortOrder;
 
 			if (sortOn) {
-				sort[this.constructor.SortOnParam] = sortOn;
+				sort[this.SortOnParam] = sortOn;
 			}
 			if (sortOrder) {
-				sort[this.constructor.SortOrderParam] = sortOrder;
+				sort[this.SortOrderParam] = sortOrder;
 			}
 
 			return {
@@ -64,16 +64,16 @@ export const Sortable = Base =>
 
 		setSort(property, direction) {
 			this.setParams({
-				[this.constructor.SortOnParam]: property,
-				[this.constructor.SortOrderParam]: direction,
+				[this.SortOnParam]: property,
+				[this.SortOrderParam]: direction,
 			});
 		}
 
 		setSortProperty(property) {
-			this.setParams({ [this.constructor.SortOnParam]: property });
+			this.setParams({ [this.SortOnParam]: property });
 		}
 
 		setSortOrder(direction) {
-			this.setParams({ [this.constructor.SortOrderParam]: direction });
+			this.setParams({ [this.SortOrderParam]: direction });
 		}
 	};

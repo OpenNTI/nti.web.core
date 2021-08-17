@@ -7,33 +7,31 @@
  */
 export const Filterable = Base =>
 	class extends Base {
-		static get FilterParam() {
-			return Base.FilterParam ?? 'filter';
-		}
-		static DefaultFilter = null;
+		FilterParam = 'filter';
+		DefaultFilter = null;
 
-		static get StatefulParams() {
-			const base = Base.StatefulParams ?? [];
+		get StatefulParams() {
+			const base = super.StatefulParams ?? [];
 
 			return [...base, this.FilterParam];
 		}
 
-		static get PageResetParams() {
-			const base = Base.PageResetParams ?? [];
+		get PageResetParams() {
+			const base = super.PageResetParams ?? [];
 
 			return [...base, this.FilterParam];
 		}
 
-		static get SelectionResetParams() {
-			const base = Base.SelectionResetParams ?? [];
+		get SelectionResetParams() {
+			const base = super.SelectionResetParams ?? [];
 
 			return [...base, this.FilterParam];
 		}
 
-		constructor() {
-			super();
+		initializeBehavior() {
+			super.initializeBehavior?.();
 
-			const filterParam = this.constructor.FilterParam;
+			const { FilterParam: filterParam } = this;
 
 			if (filterParam !== 'filter') {
 				this.addDependentProperty('filter', filterParam);
@@ -48,8 +46,8 @@ export const Filterable = Base =>
 			const base = super.getInitialParams();
 			const filter = {};
 
-			const filterParam = this.constructor.FilterParam;
-			const defaultFilter = this.constructor.DefaultFilter;
+			const filterParam = this.FilterParam;
+			const defaultFilter = this.DefaultFilter;
 
 			if (defaultFilter) {
 				filter[filterParam] = defaultFilter;
@@ -63,7 +61,7 @@ export const Filterable = Base =>
 
 		setFilter(filter) {
 			this.setParams({
-				[this.constructor.FilterParam]: filter,
+				[this.FilterParam]: filter,
 			});
 		}
 	};

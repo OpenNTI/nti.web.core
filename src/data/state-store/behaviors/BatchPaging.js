@@ -13,18 +13,17 @@ export const Continuous = () => {}; //TODO: fill this out
  */
 export const Discrete = Base =>
 	class extends Base {
-		static PageSize = 25;
+		PageSize = 25;
 
-		static PageSizeParam = 'batchSize';
-		static PageOffsetParam = 'batchStart';
+		PageSizeParam = 'batchSize';
+		PageOffsetParam = 'batchStart';
 
-		static get PageResetParams() {
+		get PageResetParams() {
 			return Base.PageResetParams ?? [];
 		}
 
-		constructor() {
-			super();
-
+		initializeBehavior() {
+			super.initializeBehavior?.();
 			this.addDependentProperty('items', 'batch');
 			this.addDependentProperty('totalPages', 'batch');
 			this.addDependentProperty('currentPage', 'batch');
@@ -34,8 +33,8 @@ export const Discrete = Base =>
 			const base = super.getInitialParams();
 
 			return {
-				[this.constructor.PageSizeParam]: this.constructor.PageSize,
-				[this.constructor.PageOffsetParam]: 0,
+				[this.PageSizeParam]: this.PageSize,
+				[this.PageOffsetParam]: 0,
 				...base,
 			};
 		}
@@ -66,7 +65,7 @@ export const Discrete = Base =>
 					? batch.FilteredTotalItemCount
 					: batch.total;
 
-			return Math.ceil(total / this.constructor.PageSize);
+			return Math.ceil(total / this.PageSize);
 		}
 
 		/**
@@ -92,26 +91,21 @@ export const Discrete = Base =>
 		}
 
 		get pageSize() {
-			return this.constructor.PageSize;
+			return this.PageSize;
 		}
 
 		loadPage(index) {
 			this.setParams({
-				[this.constructor.PageOffsetParam]:
-					this.constructor.PageSize * Math.max(index - 1, 0),
+				[this.PageOffsetParam]: this.PageSize * Math.max(index - 1, 0),
 			});
 		}
 
 		mergeParams(newParams, oldParams) {
 			const merged = super.mergeParams(newParams, oldParams);
 
-			for (let reset of this.constructor.PageResetParams) {
-				if (
-					newParams[reset] != null &&
-					oldParams[reset] != null &&
-					newParams[reset] !== oldParams[reset]
-				) {
-					merged[this.constructor.PageOffsetParam] = 0;
+			for (let reset of this.PageResetParams) {
+				if (merged[reset] !== oldParams[reset]) {
+					merged[this.PageOffsetParam] = 0;
 				}
 			}
 

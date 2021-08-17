@@ -7,13 +7,12 @@
  */
 export const Selectable = Base =>
 	class extends Base {
-		static get ResetSelectionParams() {
+		get ResetSelectionParams() {
 			return Base.ResetSelectionParams() ?? [];
 		}
 
-		constructor() {
-			super();
-
+		initializeBehavior() {
+			super.initializeBehavior?.();
 			this.addDependentProperty('isSelected', 'selection');
 			this.addDependentProperty('isAllSelected', 'selection');
 			this.addDependentProperty('selectionCount', 'selection');
@@ -165,7 +164,7 @@ export const Selectable = Base =>
 		onParamsUpdate(current, prev) {
 			const baseCleanup = super.onParamsUpdate();
 
-			for (let reset of this.constructor.SelectionResetParams) {
+			for (let reset of this.SelectionResetParams) {
 				if (
 					current[reset] != null &&
 					prev[reset] != null &&

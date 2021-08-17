@@ -16,17 +16,17 @@ export const Stateful = storage => {
 
 	return Base =>
 		class extends Base {
-			static StateKey = '';
+			StateKey = '';
 
-			// static get StatefulProperties() {
-			// 	return Base.StatefulProperties ?? [];
-			// }
-			// static get StatefulParams() {
-			// 	return Base.StatefulParams ?? [];
-			// }
+			get StatefulParams() {
+				return super.StatefulParams ?? [];
+			}
+			get StatefulProperties() {
+				return super.StatefulProperties ?? [];
+			}
 
 			getStateKey(scope) {
-				const key = this.constructor.StateKey;
+				const key = this.StateKey;
 				const stateKey = typeof key === 'function' ? key(this) : key;
 
 				return `${stateKey}-${scope}`;
@@ -57,7 +57,7 @@ export const Stateful = storage => {
 				);
 				const base = super.getInitialParams();
 
-				return (this.constructor.StatefulParams ?? []).reduce(
+				return (this.StatefulParams ?? []).reduce(
 					(acc, param) => {
 						if (state[param] == null) {
 							return acc;
@@ -74,7 +74,7 @@ export const Stateful = storage => {
 					storage.getItem(this.getStateKey('properties')) ?? {};
 				const base = super.getInitialState();
 
-				return (this.constructor.StatefulProperties ?? []).reduce(
+				return (this.StatefulProperties ?? []).reduce(
 					(acc, prop) => {
 						if (state[prop] == null) {
 							return acc;
@@ -89,7 +89,7 @@ export const Stateful = storage => {
 			onParamsUpdate(...args) {
 				const base = super.onParamsUpdate(...args);
 
-				this.updateStorage('params', this.constructor.StatefulParams);
+				this.updateStorage('params', this.StatefulParams);
 
 				return base;
 			}
@@ -97,10 +97,7 @@ export const Stateful = storage => {
 			onStateUpdate(...args) {
 				const base = super.onStateUpdate(...args);
 
-				this.updateStorage(
-					'properties',
-					this.constructor.StatefulProperties
-				);
+				this.updateStorage('properties', this.StatefulProperties);
 
 				return base;
 			}
