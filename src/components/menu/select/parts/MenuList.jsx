@@ -24,6 +24,7 @@ function MenuItem({ option, getText, active, onClick }) {
 				),
 				{ type: 'body' }
 			)}
+			data-option={option}
 		>
 			{active && <CheckIcon className={Theme.check} />}
 			<span>{getText(option)}</span>
