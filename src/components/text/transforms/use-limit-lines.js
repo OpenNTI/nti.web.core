@@ -16,7 +16,8 @@ const styles = stylesheet`
 	}
 
 	.single-line-limit {
-		display: block;
+		display: inline-block;
+		max-width: 100%;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
@@ -25,7 +26,7 @@ const styles = stylesheet`
 
 export default function useLimitLines(
 	ref,
-	{ className, style, limitLines, limit, ...otherProps }
+	{ className, style, limitLines: limit, ...otherProps }
 ) {
 	const [lineHeight, setLineHeight] = useState('1em');
 
@@ -42,7 +43,7 @@ export default function useLimitLines(
 		...otherProps,
 		className: cx(className, {
 			[styles.multiLineLimit]: isMultiLine,
-			[styles.singeLineLimit]: isSingleLine,
+			[styles.singleLineLimit]: isSingleLine,
 		}),
 		style: {
 			...style,
