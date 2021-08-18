@@ -108,7 +108,9 @@ export const Selectable = Base =>
 			const selection = this.getProperty('selection') ?? [];
 
 			this.updateState({
-				selection: selection.filter(s => s !== item),
+				selection: selection.filter(
+					s => !this.isSameSelectable(s, item)
+				),
 			});
 		}
 
