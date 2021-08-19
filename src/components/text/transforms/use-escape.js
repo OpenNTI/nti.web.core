@@ -4,18 +4,15 @@ export default function useEscape(ref, { allowMarkup, text, ...otherProps }) {
 	const [escaped, setEscaped] = useState(text);
 	const shouldEscape = typeof text === 'string' && !allowMarkup;
 
-	useLayoutEffect(
-		() => {
-			if (shouldEscape) {
-				return;
-			}
+	useLayoutEffect(() => {
+		if (!shouldEscape) {
+			return;
+		}
 
-			const span = document.createElement('span');
-			span.appendChild(document.createTextNode(text));
-			setEscaped(span.innerHTML);
-		},
-		Array.isArray(text) ? text : [text]
-	);
+		const span = document.createElement('span');
+		span.appendChild(document.createTextNode(text));
+		setEscaped(span.innerHTML);
+	}, [text]);
 
 	return {
 		...otherProps,
