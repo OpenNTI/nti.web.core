@@ -6,7 +6,10 @@ export default function useEscape(ref, { allowMarkup, text, ...otherProps }) {
 	useLayoutEffect(
 		() => {
 			if (typeof text !== 'string' || allowMarkup) {
-				setEscaped(text);
+				if (escaped !== text) {
+					setEscaped(text);
+				}
+
 				return;
 			}
 
