@@ -5,8 +5,9 @@
 
 /**
  * @typedef {object} ButtonCmpProps
- * @property {AsProp} [as='a'] - Cmp to render the button as
+ * @property {AsProp=} as - Cmp to render the button as. Defaults to a <button> or an <a> if href is given.
  * @property {boolean=} disabled - disallow triggering the button
+ * @property {string=} href - Link url
  * @property {EventHandler=} onClick - callback when the button is triggered
  */
 
@@ -21,12 +22,12 @@ import { useActionable } from './hooks/use-actionable';
  * Render a button
  *
  * @param {ButtonProps} props
- * @param {React.Ref<Button>} ref
+ * @param {React.Ref<any>} ref
  * @returns {JSX.Element}
  */
 function ButtonImpl(
 	{
-		as: Cmp = 'a',
+		as,
 		disabled,
 		onClick,
 
@@ -34,6 +35,7 @@ function ButtonImpl(
 	},
 	ref
 ) {
+	const Cmp = as || otherProps.href ? 'a' : 'button';
 	return (
 		<Cmp
 			ref={ref}
