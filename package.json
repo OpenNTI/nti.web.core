@@ -29,6 +29,7 @@
     "@nti/lib-commons": "NextThought/nti.lib.commons",
     "@nti/lib-dom": "NextThought/nti.lib.dom",
     "@nti/lib-locale": "NextThought/nti.lib.locale",
+    "@reach/tooltip": "^0.16.0",
     "date-fns": "^2.16.1",
     "date-fns-tz": "^1.0.10",
     "uuid": "^8.3.0"

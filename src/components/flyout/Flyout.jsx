@@ -88,5 +88,7 @@ function FlyoutCmp(
 
 export const Flyout = React.forwardRef(FlyoutCmp);
 
+export * from './Tooltip';
+
 Flyout.Trigger = Trigger;
 Flyout.Content = Content;
