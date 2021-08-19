@@ -2,10 +2,11 @@ import { useLayoutEffect, useState } from 'react';
 
 export default function useEscape(ref, { allowMarkup, text, ...otherProps }) {
 	const [escaped, setEscaped] = useState(text);
+	const shouldEscape = typeof text === 'string' && !allowMarkup;
 
 	useLayoutEffect(
 		() => {
-			if (typeof text !== 'string' || allowMarkup) {
+			if (shouldEscape) {
 				return;
 			}
 
@@ -19,6 +20,6 @@ export default function useEscape(ref, { allowMarkup, text, ...otherProps }) {
 	return {
 		...otherProps,
 		allowMarkup,
-		text: escaped,
+		text: shouldEscape ? escaped : text,
 	};
 }
