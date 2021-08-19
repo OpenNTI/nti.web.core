@@ -6,6 +6,7 @@ export * from './errors/Errors';
 export * from './form/Form';
 export * from './hooks/Hooks';
 export * as Icons from './icons/index';
+export * from './list/List';
 export * from './menu/Menu';
 export * from './paging/Paging';
 export * from './placeholder/Placeholder';

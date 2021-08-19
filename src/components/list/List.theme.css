@@ -1,0 +1,24 @@
+/* #region inline list */
+.inline-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.inline-list > li {
+	display: inline;
+}
+
+.inline-list > li > .separator {
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 1rem;
+	line-height: 0.875;
+	margin: -1px 0.3rem 0;
+}
+
+.inline-list > li:last-of-type > .separator {
+	display: none;
+}
+
+/* #endregion */
