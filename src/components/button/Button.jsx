@@ -35,7 +35,7 @@ function ButtonImpl(
 	},
 	ref
 ) {
-	const Cmp = as || otherProps.href ? 'a' : 'button';
+	const Cmp = as ?? (otherProps.href ? 'a' : 'button');
 	return (
 		<Cmp
 			ref={ref}
