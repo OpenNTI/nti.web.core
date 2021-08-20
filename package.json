@@ -4,6 +4,7 @@
   "description": "",
   "author": "nextthought",
   "license": "UNLICENSED",
+  "private": true,
   "main": "src/index.js",
   "exports": {
     ".": "./src/index.js",
