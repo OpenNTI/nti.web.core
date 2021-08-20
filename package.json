@@ -2,7 +2,6 @@
   "name": "@nti/web-core",
   "version": "1.0.0-alpha",
   "description": "",
-  "private": true,
   "author": "nextthought",
   "license": "UNLICENSED",
   "main": "src/index.js",
