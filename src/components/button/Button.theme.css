@@ -55,6 +55,26 @@
 	& :global(.nt-icon):last-child:not(:only-child) {
 		margin-left: 0.5rem;
 	}
+
+	&:focus::before {
+		content: '';
+		display: block;
+		position: absolute;
+		inset: -2px;
+		border-radius: inherit;
+		border: 3px solid var(--color-focused-outline);
+	}
+}
+
+@media (hover) {
+	.button:hover::after {
+		content: '';
+		display: block;
+		position: absolute;
+		inset: 0;
+		background: currentColor;
+		opacity: 0.1;
+	}
 }
 
 .button.only-icon {
@@ -103,7 +123,7 @@
 	&.inverted {
 		background: var(--button-primary-inverted-background);
 		color: var(--button-primary-inverted-foreground);
-		box-shadow: 0 0 0 1px var(--border-grey-light);
+		box-shadow: 0 0 0 1px var(--color-outline-light);
 	}
 }
 
@@ -119,7 +139,7 @@
 	&.inverted {
 		background: var(--button-secondary-inverted-background);
 		color: var(--button-secondary-inverted-foreground);
-		box-shadow: 0 0 0 1px var(--border-grey-light);
+		box-shadow: 0 0 0 1px var(--color-outline-light);
 	}
 }
 
@@ -135,7 +155,7 @@
 	&.inverted {
 		background: var(--button-destructive-inverted-background);
 		color: var(--button-destructive-inverted-foreground);
-		box-shadow: 0 0 0 1px var(--border-grey-light);
+		box-shadow: 0 0 0 1px var(--color-outline-light);
 	}
 }
 
@@ -151,6 +171,6 @@
 	&.inverted {
 		background: var(--button-constructive-inverted-background);
 		color: var(--button-constructive-inverted-foreground);
-		box-shadow: 0 0 0 1px var(--border-grey-light);
+		box-shadow: 0 0 0 1px var(--color-outline-light);
 	}
 }

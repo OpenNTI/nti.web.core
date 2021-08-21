@@ -40,6 +40,7 @@ function ButtonImpl(
 		<Cmp
 			ref={ref}
 			tabIndex={0}
+			disabled={disabled}
 			{...getButtonStyleProps({ disabled, ...otherProps })}
 			{...useActionable(onClick, { disabled })}
 		/>
