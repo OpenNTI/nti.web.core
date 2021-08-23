@@ -8,13 +8,18 @@ import { VariantGetter } from '../../../system/utils/PropGetters';
 import Theme from './Select.theme.css';
 import { MenuList } from './parts/MenuList';
 
-const getVariant = VariantGetter(['header'], 'header');
+const getVariant = VariantGetter(['header', 'medium'], 'header');
 
 const t = x => x;
 
 const VariantToTriggerProps = {
 	header: {
 		size: 'header',
+		variant: 'secondary',
+		transparent: true,
+	},
+	medium: {
+		size: 'medium',
 		variant: 'secondary',
 		transparent: true,
 	},
