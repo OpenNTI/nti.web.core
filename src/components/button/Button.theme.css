@@ -98,6 +98,18 @@
 		left: 50%;
 		transform: translate(-50%, -50%);
 	}
+
+	&.inverted,
+	&.transparent {
+		&:focus::after {
+			content: '';
+			display: block;
+			position: absolute;
+			inset: 0;
+			background: currentColor;
+			opacity: 0.1;
+		}
+	}
 }
 
 .button.disabled {

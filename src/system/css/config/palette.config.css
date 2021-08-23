@@ -16,7 +16,6 @@
 
 	--palette-blue-100: #f5fbff; /* legacy light-blue */
 	--palette-blue-300: #3fb3f6; /* legacy primary-blue */
-	--palette-blue-300-05: rgba(63, 179, 246, 0.05);
 	--palette-blue-300-10: rgba(63, 179, 246, 0.1);
 	--palette-blue-300-25: rgba(63, 179, 246, 0.25);
 	--palette-blue-300-50: rgba(63, 179, 246, 0.5);
