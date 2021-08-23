@@ -77,7 +77,7 @@
 	}
 }
 
-@media (hover) {
+@media (hover: hover) {
 	.button:hover::after {
 		content: '';
 		display: block;
