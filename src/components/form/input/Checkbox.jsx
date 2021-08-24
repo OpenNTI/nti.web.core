@@ -12,13 +12,18 @@ const getStyleVariant = VariantGetter(['blue', 'green'], 'blue');
 function CheckboxImpl(propsArg, ref) {
 	const [style, props] = getStyleVariant(propsArg);
 
-	const { className, disabled, label, name, ...otherProps } = getSpacingProps(
-		props,
-		{ p: 'md' }
-	);
+	const {
+		className,
+		disabled,
+		label,
+		name,
+		['data-testid']: testId,
+		...otherProps
+	} = getSpacingProps(props, { p: 'md' });
 
 	return (
 		<label
+			data-testid={testId}
 			className={cx(Theme.checkbox, Theme[style], {
 				[Theme.disabled]: disabled,
 			})}
