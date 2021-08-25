@@ -49,6 +49,29 @@ export const IconLast = ({ text, ...args }) => (
 	</Button>
 );
 
+export const FocusManagement = props => (
+	<>
+		<input />
+		<br />
+		<br />
+		<div style={{ display: 'flex', alignItems: 'center' }}>
+			<Button {...props} m="sm">
+				Button One
+			</Button>
+			<Button {...props} m="sm">
+				<Download />
+			</Button>
+			<Button {...props} m="sm">
+				<Download />
+				<span>Download</span>
+			</Button>
+		</div>
+		<br />
+		<br />
+		<input />
+	</>
+);
+
 # Button
 
 ## Text Buttons
@@ -83,4 +106,10 @@ export const IconLast = ({ text, ...args }) => (
 	>
 		{IconLast.bind({})}
 	</Story>
+</Canvas>
+
+## Focus Management
+
+<Canvas>
+	<Story name="Focus Management">{FocusManagement.bind({})}</Story>
 </Canvas>

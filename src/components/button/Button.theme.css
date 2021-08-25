@@ -31,6 +31,18 @@
 	);
 }
 
+.link,
+.plain {
+	appearance: none;
+	text-decoration: none;
+	background: none;
+	outline: none;
+	border: none;
+	display: inline-block;
+	position: relative;
+	cursor: pointer;
+}
+
 /* TODO: URGENT!!!! Add focused state */
 .button {
 	appearance: none;
@@ -55,6 +67,27 @@
 	& :global(.nt-icon):last-child:not(:only-child) {
 		margin-left: 0.5rem;
 	}
+
+	&:focus::before {
+		content: '';
+		display: block;
+		position: absolute;
+		inset: -2px;
+		border-radius: inherit;
+		border: 3px solid var(--color-focused-outline);
+	}
+}
+
+@media (hover: hover) {
+	.button:hover::after {
+		content: '';
+		display: block;
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		background: currentColor;
+		opacity: 0.1;
+	}
 }
 
 .button.only-icon {
@@ -66,6 +99,18 @@
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
+	}
+
+	&.inverted,
+	&.transparent {
+		&:focus::after {
+			content: '';
+			display: block;
+			position: absolute;
+			inset: 0;
+			background: currentColor;
+			opacity: 0.1;
+		}
 	}
 }
 
@@ -103,7 +148,7 @@
 	&.inverted {
 		background: var(--button-primary-inverted-background);
 		color: var(--button-primary-inverted-foreground);
-		box-shadow: 0 0 0 1px var(--border-grey-light);
+		box-shadow: 0 0 0 1px var(--color-outline-light);
 	}
 }
 
@@ -119,7 +164,7 @@
 	&.inverted {
 		background: var(--button-secondary-inverted-background);
 		color: var(--button-secondary-inverted-foreground);
-		box-shadow: 0 0 0 1px var(--border-grey-light);
+		box-shadow: 0 0 0 1px var(--color-outline-light);
 	}
 }
 
@@ -135,7 +180,7 @@
 	&.inverted {
 		background: var(--button-destructive-inverted-background);
 		color: var(--button-destructive-inverted-foreground);
-		box-shadow: 0 0 0 1px var(--border-grey-light);
+		box-shadow: 0 0 0 1px var(--color-outline-light);
 	}
 }
 
@@ -151,6 +196,6 @@
 	&.inverted {
 		background: var(--button-constructive-inverted-background);
 		color: var(--button-constructive-inverted-foreground);
-		box-shadow: 0 0 0 1px var(--border-grey-light);
+		box-shadow: 0 0 0 1px var(--color-outline-light);
 	}
 }

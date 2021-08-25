@@ -12,9 +12,18 @@
 	--color-foreground: var(--palette-grey-600);
 	--color-foreground-light: var(--palette-grey-500);
 
+	--color-outline-light: var(--palette-grey-400);
+
 	--color-selected-background-dark: var(--palette-blue-300);
 	--color-selected-background: var(--palette-blue-300-25);
-	--color-selected-background-light: var(--palette-blue-300-05);
+	--color-selected-background-light: var(--palette-blue-300-10);
+
+	--color-focused-background-dark: var(--palette-blue-300);
+	--color-focused-background: var(--palette-blue-300-25);
+	--color-focused-background-light: var(--palette-blue-300-10);
+
+	--color-focused-outline-dark: var(--palette-blue-300-75);
+	--color-focused-outline: var(--palette-blue-300-50);
 
 	--color-error: var(--palette-red-100);
 }
