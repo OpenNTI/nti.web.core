@@ -31,7 +31,8 @@
 	);
 }
 
-.link {
+.link,
+.plain {
 	appearance: none;
 	text-decoration: none;
 	background: none;

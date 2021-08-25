@@ -37,7 +37,14 @@ import Theme from './Button.theme.css';
 
 const getStyleProps = PropMapper({
 	buttonStyle: VariantGetter(
-		['link', 'primary', 'secondary', 'destructive', 'constructive'],
+		[
+			'link',
+			'plain',
+			'primary',
+			'secondary',
+			'destructive',
+			'constructive',
+		],
 		'primary'
 	),
 
@@ -96,14 +103,18 @@ export function getButtonStyleProps(props) {
 		...otherProps
 	} = getStyleProps(props);
 
-	if (style === 'link') {
-		return { className: cx(Theme[style], className), ...otherProps };
+	if (style === 'link' || style === 'plain') {
+		return {
+			className: cx(className, 'nti-button', Theme[style]),
+			...otherProps,
+		};
 	}
 
 	const buttonProps = {
 		...otherProps,
 		className: cx(
 			className,
+			'nti-button',
 			Theme.button,
 			Theme[style],
 			Theme[size],
