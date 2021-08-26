@@ -122,6 +122,7 @@
 
 .button.medium {
 	font-size: var(--font-size-200);
+	font-weight: 600;
 	line-height: 1rem;
 
 	--icon-size: 1rem;
@@ -130,6 +131,7 @@
 
 .button.large {
 	font-size: var(--font-size-200);
+	font-weight: 600;
 	line-height: 1.125rem;
 
 	--icon-size: 1rem;
