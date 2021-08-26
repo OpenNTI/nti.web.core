@@ -48,6 +48,9 @@
 .m-xl {
 	margin: var(--margin-xl);
 }
+.m-xxl {
+	margin: var(--margin-xxl);
+}
 
 /* vertical/block */
 .mv-xs {
@@ -69,6 +72,10 @@
 .mv-xl {
 	margin-top: var(--margin-xl);
 	margin-bottom: var(--margin-xl);
+}
+.mv-xxl {
+	margin-top: var(--margin-xxl);
+	margin-bottom: var(--margin-xxl);
 }
 
 /* horizontal/inline */
@@ -92,6 +99,10 @@
 	margin-left: var(--margin-xl);
 	margin-right: var(--margin-xl);
 }
+.mh-xxl {
+	margin-left: var(--margin-xxl);
+	margin-right: var(--margin-xxl);
+}
 
 /* top */
 .mt-xs {
@@ -108,6 +119,9 @@
 }
 .mt-xl {
 	margin-top: var(--margin-xl);
+}
+.mt-xxl {
+	margin-top: var(--margin-xxl);
 }
 
 /* right */
@@ -126,6 +140,9 @@
 .mr-xl {
 	margin-right: var(--margin-xl);
 }
+.mr-xxl {
+	margin-right: var(--margin-xxl);
+}
 
 /* bottom */
 .mb-xs {
@@ -142,6 +159,9 @@
 }
 .mb-xl {
 	margin-bottom: var(--margin-xl);
+}
+.mb-xxl {
+	margin-bottom: var(--margin-xxl);
 }
 
 /* left */
@@ -160,6 +180,9 @@
 .ml-xl {
 	margin-left: var(--margin-xl);
 }
+.ml-xxl {
+	margin-left: var(--margin-xxl);
+}
 
 /* all */
 .p-xs {
@@ -176,6 +199,9 @@
 }
 .p-xl {
 	padding: var(--padding-xl);
+}
+.p-xxl {
+	padding: var(--padding-xxl);
 }
 
 /* vertical/block */
@@ -199,6 +225,10 @@
 	padding-top: var(--padding-xl);
 	padding-bottom: var(--padding-xl);
 }
+.pv-xxl {
+	padding-top: var(--padding-xxl);
+	padding-bottom: var(--padding-xxl);
+}
 
 /* horizontal/inline */
 .ph-xs {
@@ -221,6 +251,10 @@
 	padding-left: var(--padding-xl);
 	padding-right: var(--padding-xl);
 }
+.ph-xxl {
+	padding-left: var(--padding-xxl);
+	padding-right: var(--padding-xxl);
+}
 
 /* top */
 .pt-xs {
@@ -237,6 +271,9 @@
 }
 .pt-xl {
 	padding-top: var(--padding-xl);
+}
+.pt-xxl {
+	padding-top: var(--padding-xxl);
 }
 
 /* right */
@@ -255,6 +292,9 @@
 .pr-xl {
 	padding-right: var(--padding-xl);
 }
+.pr-xxl {
+	padding-right: var(--padding-xxl);
+}
 
 /* bottom */
 .pb-xs {
@@ -272,6 +312,9 @@
 .pb-xl {
 	padding-bottom: var(--padding-xl);
 }
+.pb-xxl {
+	padding-bottom: var(--padding-xxl);
+}
 
 /* left */
 .pl-xs {
@@ -288,4 +331,7 @@
 }
 .pl-xl {
 	padding-left: var(--padding-xl);
+}
+.pl-xxl {
+	padding-left: var(--padding-xxl);
 }
