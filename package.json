@@ -38,6 +38,7 @@
     "@nti/cmp-scripts": "^2.47.4"
   },
   "peerDependencies": {
-    "react": "*"
+    "react": "*",
+    "react-dom": "*"
   }
 }

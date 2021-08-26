@@ -1,4 +1,5 @@
 //@ts-check
+import ReactDOM from 'react-dom';
 import React, { useContext } from 'react';
 
 /**
@@ -8,9 +9,43 @@ import React, { useContext } from 'react';
  * event. (for things like our editors)
  *
  * This context should be used for every `ReactDOM.render` and
- * `ReactDOM.createPortal`.
+ * `ReactDOM.createPortal` that hosts a component that uses the mount point.
  */
 const MountPointContext = React.createContext(global.document?.body);
+
+/**
+ * Convenience method to render a component at a mount point (and simultaneously
+ * setting the context)
+ *
+ * @param {JSX.Element} jsx
+ * @param {HTMLElement} node
+ * @returns {{unmount: () => void}}
+ */
+export function renderToMountPoint(jsx, node) {
+	// eslint-disable-next-line react/no-render-return-value
+	ReactDOM.render(<SetMountPoint node={node}>{jsx}</SetMountPoint>, node);
+
+	return {
+		unmount() {
+			ReactDOM.unmountComponentAtNode(node);
+		},
+	};
+}
+
+/**
+ * Convenience method to render a portaled component at a mount point (and simultaneously
+ * setting the context)
+ *
+ * @param {JSX.Element} jsx
+ * @param {HTMLElement} node
+ * @returns {React.ReactPortal}
+ */
+export function createPortalInMountPoint(jsx, node) {
+	return ReactDOM.createPortal(
+		<SetMountPoint node={node}>{jsx}</SetMountPoint>,
+		node
+	);
+}
 
 /**
  * Simple hook to get the mount point.
@@ -28,6 +63,7 @@ export const useMountPoint = () =>
  *
  * @param {object} param0
  * @param {HTMLElement} param0.node
+ * @param {React.ReactElement<any>} param0.children
  * @returns {JSX.Element}
  */
 export const SetMountPoint = ({ node, ...props }) => (
