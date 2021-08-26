@@ -48,7 +48,7 @@ const getStyleProps = PropMapper({
 		'primary'
 	),
 
-	size: VariantGetter(['medium', 'header'], 'medium', 'size'),
+	size: VariantGetter(['medium', 'large', 'header'], 'medium', 'size'),
 
 	state: StateGetter(['inverted', 'disabled', 'transparent']),
 });
@@ -56,6 +56,10 @@ const getStyleProps = PropMapper({
 /** @type {Record<string, SpacingProps>}}} */
 const SizeToDefaultSpacingProps = {
 	medium: {
+		pv: 'md',
+		ph: 'xl',
+	},
+	large: {
 		pv: 'md',
 		ph: 'lg',
 	},

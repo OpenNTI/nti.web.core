@@ -58,6 +58,7 @@
 	& :global(.nt-icon) {
 		font-size: var(--icon-size);
 		vertical-align: middle;
+		line-height: 0;
 	}
 
 	& :global(.nt-icon):first-child:not(:only-child) {
@@ -120,6 +121,14 @@
 }
 
 .button.medium {
+	font-size: var(--font-size-200);
+	line-height: 1rem;
+
+	--icon-size: 1rem;
+	--target-button-height: 40px;
+}
+
+.button.large {
 	font-size: var(--font-size-200);
 	line-height: 1.125rem;
 
