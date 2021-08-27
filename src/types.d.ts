@@ -11,5 +11,7 @@ export type Constructor = new (...args: any[]) => {};
 export type SortChangeHandler = (sortOn: string, sortDirection: string) => void;
 
 export interface IntrinsicProps {
-	className: string;
+	children?: React.ReactNode;
+	className?: string;
+	style?: React.CSSProperties;
 }
