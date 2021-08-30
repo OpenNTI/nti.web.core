@@ -3,22 +3,20 @@
 	list-style: none;
 	padding: 0;
 	margin: 0;
+
+	& > li {
+		display: inline;
+	}
 }
 
-.inline-list > li {
-	display: inline;
-}
-
-.inline-list > li > .separator {
-	display: inline-block;
-	vertical-align: middle;
+.middot {
 	font-size: 1rem;
-	line-height: 0.875;
-	margin: -1px 0.3rem 0;
-}
+	vertical-align: middle;
+	display: inline;
+	line-height: 0;
 
-.inline-list > li:last-of-type > .separator {
-	display: none;
+	/* this is very wide when the list items are inline-block and have their own margins ...like buttons */
+	margin: 0 0.3125rem;
 }
 
 /* #endregion */

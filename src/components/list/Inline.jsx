@@ -3,7 +3,11 @@ import cx from 'classnames';
 
 import Theme from './List.theme.css';
 
-const Middot = '·';
+const Middot = (
+	<span className={Theme.middot} aria-hidden="true">
+		·
+	</span>
+);
 
 export function InlineList({
 	children,
@@ -17,14 +21,16 @@ export function InlineList({
 
 	return (
 		<ul className={cx(className, Theme.inlineList)} {...otherProps}>
-			{items.map((item, index) => (
+			{items.map((item, index, list) => (
 				<li key={index}>
 					{item}
-					<span className={Theme.separator} aria-hidden="true">
-						{separator}
-					</span>
+					{!isLast(index, list) && separator}
 				</li>
 			))}
 		</ul>
 	);
+}
+
+function isLast(index, { length }) {
+	return index >= length - 1;
 }
