@@ -1,0 +1,58 @@
+import { useContext } from 'react';
+import { Meta, Story, Canvas } from '@storybook/addon-docs';
+import { DataView } from '../DataView';
+
+<Meta title="Data/Components/DataView" component={DataView} />
+
+export const Pager = () => {
+	// layer could be the ContextLayer raw object or a Store.
+	const layer = DataView.useContext();
+	return (
+		<div>
+			<button
+				onClick={() =>
+					layer.setPageOffset(
+						Math.max(0, layer.pageOffset - layer.pageSize)
+					)
+				}
+			>
+				&lt;
+			</button>
+			- <button onClick={() => layer.setPageOffset(layer.pageOffset + layer.pageSize)}>&gt;</button>
+		</div>
+	);
+};
+
+export const Main = () => {
+	return (
+		<DataView>
+			{cur => {
+				const c = DataView.useContext();
+				{
+					/* assert(cur === c); */
+				}
+				return (
+					<>
+						The current page is: {c.pageCurrent}
+						The current page offset is: {c.pageOffset}
+						<Pager />
+					</>
+				);
+			}}
+		</DataView>
+	);
+};
+
+# Data View
+
+The `DataView` component is akin to a layer of state. It manages the current filter/search/page/etc. (defined as `ContextLayer`) All components that wish to be aware of those thing may access them from the context by simply calling `withFilterParams` or `DataView.useContext()` directly. This is the foundational api.
+
+The `ContextLayer` is an interface that each instance of DataView implements. Other things can implement this interface as well and inject into the context hierarchy. Such as Stores.
+
+The `ContextLayer` may be extended with additional properties to facilitate a particular usage, but I would advise caution. Models manage data. Therefor manipulate data through them and their various methods. Creating a new instance will likely entail constructing a new model and posting it to a collection.
+
+## Basic
+
+<Canvas>
+	<Story name="Basic">{Main.bind({})}</Story>
+</Canvas>

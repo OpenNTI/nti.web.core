@@ -1,0 +1,32 @@
+import { Meta } from '@storybook/addon-docs';
+
+<Meta title="Fundamentals: Getting Data" />
+
+# Fundamentals: Getting Data
+
+> This is a 100ft view of the concept. Look to each part for more detail.
+
+All data starts from the service document. If you have a direct ID, call getObject or use NTObject component. Otherwise, get a collection and fetch it’s contents.
+
+Once you have objects, you can traverse further by fetching/acting on their links, much like one would follow links on a web page.
+
+Every model implements the HasLinks interface. This interface gives you `getLink(rel)`, `fetchLink(rel)`, etc. These are the PRIMARY way you get and set data from the server.
+
+-   see: getService, (useService)
+-   see: service.getObject (useObject, NTObject)
+-   see: HasLinks.fetchLink (useLink)
+
+## Paging, Sorting, Filtering
+
+Some links return collections of items. Most of these can be filtered and divided into sub views we call batches. This is often achieved by simply appending the appropriate parameters to the link. (eg: `fetchLink(‘contents’, {batchSize: 10, batchStart: 0})`). Searching/Filtering is often just a search param, or a named predefined filter. And sort, often a combination of field name & direction. You can supply these parameters to the fetch yourself OR (and preferred, actually) you can use a helper. We have defined a system that normalizes these parameters such that defaults line up with most common query parameters used.
+
+-   see: web-core/data
+-   see: useLink/useBatch?, DataView, withFilterParams
+
+## DataView
+
+This component sets up a context object that will manage and map query parameters to consumable normalized names. Allowing them to be set and consumed. useLink if called within this context will inherit these context values, except where provided by direct argument input is given. These contexts nest and may be addressed with an optional predicate function to select the desired layer.
+
+## Stores
+
+For cases where a store makes sense, you may use one. If extending from the provided base class, they implement the same interface as the DataView's ContextLayer and provide the same properties so that all components using the Context will have a common interface.
