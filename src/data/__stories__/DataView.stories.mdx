@@ -1,0 +1,31 @@
+import { useContext } from 'react';
+import { Meta, Story, Canvas } from '@storybook/addon-docs';
+import { DataView } from '../DataView';
+
+<Meta title="Data/Components/DataView" component={DataView} />
+
+export const Main = () => {
+	return (
+		<DataView>
+			{cur => {
+				const c = DataView.useContext();
+				{
+					/* assert(cur === c); */
+				}
+				return (
+					<button onClick={() => c.setPageOffset(20)}>
+						{c.pageOffset}
+					</button>
+				);
+			}}
+		</DataView>
+	);
+};
+
+# Data View
+
+## Basic
+
+<Canvas>
+	<Story name="Basic">{Main.bind({})}</Story>
+</Canvas>
