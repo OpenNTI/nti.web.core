@@ -1,0 +1,86 @@
+.container {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+}
+
+.container.global {
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	top: var(--nt-app-top-offset, 0);
+}
+
+.region {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.region.top {
+	& > * {
+		margin: 0.5rem;
+	}
+}
+
+.region.top-right {
+	position: absolute;
+	top: 0;
+	bottom: auto;
+	left: auto;
+	right: 0;
+	padding: 1rem;
+	width: 50%;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	justify-content: flex-start;
+
+	& > * {
+		margin: 0.5rem;
+		width: auto;
+		max-width: 360px;
+	}
+}
+
+.region > li {
+	pointer-events: all;
+}
+
+.region > li:global(.top-transition-enter),
+.region > li:global(.top-transition-appear) {
+	transform: translateY(-10px);
+	opacity: 0;
+}
+
+.region > li:global(.top-transition-enter-active),
+.region > li:global(.top-transition-appear-active) {
+	transform: translateY(0);
+	opacity: 1;
+	transition: transform 0.1s, opacity 0.2s;
+}
+
+.region > li:global(.top-transition-exit) {
+	max-height: var(--known-height, 100px);
+	transform: translateY(0);
+	opacity: 1;
+}
+
+.region > li:global(.top-transition-exit-active) {
+	max-height: 0;
+	transform: translateY(-10px);
+	opacity: 0;
+	transition: transform 0.1s, opacity 0.2s, max-height 0.2s;
+}
+
+@media only screen and (max-width: 420px) {
+	.region.top-right {
+		width: auto;
+
+		& > * {
+			max-width: 100vw;
+		}
+	}
+}
