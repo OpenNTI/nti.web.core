@@ -21,10 +21,8 @@ export const Base = () => {
 				<button onClick={() => addToast()}>Add Toast</button>
 			</div>
 			{toasts.map(toast => (
-				<Toast key={toast.key}>
-					<div onClick={() => removeToast(toast)}>
-						Toast {toast.key}!
-					</div>
+				<Toast key={toast.key} onDismiss={() => removeToast(toast)}>
+					<span>Toast {toast.key}!</span>
 				</Toast>
 			))}
 		</>

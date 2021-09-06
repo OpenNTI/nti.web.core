@@ -38,8 +38,8 @@ class ToastContext extends EventEmitter {
 		});
 	}
 
-	addToast(toast) {
-		this.#toasts = [...this.#toasts, toast];
+	addToast(id, data) {
+		this.#toasts = [...this.#toasts, { id, ...data }];
 		this.updateToasts();
 	}
 

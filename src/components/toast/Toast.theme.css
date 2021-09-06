@@ -1,3 +1,37 @@
+:root {
+	--toast-background: rgba(255, 255, 255, 0.95);
+	--toast-accent-color: white;
+}
+
+.toast.card {
+	position: relative;
+	background: var(--toast-background);
+	border-top: 4px solid var(--toast-accent-color);
+
+	& .controls {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: auto;
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-end;
+	}
+
+	& .dismiss {
+		padding: 0.25rem 0.625rem;
+		font-size: var(--font-size-200);
+	}
+
+	& .controls + .main {
+		margin-top: 1.25rem;
+	}
+}
+
+/* #region Positioning/Animations */
 .container {
 	position: absolute;
 	inset: 0;
@@ -38,10 +72,9 @@
 	align-items: flex-end;
 	justify-content: flex-start;
 
-	& > * {
+	& > li {
 		margin: 0.5rem;
-		width: auto;
-		max-width: 360px;
+		width: 360px;
 	}
 }
 
@@ -84,3 +117,5 @@
 		}
 	}
 }
+
+/* #endregion */
