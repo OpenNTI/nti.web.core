@@ -4,30 +4,63 @@
 }
 
 .toast.card {
-	position: relative;
 	background: var(--toast-background);
 	border-top: 4px solid var(--toast-accent-color);
-
-	& .controls {
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: auto;
-		width: 100%;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: flex-end;
-	}
+	display: grid;
+	grid-template-columns: 1.5rem 1fr 2rem;
+	grid-template-rows: auto auto;
+	column-gap: 0.25rem;
+	padding-top: 0.25rem;
 
 	& .dismiss {
 		padding: 0.25rem 0.625rem;
 		font-size: var(--font-size-200);
+		grid-row: 1 / 2;
+		grid-column: 3 / 4;
+		align-self: start;
 	}
 
-	& .controls + .main {
-		margin-top: 1.25rem;
+	& .icon {
+		font-size: 1.5em;
+		grid-row: 1 / 2;
+		grid-column: 1 / 2;
+		align-self: center;
+		color: var(--color-foreground);
+	}
+
+	& .title {
+		grid-row: 1 / 2;
+		grid-column: 2 / 3;
+		align-self: center;
+	}
+
+	& .contents {
+		grid-row: 2 / 3;
+		grid-column: 2 / 3;
+	}
+}
+
+.toast.info {
+	--toast-accent-color: var(--color-information);
+
+	& .icon {
+		color: var(--color-warning);
+	}
+}
+
+.toast.warning {
+	--toast-accent-color: var(--color-warning);
+
+	& .icon {
+		color: var(--color-warning);
+	}
+}
+
+.toast.error {
+	--toast-accent-color: var(--color-error);
+
+	& .icon {
+		color: var(--color-error);
 	}
 }
 

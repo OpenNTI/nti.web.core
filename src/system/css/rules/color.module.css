@@ -26,4 +26,6 @@
 	--color-focused-outline: var(--palette-blue-300-50);
 
 	--color-error: var(--palette-red-100);
+	--color-information: var(--color-brand-main);
+	--color-warning: var(--palette-orange-500);
 }

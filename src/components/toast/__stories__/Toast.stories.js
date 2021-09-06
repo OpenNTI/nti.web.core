@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 
 import { Toast } from '../Toast';
+// import { Download } from '../../icons';
 
 export default {
 	title: 'Components/Toast',
@@ -21,7 +22,11 @@ export const Base = () => {
 				<button onClick={() => addToast()}>Add Toast</button>
 			</div>
 			{toasts.map(toast => (
-				<Toast key={toast.key} onDismiss={() => removeToast(toast)}>
+				<Toast
+					title="Toast Title"
+					key={toast.key}
+					onDismiss={() => removeToast(toast)}
+				>
 					<span>Toast {toast.key}!</span>
 				</Toast>
 			))}

@@ -4,7 +4,7 @@ import cx from 'classnames';
 import { VariantGetter, PropMapper } from '../../system/utils/PropGetters';
 import { Card } from '../box/Card';
 import { Button } from '../button/Button';
-import { X } from '../icons';
+import { X, Alert } from '../icons';
 import { Typography } from '../text/Text';
 
 import Theme from './Toast.theme.css';
@@ -12,41 +12,45 @@ import { useToastContext } from './Context';
 
 const getToastProps = PropMapper({
 	layout: VariantGetter(['card', 'bar', 'plain'], 'card', 'layout'),
+	level: VariantGetter(['info', 'warning', 'error'], 'info', 'level'),
 });
 
 function ToastLayout(props) {
 	const {
 		className,
 		layout,
+		level,
 		title,
-		icon,
+		icon = <Alert />,
 		onDismiss,
 		children,
 		...otherProps
 	} = getToastProps(props);
 
+	if (layout === 'plain') {
+		return <Card {...otherProps}>{children}</Card>;
+	}
+
 	return (
 		<Card
-			className={cx(className, Theme.toast, Theme[layout])}
-			ph="md"
+			className={cx(className, Theme.toast, Theme[layout], Theme[level])}
+			pl="md"
 			{...otherProps}
 		>
 			{onDismiss && (
-				<div className={Theme.controls}>
-					<Button className={Theme.dismiss} plain onClick={onDismiss}>
-						<X.Bold />
-					</Button>
-				</div>
+				<Button className={Theme.dismiss} plain onClick={onDismiss}>
+					<X.Bold />
+				</Button>
 			)}
-			<div className={Theme.main}>
-				{icon && <div className={Theme.icon}>{icon}</div>}
-				{title && (
-					<Typography className={Theme.title} variant="subhead-one">
-						{title}
-					</Typography>
-				)}
-				<div className={Theme.contents}>{children}</div>
-			</div>
+			{icon && <div className={Theme.icon}>{icon}</div>}
+			{title && (
+				<Typography className={Theme.title} type="subhead-one">
+					{title}
+				</Typography>
+			)}
+			<Typography type="body" as="div" className={Theme.contents}>
+				{children}
+			</Typography>
 		</Card>
 	);
 }
