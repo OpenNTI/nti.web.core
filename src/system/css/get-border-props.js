@@ -10,12 +10,18 @@ import Styles from './rules/border.module.css';
 
 const RoundingProps = {
 	rounded: {
-		[true]: Styles.roundedSmall,
+		[true]: 'roundedSmall',
 	},
 };
 
-function getRoundingProps(props) {
-	for (let [prop, values] of Object.entries(RoundingProps)) {
+const ElevationProps = {
+	elevated: {
+		[true]: 'elevation-one',
+	},
+};
+
+function getPropsFromMap(props, map) {
+	for (let [prop, values] of Object.entries(map)) {
 		if (!props[prop] || !values[props[prop]]) {
 			continue;
 		}
@@ -30,6 +36,21 @@ function getRoundingProps(props) {
 	return [null, props];
 }
 
+const getRoundingVariant = props => getPropsFromMap(props, RoundingProps);
+const getElevationVariant = props => getPropsFromMap(props, ElevationProps);
+
+function getVariantOrDefault(getter, props, defaults) {
+	const provided = getter(props);
+
+	if (provided[0]) {
+		return provided;
+	}
+
+	const [defaultProp] = getter(defaults);
+
+	return [defaultProp, props];
+}
+
 /**
  * Get the props necessary to apply the given border styling
  *
@@ -40,17 +61,19 @@ function getRoundingProps(props) {
 export function getBorderProps(propsArg, defaultProps = {}) {
 	const { className, ...props } = propsArg;
 
-	const providedRoundingProps = getRoundingProps(props);
-	const wasProvidedRoundingProps = Boolean(providedRoundingProps[0]);
+	const [rounding, restRoundingProps] = getVariantOrDefault(
+		getRoundingVariant,
+		props,
+		defaultProps
+	);
+	const [elevation, restElevationProps] = getVariantOrDefault(
+		getElevationVariant,
+		restRoundingProps,
+		defaultProps
+	);
 
-	const roundingProps = wasProvidedRoundingProps
-		? providedRoundingProps
-		: getRoundingProps(defaultProps);
-
-	const roundingClassName = roundingProps[0];
-	const restProps = wasProvidedRoundingProps
-		? providedRoundingProps[1]
-		: props;
-
-	return { className: cx(roundingClassName, className), ...restProps };
+	return {
+		className: cx(className, Styles[rounding], Styles[elevation]),
+		...restElevationProps,
+	};
 }

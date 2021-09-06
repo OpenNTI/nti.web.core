@@ -4,9 +4,13 @@
 	--border-radius-small: 4px;
 
 	--border-grey-light: var(--palette-grey-400);
-
 	--focus-border-color: var(--palette-blue-300);
+
+	--elevation-shadow-color: var(--palette-grey-000-15);
+	--elevation-one-shadow: 0 1px 2px 1px var(--elevation-shadow-color);
 }
+
+/* #region rounded */
 
 .rounded-small {
 	border-radius: var(--border-radius-small);
@@ -27,3 +31,13 @@
 .rounded-right-small {
 	border-radius: 0 var(--border-radius-small) var(--border-radius-small) 0;
 }
+
+/* #endregion */
+
+/* #region elevation */
+
+.elevation-one {
+	box-shadow: var(--elevation-one-shadow);
+}
+
+/* #endregion */
