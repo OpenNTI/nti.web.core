@@ -90,7 +90,7 @@
 }
 
 .region.top {
-	& > * {
+	& > li {
 		margin: 0.5rem;
 	}
 }
@@ -118,26 +118,26 @@
 	pointer-events: all;
 }
 
-.region > li:global(.top-transition-enter),
-.region > li:global(.top-transition-appear) {
+.enter-top,
+.appear-top {
 	transform: translateY(-10px);
 	opacity: 0;
 }
 
-.region > li:global(.top-transition-enter-active),
-.region > li:global(.top-transition-appear-active) {
+.enter-top-active,
+.appear-top-active {
 	transform: translateY(0);
 	opacity: 1;
 	transition: transform 0.1s, opacity 0.2s;
 }
 
-.region > li:global(.top-transition-exit) {
+.exit-top {
 	max-height: var(--known-height, 100px);
 	transform: translateY(0);
 	opacity: 1;
 }
 
-.region > li:global(.top-transition-exit-active) {
+.exit-top-active {
 	max-height: 0;
 	transform: translateY(-10px);
 	opacity: 0;

@@ -12,12 +12,23 @@ const RegionOrder = [Top, TopRight];
 const DefaultLocation = TopRight;
 
 const LocationToTransition = {
-	[Top]: Top,
+	[Top]: {
+		enter: Theme.enterTop,
+		enterActive: Theme.enterTopActive,
+		exit: Theme.exitTop,
+		exitActive: Theme.exitTopActive,
+		appear: Theme.appearTop,
+		appearActive: Theme.appearTopActive,
+	},
 	[TopRight]: Top,
 };
 
 const getLocationClass = l => Theme[l.toLowerCase()];
-const getTransitionName = l => `${LocationToTransition[l]}-transition`;
+const getTransitionClassName = l => {
+	const transition = LocationToTransition[l];
+
+	return LocationToTransition[transition] ?? transition;
+};
 
 const ToastWrapper = ({ toast }) => {
 	const updateKnownHeight = useCallback(
@@ -44,7 +55,7 @@ const Region = ({ toasts, location }) => (
 		{toasts.map(toast => (
 			<CSSTransition
 				key={toast.id}
-				classNames={getTransitionName(location)}
+				classNames={getTransitionClassName(location)}
 				timeout={200}
 				appear
 			>
