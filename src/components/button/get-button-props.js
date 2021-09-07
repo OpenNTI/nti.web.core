@@ -16,6 +16,8 @@
  * @property {boolean=} medium
  * @property {boolean=} inverted - invert the color scheme
  * @property {boolean=} disabled - disallow triggering
+ * @property {boolean=} busy - disallow triggering because the button's action is inflight
+ * @property {boolean=} masked - the buttons contents are masked
  * @property {boolean=} transparent - maintain padding, but have no background on the button
  */
 
@@ -50,7 +52,7 @@ const getStyleProps = PropMapper({
 
 	size: VariantGetter(['medium', 'large', 'header'], 'medium', 'size'),
 
-	state: StateGetter(['inverted', 'disabled', 'transparent']),
+	state: StateGetter(['inverted', 'transparent']),
 });
 
 /** @type {Record<string, SpacingProps>}}} */
@@ -104,6 +106,8 @@ export function getButtonStyleProps(props) {
 		buttonStyle: style,
 		size,
 		state = [],
+		disabled,
+		busy,
 		...otherProps
 	} = getStyleProps(props);
 
@@ -116,6 +120,7 @@ export function getButtonStyleProps(props) {
 
 	const buttonProps = {
 		...otherProps,
+		disabled: disabled || busy,
 		className: cx(
 			className,
 			'nti-button',
