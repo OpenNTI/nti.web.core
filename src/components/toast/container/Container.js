@@ -5,6 +5,7 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import Theme from '../Toast.theme.css';
 import { Top, TopRight } from '../Locations';
 import { useResize } from '../../hooks/use-resize-observer';
+import { ZBooster } from '../../../system/layers/ZBooster';
 
 const RegionOrder = [Top, TopRight];
 
@@ -67,7 +68,7 @@ export function Container({ toasts, global, location: locationOverride }) {
 	}, {});
 
 	return (
-		<div
+		<ZBooster
 			data-toast-container="yes"
 			className={cx(Theme.container, { [Theme.global]: global })}
 		>
@@ -80,6 +81,6 @@ export function Container({ toasts, global, location: locationOverride }) {
 					<Region key={name} location={name} toasts={regions[name]} />
 				);
 			})}
-		</div>
+		</ZBooster>
 	);
 }

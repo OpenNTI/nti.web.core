@@ -21,7 +21,6 @@
 	}
 
 	& .icon {
-		font-size: 1.5em;
 		grid-row: 1 / 2;
 		grid-column: 1 / 2;
 		align-self: center;
@@ -44,7 +43,11 @@
 	--toast-accent-color: var(--color-information);
 
 	& .icon {
-		color: var(--color-warning);
+		color: var(--color-information);
+
+		& :global(.icon-alert) {
+			color: var(--color-warning);
+		}
 	}
 }
 

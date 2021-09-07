@@ -35,6 +35,7 @@ function ToastLayout(props) {
 		<Card
 			className={cx(className, Theme.toast, Theme[layout], Theme[level])}
 			pl="md"
+			pb="sm"
 			{...otherProps}
 		>
 			{onDismiss && (

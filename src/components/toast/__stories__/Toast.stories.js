@@ -1,7 +1,6 @@
 import { useState, useRef } from 'react';
 
 import { Toast } from '../Toast';
-// import { Download } from '../../icons';
 
 export default {
 	title: 'Components/Toast',
