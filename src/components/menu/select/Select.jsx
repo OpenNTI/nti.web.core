@@ -8,7 +8,7 @@ import { VariantGetter } from '../../../system/utils/PropGetters';
 import Theme from './Select.theme.css';
 import { MenuList } from './parts/MenuList';
 
-const getVariant = VariantGetter(['header', 'medium'], 'header');
+const getVariant = VariantGetter(['header', 'medium', 'link'], 'header');
 
 const t = x => x;
 
@@ -23,11 +23,17 @@ const VariantToTriggerProps = {
 		variant: 'secondary',
 		transparent: true,
 	},
+	link: {
+		size: 'medium',
+		variant: 'primary',
+		transparent: true,
+	},
 };
 
 export function SelectMenu(props) {
 	const [variant, restProps] = getVariant(props);
 	const {
+		className,
 		getText = t,
 		value,
 		title = getText(value),
@@ -35,6 +41,7 @@ export function SelectMenu(props) {
 		onChange,
 
 		name = 'select-menu',
+		...otherProps
 	} = restProps;
 
 	const hasOptions = !!options?.length;
@@ -44,11 +51,12 @@ export function SelectMenu(props) {
 			<Flyout.Trigger
 				variant="secondary"
 				transparent
-				className={cx(Theme.menuTrigger, {
+				className={cx(className, Theme.menuTrigger, {
 					[Theme.noOptions]: !hasOptions,
 				})}
 				data-testid={`${name}-trigger`}
 				{...(VariantToTriggerProps[variant] ?? {})}
+				{...otherProps}
 			>
 				<span>{title}</span>
 				{hasOptions && <ChevronIcon.Down large />}
