@@ -6,7 +6,7 @@
 
 import cx from 'classnames';
 
-import Styles from './rules/border.module.css';
+import styles from './rules/border.module.css';
 
 const RoundingProps = {
 	rounded: {
@@ -73,7 +73,11 @@ export function getBorderProps(propsArg, defaultProps = {}) {
 	);
 
 	return {
-		className: cx(className, Styles[rounding], Styles[elevation]),
+		className: cx(
+			className,
+			rounding && styles[rounding],
+			elevation && styles[elevation]
+		),
 		...restElevationProps,
 	};
 }

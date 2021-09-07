@@ -2,7 +2,7 @@ import cx from 'classnames';
 
 import { VariantGetter } from '../utils/PropGetters';
 
-import Styles from './rules/typography.module.css';
+import styles from './rules/typography.module.css';
 
 const getTypographyVariant = VariantGetter(
 	['header-one', 'subhead-one', 'body'],
@@ -56,10 +56,10 @@ export function getTypographyProps(propsArg, defaults) {
 	return {
 		className: cx(
 			className,
-			(typeClass || colorClass) && Styles.typography,
-			Styles[typeClass],
-			Styles[colorClass],
-			Styles[alignClass]
+			(typeClass || colorClass) && styles.typography,
+			styles[typeClass],
+			styles[colorClass],
+			styles[alignClass]
 		),
 		...restAlignProps,
 	};

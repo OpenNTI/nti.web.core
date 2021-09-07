@@ -26,7 +26,7 @@
 
 import cx from 'classnames';
 
-import Styles from './rules/spacing.module.css';
+import styles from './rules/spacing.module.css';
 
 const PaddingTop = 'padding-top';
 const PaddingRight = 'padding-right';
@@ -125,7 +125,7 @@ function getSideSizes(props = {}) {
 }
 
 function getClass(type, side, size) {
-	return Styles[`${type}${side}-${size}`];
+	return styles[`${type}${side}-${size}`];
 }
 
 /**
