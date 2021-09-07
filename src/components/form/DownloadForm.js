@@ -49,7 +49,7 @@ function DownloadFormImpl(
 
 	//Make sure we don't leave a poll running
 	useEffect(() => {
-		return () => poll.stop();
+		return () => poll.current?.stop();
 	}, []);
 
 	const onSubmit = useCallback(
