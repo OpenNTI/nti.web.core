@@ -1,0 +1,157 @@
+:root {
+	--toast-background: rgba(255, 255, 255, 0.95);
+	--toast-accent-color: white;
+}
+
+.toast.card {
+	background: var(--toast-background);
+	border-top: 4px solid var(--toast-accent-color);
+	display: grid;
+	grid-template-columns: 1.5rem 1fr 2rem;
+	grid-template-rows: auto auto;
+	column-gap: 0.25rem;
+	padding-top: 0.25rem;
+
+	& .dismiss {
+		padding: 0.25rem 0.625rem;
+		font-size: var(--font-size-200);
+		grid-row: 1 / 2;
+		grid-column: 3 / 4;
+		align-self: start;
+	}
+
+	& .icon {
+		grid-row: 1 / 2;
+		grid-column: 1 / 2;
+		align-self: center;
+		color: var(--color-foreground);
+	}
+
+	& .title {
+		grid-row: 1 / 2;
+		grid-column: 2 / 3;
+		align-self: center;
+	}
+
+	& .contents {
+		grid-row: 2 / 3;
+		grid-column: 2 / 3;
+	}
+}
+
+.toast.info {
+	--toast-accent-color: var(--color-information);
+
+	& .icon {
+		color: var(--color-information);
+
+		& :global(.icon-alert) {
+			color: var(--color-warning);
+		}
+	}
+}
+
+.toast.warning {
+	--toast-accent-color: var(--color-warning);
+
+	& .icon {
+		color: var(--color-warning);
+	}
+}
+
+.toast.error {
+	--toast-accent-color: var(--color-error);
+
+	& .icon {
+		color: var(--color-error);
+	}
+}
+
+/* #region Positioning/Animations */
+.container {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+}
+
+.container.global {
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	top: var(--nt-app-top-offset, 0);
+}
+
+.region {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.region.top {
+	& > li {
+		margin: 0.5rem;
+	}
+}
+
+.region.top-right {
+	position: absolute;
+	top: 0;
+	bottom: auto;
+	left: auto;
+	right: 0;
+	padding: 1rem;
+	width: 50%;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	justify-content: flex-start;
+
+	& > li {
+		margin: 0.5rem;
+		width: 360px;
+	}
+}
+
+.region > li {
+	pointer-events: all;
+}
+
+.enter-top,
+.appear-top {
+	transform: translateY(-10px);
+	opacity: 0;
+}
+
+.enter-top-active,
+.appear-top-active {
+	transform: translateY(0);
+	opacity: 1;
+	transition: transform 0.1s, opacity 0.2s;
+}
+
+.exit-top {
+	max-height: var(--known-height, 100px);
+	transform: translateY(0);
+	opacity: 1;
+}
+
+.exit-top-active {
+	max-height: 0;
+	transform: translateY(-10px);
+	opacity: 0;
+	transition: transform 0.1s, opacity 0.2s, max-height 0.2s;
+}
+
+@media only screen and (max-width: 420px) {
+	.region.top-right {
+		width: auto;
+
+		& > * {
+			max-width: 100vw;
+		}
+	}
+}
+
+/* #endregion */

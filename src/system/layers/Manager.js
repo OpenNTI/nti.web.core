@@ -90,6 +90,10 @@ class Layer extends EventEmitter {
 	createPortal(children) {
 		return ReactDOM.createPortal(children, this.#node);
 	}
+
+	render(children) {
+		ReactDOM.render(children, this.#node);
+	}
 }
 
 class LayerManager {

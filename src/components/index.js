@@ -13,5 +13,6 @@ export * from './paging/Paging';
 export * from './placeholder/Placeholder';
 export * from './table/Table';
 export * from './text/Text';
+export * from './toast/Toast';
 
 export * from './MountPoint';

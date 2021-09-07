@@ -7,6 +7,7 @@
  * @typedef {object} ButtonCmpProps
  * @property {AsProp=} as - Cmp to render the button as. Defaults to a <button> or an <a> if href is given.
  * @property {boolean=} disabled - disallow triggering the button
+ * @property {boolean=} busy - indicate that the button's action has been triggered
  * @property {string=} href - Link url
  * @property {EventHandler=} onClick - callback when the button is triggered
  */
@@ -29,6 +30,8 @@ function ButtonImpl(
 	{
 		as,
 		disabled,
+		busy,
+
 		onClick,
 
 		...otherProps
@@ -36,13 +39,17 @@ function ButtonImpl(
 	ref
 ) {
 	const Cmp = as ?? (otherProps.href ? 'a' : 'button');
+
 	return (
 		<Cmp
 			ref={ref}
 			tabIndex={0}
-			disabled={disabled}
-			{...getButtonStyleProps({ disabled, ...otherProps })}
-			{...useActionable(onClick, { disabled })}
+			{...getButtonStyleProps({
+				disabled,
+				busy,
+				...otherProps,
+			})}
+			{...useActionable(onClick, { disabled: disabled || busy })}
 		/>
 	);
 }

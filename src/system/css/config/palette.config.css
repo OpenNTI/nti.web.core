@@ -28,4 +28,6 @@
 	--palette-green-100: #ebf7ed; /* legacy light-green */
 	--palette-green-300: #8eb737; /* legacy primary-green */
 	--palette-green-500: #3fb34f; /* legacy secondary-green */
+
+	--palette-orange-500: #fa8700; /* legacy primary-orange */
 }

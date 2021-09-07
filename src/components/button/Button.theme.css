@@ -43,7 +43,6 @@
 	cursor: pointer;
 }
 
-/* TODO: URGENT!!!! Add focused state */
 .button {
 	appearance: none;
 	text-decoration: none;
@@ -91,6 +90,11 @@
 	}
 }
 
+.button:disabled {
+	opacity: 0.7;
+	pointer-events: none;
+}
+
 .button.only-icon {
 	width: var(--target-button-height);
 	height: var(--target-button-height);
@@ -113,11 +117,6 @@
 			opacity: 0.1;
 		}
 	}
-}
-
-.button.disabled {
-	opacity: 0.7;
-	pointer-events: none;
 }
 
 .button.medium {
