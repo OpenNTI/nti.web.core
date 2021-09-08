@@ -16,6 +16,8 @@
 
 import React from 'react';
 
+import { filterProps } from '../utils/filter-props';
+
 import { getButtonStyleProps } from './get-button-props';
 import { useActionable } from './hooks/use-actionable';
 
@@ -47,7 +49,7 @@ function ButtonImpl(
 			{...getButtonStyleProps({
 				disabled,
 				busy,
-				...otherProps,
+				...filterProps(otherProps, Cmp),
 			})}
 			{...useActionable(onClick, { disabled: disabled || busy })}
 		/>
