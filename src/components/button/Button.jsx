@@ -23,9 +23,18 @@ import { useActionable } from './hooks/use-actionable';
 
 // We need a block element within the button to counter-act the descender space...
 // AsyncAction can use this to move the label
-export const ButtonLabel = ({ children }) => (
-	<div data-button-label>{children}</div>
-);
+export const ButtonLabel = ({ children }) => {
+	const [child, ...other] = React.Children.toArray(children);
+
+	return other.length === 0 &&
+		typeof child === 'object' &&
+		'type' in child &&
+		child?.type === 'div' ? (
+		React.cloneElement(child, { 'data-button-label': true })
+	) : (
+		<div data-button-label>{children}</div>
+	);
+};
 
 /**
  * Render a button
