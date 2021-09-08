@@ -46,11 +46,14 @@ function ButtonImpl(
 		<Cmp
 			ref={ref}
 			tabIndex={0}
-			{...getButtonStyleProps({
-				disabled,
-				busy,
-				...filterProps(otherProps, Cmp),
-			})}
+			{...filterProps(
+				getButtonStyleProps({
+					disabled,
+					busy,
+					...otherProps,
+				}),
+				Cmp
+			)}
 			{...useActionable(onClick, { disabled: disabled || busy })}
 		/>
 	);
