@@ -6,7 +6,7 @@ import { wait } from '@nti/lib-commons';
 
 import { Ellipsis } from '../loading-indicators/Ellipsis';
 
-import { Button } from './Button';
+import { Button, ButtonLabel } from './Button';
 import {
 	useExecutor,
 	DISABLED,
@@ -29,7 +29,7 @@ const Layer = styled.li`
 	transition: background-color 250ms ease-in;
 	width: 100%;
 
-	& > span {
+	& > [data-button-label] {
 		position: absolute;
 		top: 50%;
 		left: 50%;
@@ -70,6 +70,7 @@ const Group = styled.ul`
 
 const Sizer = styled.span`
 	visibility: hidden;
+	display: block;
 `;
 
 const Structure = styled.button`
@@ -153,12 +154,12 @@ export function AsyncAction({
 			disabled={status === DISABLED || props.disabled}
 		>
 			<Sizer>
-				<span>{label}</span>
+				<ButtonLabel>{label}</ButtonLabel>
 			</Sizer>
 			<Mask>
 				<Group>
 					<Layer>
-						<span>{label}</span>
+						<ButtonLabel>{label}</ButtonLabel>
 					</Layer>
 
 					<Layer processing>

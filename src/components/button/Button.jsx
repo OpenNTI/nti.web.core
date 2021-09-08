@@ -21,6 +21,12 @@ import { filterProps } from '../utils/filter-props';
 import { getButtonStyleProps } from './get-button-props';
 import { useActionable } from './hooks/use-actionable';
 
+// We need a block element within the button to counter-act the descender space...
+// AsyncAction can use this to move the label
+export const ButtonLabel = ({ children }) => (
+	<div data-button-label>{children}</div>
+);
+
 /**
  * Render a button
  *
@@ -35,6 +41,7 @@ function ButtonImpl(
 		busy,
 
 		onClick,
+		children,
 
 		...otherProps
 	},
@@ -55,8 +62,27 @@ function ButtonImpl(
 				Cmp
 			)}
 			{...useActionable(onClick, { disabled: disabled || busy })}
-		/>
+		>
+			{hasLabel(children) ? (
+				children
+			) : (
+				<ButtonLabel>{children}</ButtonLabel>
+			)}
+		</Cmp>
 	);
 }
 
 export const Button = React.forwardRef(ButtonImpl);
+
+function hasLabel(children) {
+	for (let child of React.Children.toArray(children)) {
+		if (typeof child !== 'object') continue;
+		if (
+			('type' in child && child?.type === ButtonLabel) ||
+			('children' in child && hasLabel(child.children))
+		) {
+			return true;
+		}
+	}
+	return false;
+}
