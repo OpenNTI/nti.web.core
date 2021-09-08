@@ -109,7 +109,7 @@
 	pointer-events: none;
 }
 
-.button.only-icon {
+.only-icon {
 	width: var(--target-button-height);
 	height: var(--target-button-height);
 
@@ -133,7 +133,7 @@
 	}
 }
 
-.button.medium {
+.medium {
 	font-size: var(--font-size-200);
 	font-weight: 600;
 
@@ -142,7 +142,7 @@
 	--target-button-height: 40px;
 }
 
-.button.large {
+.large {
 	font-size: var(--font-size-200);
 	font-weight: 600;
 
@@ -151,7 +151,7 @@
 	--target-button-height: 42px;
 }
 
-.button.header {
+.header {
 	font-size: var(--font-size-800);
 	font-weight: 300;
 
@@ -160,7 +160,7 @@
 	--target-button-height: 52px;
 }
 
-.button.primary {
+.primary {
 	background: var(--button-primary-background);
 	color: var(--button-primary-foreground);
 
@@ -176,7 +176,7 @@
 	}
 }
 
-.button.secondary {
+.secondary {
 	background: var(--button-secondary-background);
 	color: var(--button-secondary-foreground);
 
@@ -192,7 +192,7 @@
 	}
 }
 
-.button.destructive {
+.destructive {
 	background: var(--button-destructive-background);
 	color: var(--button-destructive-foreground);
 
@@ -208,7 +208,7 @@
 	}
 }
 
-.button.constructive {
+.constructive {
 	background: var(--button-constructive-background);
 	color: var(--button-constructive-foreground);
 
