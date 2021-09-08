@@ -73,11 +73,11 @@ export function getBorderProps(propsArg, defaultProps = {}) {
 	);
 
 	return {
-		className: cx(
-			className,
-			rounding && styles[rounding],
-			elevation && styles[elevation]
-		),
+		className: cx(className, {
+			// prevent undefined/null strings in classnames
+			[styles[rounding]]: rounding,
+			[styles[elevation]]: elevation,
+		}),
 		...restElevationProps,
 	};
 }
