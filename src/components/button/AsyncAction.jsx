@@ -17,6 +17,9 @@ import {
 	FINISHED_ERROR,
 } from './hooks/use-executor';
 
+/// <reference path="../../styles.d.ts" />
+/// <reference path="../../types.d.ts" />
+
 //#region Structural Styles
 /** @type {React.FunctionComponent<React.LiHTMLAttributes & {processing?: boolean}>} (Layer) */
 const Layer = styled.li`
@@ -167,7 +170,7 @@ export function AsyncAction({
 					</Layer>
 
 					<Layer>
-						<span>{final}</span>
+						<ButtonLabel>{final}</ButtonLabel>
 					</Layer>
 				</Group>
 			</Mask>
