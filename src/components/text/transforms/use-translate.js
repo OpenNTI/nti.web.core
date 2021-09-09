@@ -27,7 +27,7 @@ function getTranslatedContent(localeKey, getString, data) {
 	const translationParts = translation.split('***');
 
 	if (translationParts.length === 1) {
-		return { text: translation, hasMarkup: true };
+		return { text: translation, allowMarkup: true };
 	}
 
 	const text = (
@@ -44,7 +44,7 @@ function getTranslatedContent(localeKey, getString, data) {
 		</>
 	);
 
-	return text;
+	return { text, allowMarkup: true };
 }
 
 export default function useTranslate(
@@ -53,10 +53,12 @@ export default function useTranslate(
 ) {
 	const isTranslated = getString && localeKey;
 
+	if (!isTranslated) {
+		return { text, ...otherProps };
+	}
+
 	return {
 		...otherProps,
-		text: isTranslated
-			? getTranslatedContent(localeKey, getString, data)
-			: text,
+		...getTranslatedContent(localeKey, getString, data),
 	};
 }

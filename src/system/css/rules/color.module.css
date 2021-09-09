@@ -8,6 +8,8 @@
 	--color-primary-action: var(--color-brand-main);
 	--color-secondary-action: var(--palette-grey-400);
 
+	--color-link: var(--palette-blue-300);
+
 	--color-foreground-dark: var(--palette-grey-700);
 	--color-foreground: var(--palette-grey-600);
 	--color-foreground-light: var(--palette-grey-500);

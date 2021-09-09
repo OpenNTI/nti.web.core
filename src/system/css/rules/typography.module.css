@@ -29,6 +29,15 @@
 	&.error {
 		color: var(--color-error);
 	}
+
+	& > a {
+		text-decoration: none;
+		color: var(--color-link);
+
+		&:focus {
+			text-decoration: underline;
+		}
+	}
 }
 
 .left {

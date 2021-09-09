@@ -42,3 +42,5 @@ export const Typography = React.forwardRef((props, ref) =>
 Text.displayName = 'NTIText';
 
 Text.Translator = getString => Variant(Text, { getString }, 'translator');
+Typography.Translator = getString =>
+	Variant(Typography, { getString }, 'translator');
