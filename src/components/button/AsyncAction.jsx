@@ -17,8 +17,8 @@ import {
 	FINISHED_ERROR,
 } from './hooks/use-executor';
 
-/// <reference path="../../styles.d.ts" />
-/// <reference path="../../types.d.ts" />
+// this is abusing the jsdoc syntax a bit but this is the only way I could find to import a d.ts file in a js file.
+/** @type { import("@nti/web-core/src/styles") }  */
 
 //#region Structural Styles
 /** @type {React.FunctionComponent<React.LiHTMLAttributes & {processing?: boolean}>} (Layer) */
