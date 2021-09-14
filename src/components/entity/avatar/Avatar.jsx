@@ -59,7 +59,8 @@ function AvatarContent({
 }) {
 	const [failedImage, setFailed] = useState();
 
-	const setUnknown = () => {
+	const setUnknown = e => {
+		e?.stopPropagation?.();
 		setFailed(isGroup(entity) ? BLANK_GROUP_AVATAR : BLANK_AVATAR);
 	};
 
