@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 
 import { useForceUpdate } from './use-force-update';
 
@@ -14,7 +14,7 @@ const addListener = (scope, event, fn) => {
 export function useChanges(item, callback, eventName = ChangeEvent) {
 	const forceUpdate = useForceUpdate();
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const handler = (...whatChanged) => {
 			if (callback) {
 				callback(forceUpdate, ...whatChanged);
