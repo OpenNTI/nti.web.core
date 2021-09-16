@@ -24,6 +24,12 @@ export const Main = () => {
 
 # Data View
 
+The `DataView` component is akin to a layer of state. It manages the current filter/search/page/etc. (defined as `ContextLayer`) All components that wish to be aware of those thing may access them from the context by simply calling `withFilterParams` or `DataView.useContext()` directly. This is the foundational api.
+
+The `ContextLayer` is an interface that each instance of DataView implements. Other things can implement this interface as well and inject into the context hierarchy. Such as Stores.
+
+The `ContextLayer` may be extended with additional properties to facilitate a particular usage, but I would advise caution. Models manage data. Therefor manipulate data through them and their various methods. Creating a new instance will likely entail constructing a new model and posting it to a collection.
+
 ## Basic
 
 <Canvas>
