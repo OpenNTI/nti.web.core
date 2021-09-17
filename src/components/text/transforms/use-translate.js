@@ -11,8 +11,8 @@ function getTranslatedContent(localeKey, getString, data) {
 			const [key, value] = entry;
 			const type = typeof value;
 
-			if (PrimitivesTypes[type]) {
-				acc.translateData[key] = value;
+			if (PrimitivesTypes[type] || value == null) {
+				acc.translateData[key] = value ?? '';
 			} else {
 				acc.translateData[key] = `***${key}***`;
 				acc.parts[key] = value;
