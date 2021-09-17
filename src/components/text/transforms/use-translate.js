@@ -1,4 +1,4 @@
-import { cloneElement } from 'react';
+import React from 'react';
 
 const PrimitivesTypes = {
 	string: true,
@@ -39,7 +39,7 @@ function getTranslatedContent(localeKey, getString, data) {
 
 				const cmp = parts[part];
 
-				return cloneElement(cmp, { key: index });
+				return React.cloneElement(cmp, { key: index });
 			})}
 		</>
 	);
