@@ -95,19 +95,6 @@
 		border-radius: inherit;
 		border: 3px solid var(--color-focused-outline);
 	}
-
-	&.unstyled {
-		/* Not sure if I can use all:unset */
-		all: unset;
-
-		/* appearance: none;
-		text-decoration: none;
-		background: none;
-		outline: none;
-		border: none;
-		cursor: auto;
-		padding: 0; */
-	}
 }
 
 @media (hover: hover) {
@@ -128,6 +115,11 @@
 .button:disabled {
 	opacity: 0.7;
 	pointer-events: none;
+}
+
+.unstyled {
+	/* Not sure if I can use all:unset */
+	all: unset;
 }
 
 .only-icon {
