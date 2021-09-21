@@ -43,6 +43,7 @@ const getStyleProps = PropMapper({
 			'link',
 			'plain',
 			'primary',
+			'unstyled',
 			'secondary',
 			'destructive',
 			'constructive',

@@ -41,6 +41,10 @@
 	display: inline-block;
 	position: relative;
 	cursor: pointer;
+
+	&:focus {
+		box-shadow: 0 0 1px 1px var(--primary-blue);
+	}
 }
 
 .button {
@@ -91,6 +95,19 @@
 		border-radius: inherit;
 		border: 3px solid var(--color-focused-outline);
 	}
+
+	&.unstyled {
+		/* Not sure if I can use all:unset */
+		all: unset;
+
+		/* appearance: none;
+		text-decoration: none;
+		background: none;
+		outline: none;
+		border: none;
+		cursor: auto;
+		padding: 0; */
+	}
 }
 
 @media (hover: hover) {
@@ -102,6 +119,9 @@
 		border-radius: inherit;
 		background: currentColor;
 		opacity: 0.1;
+	}
+	.unstyled:hover::after {
+		content: none;
 	}
 }
 
@@ -140,7 +160,7 @@
 
 	--button-line-height: 1rem;
 	--icon-size: 1rem;
-	--target-button-height: 40px;
+	--target-button-height: 40;
 }
 
 .large {
