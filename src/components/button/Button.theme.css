@@ -118,7 +118,6 @@
 }
 
 .unstyled {
-	/* Not sure if I can use all:unset */
 	all: unset;
 }
 
@@ -152,7 +151,7 @@
 
 	--button-line-height: 1rem;
 	--icon-size: 1rem;
-	--target-button-height: 40;
+	--target-button-height: 40px;
 }
 
 .large {
