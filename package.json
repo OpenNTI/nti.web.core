@@ -37,8 +37,7 @@
     "uuid": "^8.3.0"
   },
   "devDependencies": {
-    "@nti/cmp-scripts": "^2.47.4",
-    "@nti/style-common": "NextThought/nti.style.common"
+    "@nti/cmp-scripts": "^2.47.4"
   },
   "peerDependencies": {
     "react": "*",
