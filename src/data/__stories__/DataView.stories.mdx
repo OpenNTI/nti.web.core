@@ -4,6 +4,25 @@ import { DataView } from '../DataView';
 
 <Meta title="Data/Components/DataView" component={DataView} />
 
+export const Pager = () => {
+	// layer could be the ContextLayer raw object or a Store.
+	const layer = DataView.useContext();
+	return (
+		<div>
+			<button
+				onClick={() =>
+					layer.setPageOffset(
+						Math.max(0, layer.pageOffset - layer.pageSize)
+					)
+				}
+			>
+				&lt;
+			</button>
+			- <button onClick={() => layer.setPageOffset(layer.pageOffset + layer.pageSize)}>&gt;</button>
+		</div>
+	);
+};
+
 export const Main = () => {
 	return (
 		<DataView>
@@ -13,9 +32,11 @@ export const Main = () => {
 					/* assert(cur === c); */
 				}
 				return (
-					<button onClick={() => c.setPageOffset(20)}>
-						{c.pageOffset}
-					</button>
+					<>
+						The current page is: {c.pageCurrent}
+						The current page offset is: {c.pageOffset}
+						<Pager />
+					</>
 				);
 			}}
 		</DataView>
