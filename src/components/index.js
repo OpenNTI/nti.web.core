@@ -5,6 +5,7 @@ export * from './entity/Entity';
 export * from './errors/Errors';
 export * from './flyout/Flyout';
 export * from './form/Form';
+export * from './high-order/HighOrder';
 export * from './hooks/Hooks';
 export * as Icons from './icons/index';
 export * from './list/List';

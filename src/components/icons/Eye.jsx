@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Variant from '../high-order/Variant';
+import { Variant } from '../high-order/Variant';
 
 import { setIcon } from './types/identity';
 import FontIcon from './types/Font-Icon';

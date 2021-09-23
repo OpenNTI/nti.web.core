@@ -2,7 +2,7 @@ import React from 'react';
 
 import { rawContent, getRefHandler } from '@nti/lib-commons';
 
-import Variant from '../high-order/Variant';
+import { Variant } from '../high-order/Variant';
 import { getTypographyProps } from '../../system/css/get-typography-props';
 import { getSpacingProps } from '../../system/css/get-spacing-props';
 

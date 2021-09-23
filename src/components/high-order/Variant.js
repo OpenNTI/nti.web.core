@@ -1,8 +1,10 @@
 import React from 'react';
 
+import { HOC } from '@nti/lib-commons';
+
 import combineProps from '../../system/utils/combine-props';
 
-export default function Variant(Component, variantProps, name) {
+export function Variant(Component, variantProps, name) {
 	const cmp = React.forwardRef((props, ref) => {
 		const combinedProps =
 			typeof variantProps === 'function'
@@ -12,9 +14,11 @@ export default function Variant(Component, variantProps, name) {
 		return <Component {...combinedProps} ref={ref} />;
 	});
 
-	cmp.displayName = `${Component.displayName ?? Component.name ?? ''}${
-		name || 'Variant'
-	}`;
+	HOC.hoistStatics(
+		cmp,
+		Component,
+		`${Component.displayName ?? Component.name ?? ''}${name || 'Variant'}`
+	);
 
 	return cmp;
 }
