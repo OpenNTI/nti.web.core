@@ -5,7 +5,7 @@ import { VariantGetter } from '../utils/PropGetters';
 import styles from './rules/typography.module.css';
 
 const getTypographyVariant = VariantGetter(
-	['header-one', 'subhead-one', 'body'],
+	['header-one', 'header-one-alt', 'subhead-one', 'body'],
 	null,
 	'type'
 );
