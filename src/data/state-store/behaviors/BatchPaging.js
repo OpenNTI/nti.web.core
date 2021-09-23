@@ -13,6 +13,8 @@ export const Continuous = () => {}; //TODO: fill this out
  */
 export const Discrete = Base =>
 	class extends Base {
+		isDiscretePaging = true;
+
 		PageSize = 25;
 
 		PageSizeParam = 'batchSize';
@@ -112,3 +114,11 @@ export const Discrete = Base =>
 			return merged;
 		}
 	};
+
+/**
+ * Predicate to match stores that have the discrete paging behavior.
+ *
+ * @param {import('../../hooks/user-store').StoreInstance} s
+ * @returns {boolean}
+ */
+Discrete.hasBehavior = s => s.isDiscretePaging;

@@ -7,6 +7,8 @@
  */
 export const Sortable = Base =>
 	class extends Base {
+		isSortable = true;
+
 		SortOnParam = 'sortOn';
 		SortOrderParam = 'sortOrder';
 
@@ -77,3 +79,11 @@ export const Sortable = Base =>
 			this.setParams({ [this.SortOrderParam]: direction });
 		}
 	};
+
+/**
+ * Predicate to match stores that have the sortable behavior.
+ *
+ * @param {import('../../hooks/user-store').StoreInstance} s
+ * @returns {boolean}
+ */
+Sortable.hasBehavior = s => s.isSortable;

@@ -9,6 +9,8 @@ const PendingSearchTerm = Symbol('searchTermPending');
  */
 export const Searchable = Base =>
 	class extends Base {
+		isSearchable = true;
+
 		SearchParam = 'searchTerm';
 		SearchBuffer = 300;
 
@@ -57,3 +59,11 @@ export const Searchable = Base =>
 			}
 		}
 	};
+
+/**
+ * Predicate to match stores that have the searchable behavior.
+ *
+ * @param {import('../../hooks/user-store').StoreInstance} s
+ * @returns {boolean}
+ */
+Searchable.hasBehavior = s => s.isSearchable;

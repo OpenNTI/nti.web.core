@@ -7,6 +7,8 @@
  */
 export const Selectable = Base =>
 	class extends Base {
+		isSelectable = true;
+
 		get ResetSelectionParams() {
 			return Base.ResetSelectionParams() ?? [];
 		}
@@ -179,3 +181,11 @@ export const Selectable = Base =>
 			return baseCleanup;
 		}
 	};
+
+/**
+ * Predicate to match stores that have the selectable behavior.
+ *
+ * @param {import('../../hooks/user-store').StoreInstance} s
+ * @returns {boolean}
+ */
+Selectable.hasBehavior = s => s.isSelectable;

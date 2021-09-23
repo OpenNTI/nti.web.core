@@ -7,6 +7,8 @@
  */
 export const Filterable = Base =>
 	class extends Base {
+		isFilterable = true;
+
 		FilterParam = 'filter';
 		DefaultFilter = null;
 
@@ -65,3 +67,11 @@ export const Filterable = Base =>
 			});
 		}
 	};
+
+/**
+ * Predicate to match stores that have the filterable behavior.
+ *
+ * @param {import('../../hooks/user-store').StoreInstance} s
+ * @returns {boolean}
+ */
+Filterable.hasBehavior = s => s.isFilterable;

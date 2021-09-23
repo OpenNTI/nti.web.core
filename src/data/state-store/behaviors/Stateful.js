@@ -16,6 +16,8 @@ export const Stateful = storage => {
 
 	return Base =>
 		class extends Base {
+			isStateful = true;
+
 			StateKey = '';
 
 			get StatefulParams() {
@@ -105,3 +107,11 @@ export const Stateful = storage => {
 };
 
 Stateful.InMemoryStorage = MemoryStorage;
+
+/**
+ * Predicate to match stores that have the stateful behavior.
+ *
+ * @param {import('../../hooks/user-store').StoreInstance} s
+ * @returns {boolean}
+ */
+Stateful.hasBehavior = s => s.isStateful;
