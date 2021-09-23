@@ -2,9 +2,12 @@ import React from 'react';
 import { formatISO, parseJSON } from 'date-fns';
 
 import { Typography } from '../text/Text';
-import Variant from '../high-order/Variant';
+import { Variant } from '../high-order/Variant';
 
-import {
+import * as utils from './utils';
+import getString from './utils/strings';
+
+const {
 	DEFAULT,
 	format,
 	fromNow,
@@ -12,8 +15,7 @@ import {
 	isToday,
 	isYesterday,
 	isTomorrow,
-} from './utils';
-import getString from './utils/strings';
+} = utils;
 
 /** @typedef {(date: Date, pattern: string, defaultFormatter: Formatter) => string} Formatter */
 
@@ -57,8 +59,8 @@ function DateTimeImpl(
 	);
 }
 
-/** @type {(props: DateTimeProps) => React.ReactElement} */
-export const DateTime = React.forwardRef(DateTimeImpl);
+/** @type {DateTimeImpl & utils} */
+export const DateTime = Object.assign(React.forwardRef(DateTimeImpl), utils);
 
 /**
  * @typedef {object} RelativeProps
