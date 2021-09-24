@@ -41,6 +41,15 @@
 	display: inline-block;
 	position: relative;
 	cursor: pointer;
+
+	&:focus::before {
+		content: '';
+		display: block;
+		position: absolute;
+		inset: -2px;
+		border-radius: inherit;
+		border: 3px solid var(--color-focused-outline);
+	}
 }
 
 .button {
