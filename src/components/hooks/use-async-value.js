@@ -10,7 +10,7 @@ const DATA = {
 /** @typedef {import('@nti/lib-interfaces/src/models/Base').default} Model */
 
 /**
- * @template {Model} T
+ * @template {any} T
  * @param {string} key
  * @param {() => Promise<T>} factory The factory makes the request, and returns the results. Its the factory's responsibility to manage/cancel inflight re-entry.
  * @param {*} reload - if set, will reload once per unique instance (no primitives allowed)
