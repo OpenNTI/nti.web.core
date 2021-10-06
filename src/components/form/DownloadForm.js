@@ -15,14 +15,17 @@ const getAction = (action, id) => {
 };
 
 const getInputs = (params, id) => {
-	const inputs = [];
+	let inputs = [];
 
 	for (let [key, value] of Object.entries(params)) {
 		const values = Array.isArray(value) ? value : [value];
 
-		values.forEach(v =>
-			inputs.push(<input type="hidden" name={key} value={v} />)
-		);
+		inputs = [
+			...inputs,
+			...values.map((v, i) => (
+				<input type="hidden" key={`${key}.${i}`} name={key} value={v} />
+			)),
+		];
 	}
 
 	return inputs;
