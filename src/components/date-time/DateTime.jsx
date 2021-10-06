@@ -7,15 +7,8 @@ import { Variant } from '../high-order/Variant';
 import * as utils from './utils';
 import getString from './utils/strings';
 
-const {
-	DEFAULT,
-	format,
-	fromNow,
-	fromWhen,
-	isToday,
-	isYesterday,
-	isTomorrow,
-} = utils;
+const { DEFAULT, format, fromNow, fromWhen, isToday, isYesterday, isTomorrow } =
+	utils;
 
 /** @typedef {(date: Date, pattern: string, defaultFormatter: Formatter) => string} Formatter */
 
@@ -42,6 +35,13 @@ function DateTimeImpl(
 ) {
 	if (date == null) {
 		return null;
+	}
+
+	if ('dangerouslySetInnerHTML' in otherProps) {
+		// because we are passing children... they cannot co-exist
+		throw new Error(
+			'DateTime does not support dangerouslySetInnerHTML prop'
+		);
 	}
 
 	const defaultFormatter = () => format(date, pattern);
