@@ -16,6 +16,7 @@
 
 import React from 'react';
 
+import * as Icons from '../icons';
 import { filterProps } from '../utils/filter-props';
 
 import { getButtonStyleProps } from './get-button-props';
@@ -50,13 +51,16 @@ function ButtonImpl(
 		busy,
 
 		onClick,
-		children,
+		children: _children,
 
 		...otherProps
 	},
 	ref
 ) {
 	const Cmp = as ?? (otherProps.href ? 'a' : 'button');
+
+	const { children, ...extraProps } =
+		filterChildrenForLocalizedIcon(_children);
 
 	return (
 		<Cmp
@@ -67,6 +71,7 @@ function ButtonImpl(
 					disabled,
 					busy,
 					...otherProps,
+					...extraProps,
 				}),
 				Cmp
 			)}
@@ -94,4 +99,54 @@ function hasLabel(children) {
 		}
 	}
 	return false;
+}
+
+/**
+ * NTI-11289 - The commons button that this Core Button is based on grew the ability
+ * to turn a localized string into a named icon for some very reused buttons that hard
+ * coded some unfortunate assumptions about the label...
+ *
+ * Instead of untangle all that reuse, it was simpler and faster to add this capability
+ * to the button. :| I'm not proud of this, but its not the nastiest thing we've done. (I'm sorry)
+ *
+ * @param {any} children
+ * @returns {{children: any, title?: string, 'data-tooltip'?: string}}
+ */
+function filterChildrenForLocalizedIcon(children) {
+	const extras = {};
+
+	if (React.Children.count(children) === 1) {
+		const [child] = React.Children.toArray(children);
+		if (typeof child === 'string') {
+			const iconRe = /^icon:([^|]+)(?:\|(.*)?)?/i;
+			let [, icon, tip] = iconRe.exec(child) || [];
+			if (tip) {
+				extras.title = tip;
+				extras['data-tooltip'] = tip;
+			}
+
+			if (icon) {
+				const IconGlyph = Icons[icon];
+				if (IconGlyph) {
+					children = (
+						<>
+							<IconGlyph icon="true" />
+							<span
+								icon-label="true"
+								css={css`
+									display: none;
+								`}
+							>
+								{tip}
+							</span>
+						</>
+					);
+				} else {
+					children = <i data-icon="missing">[{icon}]</i>;
+				}
+			}
+		}
+	}
+
+	return { children, ...extras };
 }
