@@ -35,6 +35,7 @@ import {
 } from '../../system/utils/PropGetters';
 import { isIcon } from '../icons';
 
+// @ts-ignore
 import Theme from './Button.theme.css';
 
 const getStyleProps = PropMapper({
@@ -97,8 +98,9 @@ const isOnlyIcon = ({ children }) => {
 /**
  * Get the props to apply the configured button styles.
  *
- * @param {ButtonStyleProps} props
- * @returns {{className:string}}
+ * @template {ButtonStyleProps} T
+ * @param {T} props
+ * @returns {{className: string}}
  */
 export function getButtonStyleProps(props) {
 	const {
@@ -114,6 +116,7 @@ export function getButtonStyleProps(props) {
 	if (style === 'link' || style === 'plain') {
 		return {
 			className: cx(className, 'nti-button', Theme[style]),
+			disabled: disabled || busy,
 			...otherProps,
 		};
 	}
