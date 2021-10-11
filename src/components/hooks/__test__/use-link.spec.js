@@ -6,7 +6,7 @@ import { useLink } from '../use-link';
 test('useLink', async () => {
 	const object = {
 		getLink: jest.fn().mockReturnValue('/foo'),
-		fetchLinkParsed: jest.fn().mockReturnValue('passed'),
+		fetchLink: jest.fn().mockReturnValue('passed'),
 	};
 	const reload = {};
 
@@ -21,19 +21,22 @@ test('useLink', async () => {
 		'my-rel',
 		expect.not.objectContaining({ reload })
 	);
-	expect(object.fetchLinkParsed).toHaveBeenCalledWith('my-rel', {
-		foo: 'bar',
+	expect(object.fetchLink).toHaveBeenCalledWith({
+		rel: 'my-rel',
+		params: {
+			foo: 'bar',
+		},
 	});
-	expect(object.fetchLinkParsed).toHaveBeenCalledWith(
-		'my-rel',
-		expect.not.objectContaining({ reload })
-	);
+	expect(object.fetchLink).toHaveBeenCalledWith({
+		rel: 'my-rel',
+		params: expect.not.objectContaining({ reload }),
+	});
 });
 
 test('useLink - Bad reload nonce', async () => {
 	const object = {
 		getLink: jest.fn().mockReturnValue('/foo'),
-		fetchLinkParsed: jest.fn().mockReturnValue('passed'),
+		fetchLink: jest.fn().mockReturnValue('passed'),
 	};
 
 	const { result } = renderHook(() =>

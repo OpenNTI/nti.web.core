@@ -17,7 +17,7 @@ export function useLink(object, rel, { reload, ...params } = {}) {
 
 	return useAsyncValue(
 		key,
-		async () => object.fetchLinkParsed(rel, params),
+		async () => object.fetchLink({ rel, params }),
 		reload
 	);
 }
