@@ -1,5 +1,3 @@
-import { de } from 'date-fns/locale';
-
 export function pump() {
 	return new Promise(fulfill => {
 		setTimeout(() => fulfill(), 1);

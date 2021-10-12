@@ -1,7 +1,7 @@
 /* eslint-env jest */
 import Action from '../Action';
 
-import { pump, swallow, MockAction } from './utils';
+import { swallow, MockAction } from './utils';
 
 //TODO: test superseded and concurrent actions
 

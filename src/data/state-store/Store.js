@@ -114,9 +114,19 @@ export class StateStore extends PropertyChangeEmitter {
 		}
 
 		for (let cycle of LifeCycles) {
-			this[cycle] = Action.Superseded(this[cycle]).bindStore(
-				binding(cycle)
-			);
+			const override = this[cycle];
+
+			this[cycle] = Action.Superseded(async (action, ...args) => {
+				const result = override(action, ...args);
+
+				if (result?.then) {
+					await result.then(r => action.store.update(r));
+					return;
+				} else if (result) {
+					action.store.update(result);
+					return result;
+				}
+			}).bindStore(binding(cycle));
 		}
 	}
 
