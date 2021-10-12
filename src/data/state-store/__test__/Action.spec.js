@@ -41,7 +41,7 @@ describe('DataStore Action Tests', () => {
 
 				expect(action.hasRun).toBeFalsy();
 
-				await fulfill(0);
+				fulfill(0);
 				await action();
 
 				expect(action.hasRun).toBeTruthy();
@@ -310,230 +310,18 @@ describe('DataStore Action Tests', () => {
 		});
 
 		describe('onUpdate', () => {
-			describe('Single Values', () => {
-				test('gets called with value', async () => {
-					const store = { onUpdate: jest.fn() };
-					const { fulfill, method } = MockAction();
+			test('pushes update to store binding', () => {
+				const store = { onUpdate: jest.fn() };
+				const { method, update } = MockAction();
 
-					const action = Action(method).bindStore(store);
+				const action = Action(method).bindStore(store);
 
-					action();
-					await fulfill(0, 1);
+				action();
 
-					action();
-					await fulfill(1, 2);
+				update(0, 'update');
 
-					action();
-					await fulfill(2, 3);
-
-					expect(store.onUpdate).toHaveBeenCalledTimes(3);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(1, 1);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(2, 2);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(3, 3);
-				});
-
-				test('gets called in the order the actions were called (not fulfilled)', async () => {
-					const store = { onUpdate: jest.fn() };
-					const { fulfill, method } = MockAction();
-
-					const action = Action(method).bindStore(store);
-
-					const one = action();
-					const two = action();
-					const third = action();
-
-					await fulfill(2, 3);
-					await fulfill(1, 2);
-					await fulfill(0, 1);
-
-					await third;
-					await two;
-					await one;
-
-					expect(store.onUpdate).toHaveBeenCalledTimes(3);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(1, 1);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(2, 2);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(3, 3);
-				});
-
-				test('gets called for subsequent actions after a failed run', async () => {
-					const store = { onUpdate: jest.fn() };
-					const { fulfill, reject, method } = MockAction();
-
-					const action = Action(method).bindStore(store);
-
-					const one = action();
-					const two = action();
-					const third = action();
-
-					await fulfill(2, 3);
-					await reject(1);
-					await fulfill(0, 1);
-
-					await third;
-					await two;
-					await one;
-
-					expect(store.onUpdate).toHaveBeenCalledTimes(2);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(1, 1);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(2, 3);
-				});
-			});
-
-			describe('Iterator Values', () => {
-				test('gets called with each iterator value', async () => {
-					const store = { onUpdate: jest.fn() };
-					const { fulfill, method } = MockAction();
-
-					const action = Action(method).bindStore(store);
-
-					action();
-					await fulfill(0, [1, 2, 3][Symbol.iterator]());
-
-					expect(store.onUpdate).toHaveBeenCalledTimes(3);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(1, 1);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(2, 2);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(3, 3);
-				});
-
-				test('for multiple calls update gets called the values from each iterator in order', async () => {
-					const store = { onUpdate: jest.fn() };
-					const { fulfill, method } = MockAction();
-
-					const action = Action(method).bindStore(store);
-
-					const one = action();
-					const two = action();
-					const three = action();
-
-					await fulfill(2, [7, 8, 9][Symbol.iterator]());
-					await fulfill(1, [4, 5, 6][Symbol.iterator]());
-					await fulfill(0, [1, 2, 3][Symbol.iterator]());
-
-					await three;
-					await two;
-					await one;
-
-					expect(store.onUpdate).toHaveBeenCalledTimes(9);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(1, 1);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(2, 2);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(3, 3);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(4, 4);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(5, 5);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(6, 6);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(7, 7);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(8, 8);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(9, 9);
-				});
-
-				test('gets called for subsequent actions after a failed run', async () => {
-					const store = { onUpdate: jest.fn() };
-					const { fulfill, reject, method } = MockAction();
-
-					const action = Action(method).bindStore(store);
-
-					const one = action();
-					const two = action();
-					const three = action();
-
-					await fulfill(2, [7, 8, 9][Symbol.iterator]());
-					await reject(1);
-					await fulfill(0, [1, 2, 3][Symbol.iterator]());
-
-					await three;
-					await two;
-					await one;
-
-					expect(store.onUpdate).toHaveBeenCalledTimes(6);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(1, 1);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(2, 2);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(3, 3);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(4, 7);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(5, 8);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(6, 9);
-				});
-			});
-
-			describe('Async-Iterator Values', () => {
-				async function* doIterate(arr) {
-					for (let i of arr) {
-						await pump();
-						yield i;
-					}
-				}
-
-				test('gets called with each iterator value', async () => {
-					const store = { onUpdate: jest.fn() };
-					const { fulfill, method } = MockAction();
-
-					const action = Action(method).bindStore(store);
-
-					const call = action();
-					await fulfill(0, doIterate([1, 2, 3]));
-					await call;
-
-					expect(store.onUpdate).toHaveBeenCalledTimes(3);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(1, 1);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(2, 2);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(3, 3);
-				});
-
-				test('for multiple calls update gets called the values from each iterator in order', async () => {
-					const store = { onUpdate: jest.fn() };
-					const { fulfill, method } = MockAction();
-
-					const action = Action(method).bindStore(store);
-
-					const one = action();
-					const two = action();
-					const three = action();
-
-					await fulfill(2, doIterate([7, 8, 9]));
-					await fulfill(1, doIterate([4, 5, 6]));
-					await fulfill(0, doIterate([1, 2, 3]));
-
-					await three;
-					await two;
-					await one;
-
-					expect(store.onUpdate).toHaveBeenCalledTimes(9);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(1, 1);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(2, 2);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(3, 3);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(4, 4);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(5, 5);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(6, 6);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(7, 7);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(8, 8);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(9, 9);
-				});
-
-				test('gets called for subsequent actions after a failed run', async () => {
-					const store = { onUpdate: jest.fn() };
-					const { fulfill, reject, method } = MockAction();
-
-					const action = Action(method).bindStore(store);
-
-					const one = action();
-					const two = action();
-					const three = action();
-
-					await fulfill(2, doIterate([7, 8, 9]));
-					await reject(1);
-					await fulfill(0, doIterate([1, 2, 3]));
-
-					await three;
-					await two;
-					await one;
-
-					expect(store.onUpdate).toHaveBeenCalledTimes(6);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(1, 1);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(2, 2);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(3, 3);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(4, 7);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(5, 8);
-					expect(store.onUpdate).toHaveBeenNthCalledWith(6, 9);
-				});
+				expect(store.onUpdate).toHaveBeenCalledTimes(1);
+				expect(store.onUpdate).toHaveBeenCalledWith('update');
 			});
 		});
 	});

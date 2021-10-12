@@ -1,3 +1,5 @@
+import { de } from 'date-fns/locale';
+
 export function pump() {
 	return new Promise(fulfill => {
 		setTimeout(() => fulfill(), 1);
@@ -32,6 +34,8 @@ export function MockAction() {
 	let deferreds = [];
 	let calls = 0;
 
+	let updates = {};
+
 	const getDeferred = index => {
 		if (!deferreds[index]) {
 			deferreds[index] = Deferred();
@@ -41,9 +45,33 @@ export function MockAction() {
 	};
 
 	return {
+		update: (index, update) => {
+			const callUpdates = updates[index] ?? {};
+
+			if (callUpdates.update) {
+				callUpdates.update(update);
+			} else {
+				callUpdates.updates = callUpdates.updates ?? [];
+				callUpdates.updates.push(update);
+			}
+		},
+
 		fulfill: (index, ...args) => getDeferred(index).fulfill(...args),
 		reject: (index, ...args) => getDeferred(index).reject(...args),
 
-		method: (...args) => getDeferred(calls++).method(...args),
+		method: (action, ...args) => {
+			const call = calls++;
+			const callUpdates = updates[call] ?? {};
+
+			updates[call] = callUpdates;
+
+			for (let update of callUpdates.updates ?? []) {
+				action.store.update(update);
+			}
+
+			callUpdates.update = action.store.update;
+
+			return getDeferred(call).method();
+		},
 	};
 }

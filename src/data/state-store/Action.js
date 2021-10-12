@@ -55,33 +55,26 @@ function bindAction(
 	let runCount = 0;
 
 	async function execute(prev, signal, args) {
-		const actionObject = getData?.() ?? {};
+		const actionObject = {};
+		const store = getData?.() ?? {};
+
+		Object.defineProperties(store, {
+			update: {
+				value: (...args) => {
+					if (!signal.aborted) {
+						onUpdate(...args);
+					}
+				},
+			},
+		});
 
 		Object.defineProperties(actionObject, {
 			prev: { value: prev instanceof Promise ? prev : null },
 			signal: { value: signal },
+			store: { value: store },
 		});
 
-		const result = await fn.apply(scope ?? this, [actionObject, ...args]);
-
-		if (signal.aborted) {
-			return;
-		}
-
-		if (!result?.next) {
-			onUpdate?.(result);
-			return;
-		}
-
-		let pointer;
-
-		do {
-			pointer = await result.next();
-
-			if (!pointer.done && !signal.aborted) {
-				onUpdate?.(pointer.value);
-			}
-		} while (!pointer.done && !signal.aborted);
+		return fn.apply(scope ?? this, [actionObject, ...args]);
 	}
 
 	async function action(...args) {
@@ -96,13 +89,15 @@ function bindAction(
 		onStart?.();
 
 		try {
-			await task;
+			const result = await task;
 			runCount += 1;
 
 			if (isCurrent(task)) {
 				setCurrent(null);
 				onFinish?.();
 			}
+
+			return result;
 		} catch (e) {
 			runCount += 1;
 

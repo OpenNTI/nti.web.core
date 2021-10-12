@@ -165,14 +165,19 @@ describe('StateStore', () => {
 	describe('initialLoad', () => {
 		test('calls load with the current parameters', async () => {
 			const load = jest.fn();
+			let params = null;
 
 			class Test extends Store {
-				load(...args) {
-					return load(...args);
+				load(action) {
+					params = action.store.params;
+
+					return load(action);
 				}
 			}
 
 			const test = new Test();
+
+			await test.onceSetup;
 
 			test.setParams({ foo: 'bar' });
 			test.setParams({ bar: 'foo' });
@@ -181,15 +186,10 @@ describe('StateStore', () => {
 
 			await waitLoaded(test);
 
-			expect(load).toHaveBeenCalledWith({
-				prev: null,
-				signal: expect.any(AbortSignal),
-				params: {
-					foo: 'bar',
-					bar: 'foo',
-				},
-				state: {},
-			});
+			expect(load).toHaveBeenCalledTimes(1);
+
+			expect(params?.foo).toEqual('bar');
+			expect(params?.bar).toEqual('foo');
 		});
 
 		test('only calls load the first time', async () => {
@@ -232,12 +232,14 @@ describe('StateStore', () => {
 
 		test('multiple calls in quick succession only trigger one load with combined params', async () => {
 			const load = jest.fn();
+			let params = null;
 			const action = MockAction();
 
 			class Test extends Store {
-				load(...args) {
-					load(...args);
-					return action.method(...args);
+				load(action) {
+					load(action);
+					params = action.store.params;
+					return action.method(action);
 				}
 			}
 
@@ -255,15 +257,13 @@ describe('StateStore', () => {
 			await action.fulfill(1);
 
 			expect(load).toHaveBeenCalledTimes(2);
-			expect(load).toHaveBeenCalledWith({
-				state: {},
-				params: { a: 'a', b: 'b', c: 'c' },
-				signal: expect.any(AbortSignal),
-				prev: null,
-			});
+
+			expect(params?.a).toEqual('a');
+			expect(params?.b).toEqual('b');
+			expect(params?.c).toEqual('c');
 		});
 
-		test.only('aborts inflight load', async () => {
+		test('aborts inflight load', async () => {
 			const load = jest.fn();
 			const action = MockAction();
 
@@ -329,17 +329,18 @@ describe('StateStore', () => {
 	describe('load', () => {
 		test('pushes updates to the store', async () => {
 			class Test extends Store {
-				async *load() {
-					yield { a: 'a' };
+				async load(action) {
+					action.store.update({ a: 'a' });
 					await pump();
-					yield { b: 'b' };
+					action.store.update({ b: 'b' });
 					await pump();
-					yield { c: 'c' };
+					action.store.update({ c: 'c' });
 				}
 			}
 
 			const test = new Test();
 
+			await test.onceSetup;
 			await test.load();
 
 			expect(test.getProperty('a')).toBe('a');
@@ -357,6 +358,7 @@ describe('StateStore', () => {
 			}
 
 			const test = new Test();
+			await test.onceSetup;
 
 			test.subscribeToProperties('loading', listener);
 
@@ -383,6 +385,8 @@ describe('StateStore', () => {
 
 			const test = new Test();
 
+			await test.onceSetup;
+
 			test.subscribeToProperties('loaded', listener);
 
 			expect(test.loaded).toBeFalsy();
@@ -401,17 +405,17 @@ describe('StateStore', () => {
 	describe('unload', () => {
 		test('pushes updates to the store', async () => {
 			class Test extends Store {
-				async *unload() {
-					yield { a: 'a' };
+				async unload(action) {
+					action.store.update({ a: 'a' });
 					await pump();
-					yield { b: 'b' };
+					action.store.update({ b: 'b' });
 					await pump();
-					yield { c: 'c' };
+					action.store.update({ c: 'c' });
 				}
 			}
 
 			const test = new Test();
-
+			await test.onceSetup;
 			await test.unload();
 
 			expect(test.getProperty('a')).toBe('a');
@@ -429,6 +433,7 @@ describe('StateStore', () => {
 			}
 
 			const test = new Test();
+			await test.onceSetup;
 
 			test.subscribeToProperties('unloading', listener);
 
@@ -454,6 +459,7 @@ describe('StateStore', () => {
 			}
 
 			const test = new Test();
+			await test.onceSetup;
 
 			test.subscribeToProperties('unloaded', listener);
 
