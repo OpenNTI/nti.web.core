@@ -1,6 +1,5 @@
 /** @typedef {import('../../types').AsProp} AsProp */
 
-import React from 'react';
 import cx from 'classnames';
 
 import Theme from './box.theme.css';

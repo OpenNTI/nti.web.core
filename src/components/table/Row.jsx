@@ -1,4 +1,3 @@
-import React from 'react';
 
 /** @typedef {(item: any, e: Event) => void} EventHandler */
 

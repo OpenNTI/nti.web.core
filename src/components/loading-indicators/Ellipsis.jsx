@@ -1,4 +1,3 @@
-import React from 'react';
 
 const Container = styled.ul`
 	margin: 0;

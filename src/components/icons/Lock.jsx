@@ -1,4 +1,3 @@
-import React from 'react';
 
 import { setIcon } from './types/identity';
 import SVGIcon from './types/SVG-Icon';

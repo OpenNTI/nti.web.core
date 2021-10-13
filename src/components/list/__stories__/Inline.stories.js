@@ -1,4 +1,3 @@
-import React from 'react';
 
 import { InlineList } from '../Inline';
 import { Button } from '../../button/Button';

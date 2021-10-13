@@ -22,7 +22,7 @@ const MountPointContext = React.createContext(global.document?.body);
  * @returns {{unmount: () => void}}
  */
 export function renderToMountPoint(jsx, node) {
-	// eslint-disable-next-line react/no-render-return-value
+	 
 	ReactDOM.render(<SetMountPoint node={node}>{jsx}</SetMountPoint>, node);
 
 	return {

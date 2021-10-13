@@ -1,4 +1,3 @@
-import React from 'react';
 
 import { getSpacingProps } from '../../system/css/get-spacing-props';
 import { getBorderProps } from '../../system/css/get-border-props';

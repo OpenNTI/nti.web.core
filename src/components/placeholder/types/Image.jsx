@@ -1,7 +1,6 @@
 /** @typedef {import('../../../types.d.ts').AsProp} AsProp */
 /** @typedef {import('../../box/AspectRatio').AspectRatioProps} AspectRatioProps */
 
-import React from 'react';
 import cx from 'classnames';
 
 import { getMarginProps } from '../../../system/css/get-spacing-props';

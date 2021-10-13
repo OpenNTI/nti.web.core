@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import cx from 'classnames';
 
 import { VariantGetter, PropMapper } from '../../system/utils/PropGetters';

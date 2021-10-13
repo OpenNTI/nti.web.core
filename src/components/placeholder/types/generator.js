@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
 export function generator(placeholder) {
 	return ({ as: typeReplacement, ...otherProps }) => {

@@ -1,4 +1,3 @@
-import React from 'react';
 
 import { DisplayName } from '../DisplayName';
 

@@ -1,6 +1,5 @@
 /** @typedef {import('../../../types.d.ts').AsProp} AsProp */
 
-import React from 'react';
 import cx from 'classnames';
 
 import { getTypographyProps } from '../../../system/css/get-typography-props';
