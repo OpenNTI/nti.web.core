@@ -1,4 +1,5 @@
 export { AsyncAction } from './button/AsyncAction';
+export * from './box/Box';
 export { Button } from './button/Button';
 export * from './date-time/DateTime';
 export * from './entity/Entity';
