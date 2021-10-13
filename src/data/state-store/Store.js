@@ -268,7 +268,7 @@ export class StateStore extends PropertyChangeEmitter {
 		return {};
 	}
 	#initializeState() {
-		this.#state = this.getInitialState();
+		this.#state = { ...this.getInitialState(), ...this.#state };
 	}
 
 	/**
@@ -326,7 +326,7 @@ export class StateStore extends PropertyChangeEmitter {
 		return {};
 	}
 	#initializeParams() {
-		this.#params = this.getInitialParams();
+		this.#params = { ...this.getInitialParams(), ...this.#params };
 	}
 
 	/**
