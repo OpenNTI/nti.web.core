@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 const Cache = new WeakMap();
 
@@ -64,7 +64,7 @@ export function useOnScreen(onChange, config = {}) {
 	const ref = useRef();
 	const observer = useIntersectionObserver(onChange, config);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const target = ref.current;
 
 		observer.observe(target);
