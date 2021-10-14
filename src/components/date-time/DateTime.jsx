@@ -111,3 +111,17 @@ DateTime.RelativeAdverb = Variant(
 	}),
 	'RelativeAdverb'
 );
+
+/**
+ * Display the date in ISO-8601 format
+ *
+ * @type {(props: (DateTimeProps)) => JSX.Element}
+ */
+DateTime.ISO = Variant(
+	DateTime,
+	({ ...props }) => ({
+		...props,
+		formatter: date => formatISO(date, { representation: 'complete' }),
+	}),
+	'ISO'
+);
