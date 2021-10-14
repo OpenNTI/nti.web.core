@@ -22,7 +22,7 @@ const { DEFAULT, format, fromNow, fromWhen, isToday, isYesterday, isTomorrow } =
 /**
  * @param {DateTimeProps} props
  * @param {any} ref
- * @returns {React.ReactElement}
+ * @returns {JSX.Element}
  */
 function DateTimeImpl(
 	{
@@ -71,7 +71,7 @@ export const DateTime = Object.assign(React.forwardRef(DateTimeImpl), utils);
 /**
  * Display the date relative to a target
  *
- * @type {(props: (DateTimeProps & RelativeProps)) => React.ReactElement}
+ * @type {(props: (DateTimeProps & RelativeProps)) => JSX.Element}
  */
 DateTime.Relative = Variant(
 	DateTime,
@@ -87,7 +87,7 @@ DateTime.Relative = Variant(
 /**
  * Display the date relative to the target, but uses "yesterday", "today", and "tomorrow"
  *
- * @type {(props: (DateTimeProps & RelativeProps)) => React.ReactElement}
+ * @type {(props: (DateTimeProps & RelativeProps)) => JSX.Element}
  */
 DateTime.RelativeAdverb = Variant(
 	DateTime,

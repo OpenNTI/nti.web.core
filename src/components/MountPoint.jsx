@@ -22,7 +22,6 @@ const MountPointContext = React.createContext(global.document?.body);
  * @returns {{unmount: () => void}}
  */
 export function renderToMountPoint(jsx, node) {
-	 
 	ReactDOM.render(<SetMountPoint node={node}>{jsx}</SetMountPoint>, node);
 
 	return {
@@ -63,7 +62,7 @@ export const useMountPoint = () =>
  *
  * @param {object} param0
  * @param {HTMLElement} param0.node
- * @param {React.ReactElement<any>} param0.children
+ * @param {JSX.Element<any>} param0.children
  * @returns {JSX.Element}
  */
 export const SetMountPoint = ({ node, ...props }) => (
@@ -75,7 +74,7 @@ export const SetMountPoint = ({ node, ...props }) => (
  *
  * @param {object} param0
  * @param {string=} [param0.prop="mountPoint"]
- * @param {React.ReactElement<any>} param0.children
+ * @param {JSX.Element<any>} param0.children
  * @returns {JSX.Element}
  */
 export const MountPoint = ({ prop = 'mountPoint', children }) => (
