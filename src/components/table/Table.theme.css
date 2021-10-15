@@ -16,6 +16,10 @@
 	border-collapse: collapse;
 	border-spacing: 0;
 
+	td {
+		padding: 0;
+	}
+
 	tr:focus {
 		outline: 3px solid var(--color-focused-outline) !important;
 	}
