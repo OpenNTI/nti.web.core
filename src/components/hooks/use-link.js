@@ -10,14 +10,13 @@ import { useAsyncValue } from './use-async-value';
  * @returns {Model|Model[]}
  */
 export function useLink(object, rel, { reload, ...params } = {}) {
-	const key = object?.getLink(rel, params);
-	if (!key) {
-		throw new Error('No Link ' + rel);
-	}
+	const id = `${object.getID()}-${rel}`;
+	const key = object?.getLink(rel, params) ?? id;
 
 	return useAsyncValue(
 		key,
-		async () => object.fetchLink({ rel, params }),
+		async () =>
+			object.hasLink(rel) ? object.fetchLink({ rel, params }) : null,
 		reload
 	);
 }
