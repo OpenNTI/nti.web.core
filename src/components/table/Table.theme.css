@@ -19,6 +19,10 @@
 	tr:focus {
 		outline: 3px solid var(--color-focused-outline) !important;
 	}
+
+	tr[role='button'] {
+		cursor: pointer;
+	}
 }
 
 .table.ruled {
