@@ -119,7 +119,12 @@ function Body({ columns, items, rowClassName, onRowClick: onClick, ...props }) {
 					<Row
 						key={row}
 						className={rowClassName?.(item, row, items)}
-						{...{ item, columns, onClick, ...props }}
+						{...{
+							item,
+							columns,
+							onClick,
+							...props,
+						}}
 					/>
 				))
 			}

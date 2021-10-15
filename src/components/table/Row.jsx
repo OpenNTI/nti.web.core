@@ -1,4 +1,3 @@
-
 /** @typedef {(item: any, e: Event) => void} EventHandler */
 
 /**
@@ -14,7 +13,14 @@ export function Row({ className, columns, item, onClick, ...props }) {
 	const clickHandler = !onClick ? null : e => onClick(item, e);
 
 	return (
-		<tr onClick={clickHandler} className={className}>
+		<tr
+			{...{
+				onClick: clickHandler,
+				className,
+				'aria-role': onClick ? 'button' : undefined,
+				tabIndex: onClick ? 0 : undefined,
+			}}
+		>
 			{columns.map((Cell, cell) =>
 				Cell.RendersContainer ? (
 					<Cell key={cell} item={item} {...props} />
