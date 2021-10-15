@@ -17,7 +17,7 @@ export function Row({ className, columns, item, onClick, ...props }) {
 			{...{
 				onClick: clickHandler,
 				className,
-				'aria-role': onClick ? 'button' : undefined,
+				role: onClick ? 'button' : undefined,
 				tabIndex: onClick ? 0 : undefined,
 			}}
 		>
