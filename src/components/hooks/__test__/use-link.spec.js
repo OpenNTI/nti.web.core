@@ -5,8 +5,10 @@ import { useLink } from '../use-link';
 
 test('useLink', async () => {
 	const object = {
+		hasLink: jest.fn().mockReturnValue(true),
 		getLink: jest.fn().mockReturnValue('/foo'),
 		fetchLink: jest.fn().mockReturnValue('passed'),
+		getID: jest.fn().mockReturnValue('some-id:foo'),
 	};
 	const reload = {};
 
@@ -33,10 +35,28 @@ test('useLink', async () => {
 	});
 });
 
+test('useLink - no link', async () => {
+	const object = {
+		hasLink: jest.fn().mockReturnValue(false),
+		getLink: jest.fn().mockReturnValue(null),
+		getID: jest.fn().mockReturnValue('some-id:foo'),
+	};
+
+	const { result, waitForNextUpdate } = renderHook(() =>
+		useLink(object, 'my-rel')
+	);
+	await waitForNextUpdate();
+	expect(result.current).toBe(null);
+});
+
+('update test with new expectation');
+
 test('useLink - Bad reload nonce', async () => {
 	const object = {
 		getLink: jest.fn().mockReturnValue('/foo'),
 		fetchLink: jest.fn().mockReturnValue('passed'),
+		getID: jest.fn().mockReturnValue('some-id:foo'),
+		hasLink: jest.fn().mockReturnValue(true),
 	};
 
 	const { result } = renderHook(() =>
