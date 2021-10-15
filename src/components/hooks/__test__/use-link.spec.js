@@ -49,8 +49,6 @@ test('useLink - no link', async () => {
 	expect(result.current).toBe(null);
 });
 
-('update test with new expectation');
-
 test('useLink - Bad reload nonce', async () => {
 	const object = {
 		getLink: jest.fn().mockReturnValue('/foo'),
