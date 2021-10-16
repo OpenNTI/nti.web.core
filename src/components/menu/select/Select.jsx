@@ -1,11 +1,8 @@
-import cx from 'classnames';
-
 import { ChevronIcon } from '../../icons/Chevron';
 import { Flyout } from '../../flyout/Flyout';
 import { VariantGetter } from '../../../system/utils/PropGetters';
-
-import Theme from './Select.theme.css';
-import { MenuList } from './parts/MenuList';
+import { MenuList } from '../list/List';
+import * as Option from '../list/Option';
 
 const getVariant = VariantGetter(['header', 'medium', 'link'], 'header');
 
@@ -32,11 +29,10 @@ const VariantToTriggerProps = {
 export function SelectMenu(props) {
 	const [variant, restProps] = getVariant(props);
 	const {
-		className,
-		getText = t,
 		value,
-		title = getText(value),
+		title,
 		options,
+		getText = t,
 		onChange,
 
 		name = 'select-menu',
@@ -44,28 +40,31 @@ export function SelectMenu(props) {
 	} = restProps;
 
 	const hasOptions = !!options?.length;
+	const selected = value
+		? (options ?? []).find(o => Option.getValue(o) === value)
+		: null;
 
 	return (
 		<Flyout horizontalAlign="left-or-right" autoDismissOnAction>
 			<Flyout.Trigger
 				variant="secondary"
 				transparent
-				className={cx(className, Theme.menuTrigger, {
-					[Theme.noOptions]: !hasOptions,
-				})}
+				disabled={!hasOptions}
 				data-testid={`${name}-trigger`}
 				{...(VariantToTriggerProps[variant] ?? {})}
 				{...otherProps}
 			>
-				<span>{title}</span>
+				<span>
+					{title || (selected && getText(Option.getLabel(selected)))}
+				</span>
 				{hasOptions && <ChevronIcon.Down large />}
 			</Flyout.Trigger>
 			<Flyout.Content>
 				<MenuList
 					options={options}
+					getText={getText}
 					value={value}
 					onChange={onChange}
-					getText={getText}
 				/>
 			</Flyout.Content>
 		</Flyout>
