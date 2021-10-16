@@ -51,7 +51,11 @@ const getStyleProps = PropMapper({
 		'primary'
 	),
 
-	size: VariantGetter(['medium', 'large', 'header'], 'medium', 'size'),
+	size: VariantGetter(
+		['medium', 'large', 'xlarge', 'header'],
+		'medium',
+		'size'
+	),
 
 	state: StateGetter(['inverted', 'transparent']),
 });
