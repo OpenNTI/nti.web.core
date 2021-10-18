@@ -6,10 +6,12 @@ import { useAsyncValue } from './use-async-value';
  *
  * @param {Model} object
  * @param {string} rel
- * @param {Record<string,string>} params
+ * @param {object} options
+ * @param {object?} options.reload
+ * @param {import('@nti/lib-interfaces/src/mixins/HasLinks').ParseMode?} options.mode
  * @returns {Model|Model[]}
  */
-export function useLink(object, rel, { reload, ...params } = {}) {
+export function useLink(object, rel, { reload, mode, ...params } = {}) {
 	const id = `${object.getID()}-${rel}`;
 	const key = object?.getLink(rel, params) ?? id;
 
