@@ -48,7 +48,7 @@ export const Discrete = Base =>
 		 * @returns {[]}
 		 */
 		getItemsFromBatch(batch) {
-			return batch?.Items;
+			return [...(batch || [])];
 		}
 
 		/**
@@ -62,12 +62,7 @@ export const Discrete = Base =>
 				return null;
 			}
 
-			const total =
-				batch.FilteredTotalItemCount != null
-					? batch.FilteredTotalItemCount
-					: batch.total;
-
-			return Math.ceil(total / this.PageSize);
+			return batch.pageCount;
 		}
 
 		/**
@@ -77,7 +72,7 @@ export const Discrete = Base =>
 		 * @returns {number}
 		 */
 		getCurrentPageFromBatch(batch) {
-			return batch?.BatchPage;
+			return batch?.currentPage;
 		}
 
 		get items() {
@@ -93,7 +88,7 @@ export const Discrete = Base =>
 		}
 
 		get pageSize() {
-			return this.PageSize;
+			return this.PageSize ?? this.getProperty('batch')?.pageSize;
 		}
 
 		loadPage(index) {
