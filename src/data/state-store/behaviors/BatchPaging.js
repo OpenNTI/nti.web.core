@@ -92,8 +92,9 @@ export const Discrete = Base =>
 		}
 
 		loadPage(index) {
+			// TODO: should this get the params from the batch?
 			this.setParams({
-				[this.PageOffsetParam]: this.PageSize * Math.max(index - 1, 0),
+				[this.PageOffsetParam]: this.pageSize * Math.max(index - 1, 0),
 			});
 		}
 
