@@ -10,6 +10,7 @@ import styles from './rules/border.module.css';
 
 const RoundingProps = {
 	rounded: {
+		xsmall: 'roundedXsmall',
 		[true]: 'roundedSmall',
 	},
 };

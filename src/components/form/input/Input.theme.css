@@ -1,0 +1,11 @@
+.input.box {
+	border: 1px solid var(--border-grey-light);
+	background: white;
+}
+
+.placeholder,
+.input::placeholder {
+	font-style: italic;
+	color: var(--color-foreground-light);
+	overflow: visible;
+}

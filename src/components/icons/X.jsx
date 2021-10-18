@@ -1,4 +1,3 @@
-
 import { setIcon } from './types/identity';
 import SVGIcon from './types/SVG-Icon';
 import FontIcon from './types/Font-Icon';
@@ -7,8 +6,11 @@ function BoldX(props) {
 	return <FontIcon icon="icon-bold-x" {...props} />;
 }
 
-XIcon.Bold = BoldX;
-export function XIcon(props) {
+export function XIcon({ bold, ...props }) {
+	if (bold) {
+		return <BoldX {...props} />;
+	}
+
 	return (
 		<SVGIcon {...props}>
 			<path

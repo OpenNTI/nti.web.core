@@ -7,7 +7,7 @@ import { useActionable } from '../../button/hooks/use-actionable';
 import { Check as CheckIcon } from '../../icons/Check';
 
 import Theme from './List.theme.css';
-import { getValue, getLabel } from './Option';
+import { getValue, getLabel, getKey } from './Option';
 
 const t = x => x;
 
@@ -56,7 +56,7 @@ export function MenuList({
 
 				return (
 					<MenuItem
-						key={val}
+						key={getKey(option)}
 						option={option}
 						getText={getText}
 						active={value === val}
