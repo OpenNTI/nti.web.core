@@ -24,12 +24,14 @@ test('useLink', async () => {
 		expect.not.objectContaining({ reload })
 	);
 	expect(object.fetchLink).toHaveBeenCalledWith({
+		mode: 'parse',
 		rel: 'my-rel',
 		params: {
 			foo: 'bar',
 		},
 	});
 	expect(object.fetchLink).toHaveBeenCalledWith({
+		mode: 'parse',
 		rel: 'my-rel',
 		params: expect.not.objectContaining({ reload }),
 	});
