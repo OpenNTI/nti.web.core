@@ -11,14 +11,20 @@ import { useAsyncValue } from './use-async-value';
  * @param {import('@nti/lib-interfaces/src/mixins/HasLinks').ParseMode?} options.mode
  * @returns {Model|Model[]}
  */
-export function useLink(object, rel, { reload, mode, ...params } = {}) {
+export function useLink(
+	object,
+	rel,
+	{ reload, mode = 'parse', ...params } = {}
+) {
 	const id = `${object.getID()}-${rel}`;
 	const key = object?.getLink(rel, params) ?? id;
 
 	return useAsyncValue(
 		key,
 		async () =>
-			object.hasLink(rel) ? object.fetchLink({ rel, params }) : null,
+			object.hasLink(rel)
+				? object.fetchLink({ rel, mode, params })
+				: null,
 		reload
 	);
 }
