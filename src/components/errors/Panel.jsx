@@ -104,10 +104,6 @@ export function ErrorPanel({
 			(typeof error !== 'string' ? '' : error) || 'Something went wrong.';
 	}
 
-	if (isHTML.test(message)) {
-		message = <pre {...rawContent(message)} />;
-	}
-
 	if (isAccessError(error)) {
 		label = 'Access was denied.';
 		message = "We're sorry, but you do not have access to this content.";
@@ -116,6 +112,9 @@ export function ErrorPanel({
 		message = "We're sorry, but we could not find this content.";
 	}
 
+	if (isHTML.test(message)) {
+		message = <pre {...rawContent(message)} />;
+	}
 	return (
 		<Figure inline={inline}>
 			<Glyph />

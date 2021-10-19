@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Error } from '@nti/web-commons';
+import { ErrorPanel } from './Panel';
 
 export class ErrorBoundary extends React.Component {
 	state = {};
@@ -21,6 +21,6 @@ export class ErrorBoundary extends React.Component {
 			return React.cloneElement(fallback, { error });
 		}
 
-		return error ? <Error error={error} key={Date.now()} /> : children;
+		return error ? <ErrorPanel error={error} key={Date.now()} /> : children;
 	}
 }
