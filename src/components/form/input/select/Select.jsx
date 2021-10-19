@@ -59,7 +59,7 @@ export function Select({
 
 	useEffect(() => {
 		if (autoFocus) {
-			triggerRef.focus?.();
+			triggerRef.current?.focus?.();
 		}
 	}, []);
 
