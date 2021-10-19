@@ -48,7 +48,11 @@ export const Discrete = Base =>
 		 * @returns {[]}
 		 */
 		getItemsFromBatch(batch) {
-			return [...(batch || [])];
+			try {
+				return batch ? [...batch] : [];
+			} catch {
+				return [];
+			}
 		}
 
 		/**
