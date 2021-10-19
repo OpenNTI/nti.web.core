@@ -98,6 +98,7 @@ export class StateStore extends PropertyChangeEmitter {
 			onStart: () => this.onChange(key),
 			onError: () => this.onChange(key),
 			onFinish: () => this.onChange(key),
+			onClear: () => this.onChange(key),
 		});
 
 		for (let [key, value] of Object.entries(this)) {
