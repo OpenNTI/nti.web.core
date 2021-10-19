@@ -8,6 +8,7 @@ export { Chevron } from './Chevron';
 export { DisclosureArrow } from './DisclosureArrow';
 export { Download } from './Download';
 export { Drawing } from './Drawing';
+export { Duplicate } from './Duplicate';
 export { Eye } from './Eye';
 export { FileUpload } from './FileUpload';
 export { FontType } from './FontType';
