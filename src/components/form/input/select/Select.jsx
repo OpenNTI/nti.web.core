@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import cx from 'classnames';
 
 import { Flyout } from '../../../flyout/Flyout';
@@ -11,10 +12,11 @@ import InputTheme from '../Input.theme.css';
 const identity = x => x;
 
 const TriggerInner = styled.div`
-	display: inline-flex;
+	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
+	gap: 0.25rem;
 `;
 
 function SelectTriggerInner({
@@ -44,15 +46,27 @@ function SelectTriggerInner({
 export function Select({
 	value,
 	options,
-	placeholder,
 	getText = identity,
-	onChange,
+	placeholder,
 	name,
+
+	onChange,
+
+	autoFocus,
 	...otherProps
 }) {
+	const triggerRef = useRef();
+
+	useEffect(() => {
+		if (autoFocus) {
+			triggerRef.focus?.();
+		}
+	}, []);
+
 	return (
 		<Flyout horizontalAlign="left-or-right" autoDismissOnAction>
 			<Flyout.Trigger
+				ref={triggerRef}
 				variant="plain"
 				disabled={!options?.length}
 				{...getInputStyleProps(otherProps)}
