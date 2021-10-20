@@ -109,7 +109,6 @@ function bindAction(
 									'It appears we attempted to suspend outside of a render.',
 									'The likely cause is a call to `read` occurred while evaluting the action.',
 									'Which means a derived property dependent on this action was used within a store lifecycle or method.',
-									'To fix, use the `__propertyName` form to read these properties from within methods/getters of the Store.',
 								].join('\n ')
 						  )
 						: e

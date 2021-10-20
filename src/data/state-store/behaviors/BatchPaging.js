@@ -1,6 +1,8 @@
 /** @typedef {import('@nti/lib-interfaces').Models.Base} Model */
 /** @typedef {import('@nti/lib-interfaces').Batch} Batch */
 
+import { getPropertyDescriptor } from '@nti/lib-commons';
+
 export const Continuous = () => {}; //TODO: fill this out
 
 /**
@@ -32,13 +34,6 @@ export const Discrete = Base =>
 			// if the subclass wants to let the batch define the page size, add it to the computed properties (suspense enabled)
 			if (this.PageSize == null) {
 				computedProperties.push('pageSize');
-			} else {
-				//If we have a constant page size, define the internal readable property so references do not break.
-				Object.defineProperty(
-					this,
-					'__pageSize',
-					getPropertyDescriptor(this, 'pageSize')
-				);
 			}
 
 			for (let property of computedProperties) {
@@ -47,19 +42,16 @@ export const Discrete = Base =>
 					this,
 					property
 				);
+				// make the property "read"able
 				delete this[property];
 				Object.defineProperty(this, property, {
 					...desc,
-					get() {
-						this.load.read();
-						return read.call(this);
-					},
-				});
-				//define an internal readable property
-				Object.defineProperty(this, `__${property}`, {
-					enumerable: false,
-					configurable: false,
-					get: read,
+					get: Object.assign(read.bind(this), {
+						read: () => {
+							this.load.read();
+							return read.call(this);
+						},
+					}),
 				});
 			}
 		}
@@ -101,8 +93,7 @@ export const Discrete = Base =>
 		loadPage(index) {
 			// TODO: should this get the params from the batch?
 			this.setParams({
-				[this.PageOffsetParam]:
-					this.__pageSize * Math.max(index - 1, 0),
+				[this.PageOffsetParam]: this.pageSize * Math.max(index - 1, 0),
 			});
 		}
 
@@ -126,17 +117,3 @@ export const Discrete = Base =>
  * @returns {boolean}
  */
 Discrete.hasBehavior = s => s.isDiscretePaging;
-
-function getPropertyDescriptor(scope, property) {
-	const hasOwn =
-		Object.hasOwn || ((x, y) => Object.prototype.hasOwnProperty.call(x, y));
-	if (!(property in scope)) {
-		return null;
-	}
-
-	while (!hasOwn(scope, property)) {
-		scope = Object.getPrototypeOf(scope);
-	}
-
-	return Object.getOwnPropertyDescriptor(scope, property);
-}

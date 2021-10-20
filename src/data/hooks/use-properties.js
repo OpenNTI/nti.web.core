@@ -1,5 +1,7 @@
 import { useReducer, useEffect } from 'react';
 
+import { getPropertyDescriptor } from '@nti/lib-commons';
+
 import getBoundFunction from '../utils/get-bound-function';
 
 import { useRead } from './use-read';
@@ -60,7 +62,10 @@ export function useProperties(predicate) {
 }
 
 function getValue(store, property) {
-	const value = store.getProperty
+	const read = getPropertyDescriptor(store, property)?.get?.read;
+	const value = read
+		? read()
+		: store.getProperty
 		? store.getProperty(property)
 		: store[property];
 
