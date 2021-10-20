@@ -1,4 +1,5 @@
-/** @typedef {{}} Batch */
+/** @typedef {import('@nti/lib-interfaces').Models.Base} Model */
+/** @typedef {import('@nti/lib-interfaces').Batch} Batch */
 
 export const Continuous = () => {}; //TODO: fill this out
 
@@ -26,9 +27,41 @@ export const Discrete = Base =>
 
 		initializeBehavior() {
 			super.initializeBehavior?.();
-			this.addDependentProperty('items', 'batch');
-			this.addDependentProperty('totalPages', 'batch');
-			this.addDependentProperty('currentPage', 'batch');
+			const computedProperties = ['currentPage', 'items', 'totalPages'];
+
+			// if the subclass wants to let the batch define the page size, add it to the computed properties (suspense enabled)
+			if (this.PageSize == null) {
+				computedProperties.push('pageSize');
+			} else {
+				//If we have a constant page size, define the internal readable property so references do not break.
+				Object.defineProperty(
+					this,
+					'__pageSize',
+					getPropertyDescriptor(this, 'pageSize')
+				);
+			}
+
+			for (let property of computedProperties) {
+				this.addDependentProperty(property, ['load', 'batch']);
+				const { get: read, ...desc } = getPropertyDescriptor(
+					this,
+					property
+				);
+				delete this[property];
+				Object.defineProperty(this, property, {
+					...desc,
+					get() {
+						this.load.read();
+						return read.call(this);
+					},
+				});
+				//define an internal readable property
+				Object.defineProperty(this, `__${property}`, {
+					enumerable: false,
+					configurable: false,
+					get: read,
+				});
+			}
 		}
 
 		getInitialParams() {
@@ -41,64 +74,35 @@ export const Discrete = Base =>
 			};
 		}
 
-		/**
-		 * Get the items from a given batch.
-		 *
-		 * @param {Batch} batch
-		 * @returns {[]}
-		 */
-		getItemsFromBatch(batch) {
+		/** @type {Model[]} */
+		get items() {
 			try {
-				return batch ? [...batch] : [];
+				return [...this.getProperty('batch')];
 			} catch {
 				return [];
 			}
 		}
 
-		/**
-		 * Get the total number of pages from a given batch.
-		 *
-		 * @param {Batch} batch
-		 * @returns {number}
-		 */
-		getTotalPagesFromBatch(batch) {
-			if (!batch) {
-				return null;
-			}
-
-			return batch.pageCount;
-		}
-
-		/**
-		 * Get the current page from a given batch.
-		 *
-		 * @param {Batch} batch
-		 * @returns {number}
-		 */
-		getCurrentPageFromBatch(batch) {
-			return batch?.currentPage;
-		}
-
-		get items() {
-			return this.getItemsFromBatch(this.getProperty('batch'));
-		}
-
+		/** @type {number?} */
 		get totalPages() {
-			return this.getTotalPagesFromBatch(this.getProperty('batch'));
+			return this.getProperty('batch')?.pageCount ?? null;
 		}
 
+		/** @type {number?} */
 		get currentPage() {
-			return this.getCurrentPageFromBatch(this.getProperty('batch'));
+			return this.getProperty('batch')?.currentPage ?? null;
 		}
 
+		/** @type {number?} */
 		get pageSize() {
-			return this.PageSize ?? this.getProperty('batch')?.pageSize;
+			return this.PageSize ?? this.getProperty('batch')?.pageSize ?? null;
 		}
 
 		loadPage(index) {
 			// TODO: should this get the params from the batch?
 			this.setParams({
-				[this.PageOffsetParam]: this.pageSize * Math.max(index - 1, 0),
+				[this.PageOffsetParam]:
+					this.__pageSize * Math.max(index - 1, 0),
 			});
 		}
 
@@ -122,3 +126,17 @@ export const Discrete = Base =>
  * @returns {boolean}
  */
 Discrete.hasBehavior = s => s.isDiscretePaging;
+
+function getPropertyDescriptor(scope, property) {
+	const hasOwn =
+		Object.hasOwn || ((x, y) => Object.prototype.hasOwnProperty.call(x, y));
+	if (!(property in scope)) {
+		return null;
+	}
+
+	while (!hasOwn(scope, property)) {
+		scope = Object.getPrototypeOf(scope);
+	}
+
+	return Object.getOwnPropertyDescriptor(scope, property);
+}
