@@ -23,6 +23,11 @@ export const Searchable = Base =>
 		initializeBehavior() {
 			super.initializeBehavior?.();
 			this.addDependentProperty('searchTerm', PendingSearchTerm);
+			const initial = this.getParam('initialSearchTerm');
+			if (initial) {
+				this.updateState({ [PendingSearchTerm]: initial });
+				this.setParams({ [this.SearchParam]: initial });
+			}
 		}
 
 		get searchTerm() {
