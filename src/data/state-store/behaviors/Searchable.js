@@ -23,11 +23,15 @@ export const Searchable = Base =>
 		initializeBehavior() {
 			super.initializeBehavior?.();
 			this.addDependentProperty('searchTerm', PendingSearchTerm);
-			const initial = this.getParam('initialSearchTerm');
-			if (initial) {
-				this.updateState({ [PendingSearchTerm]: initial });
-				this.setParams({ [this.SearchParam]: initial });
+			if (this.#searchBuffering) {
+				clearTimeout(this.#searchBuffer);
+				super.setParams({ [this.SearchParam]: this.searchTerm });
 			}
+		}
+
+		setParams({ searchTerm, ...params }) {
+			this.setSearchTerm(searchTerm);
+			super.setParams(params);
 		}
 
 		get searchTerm() {
@@ -59,7 +63,7 @@ export const Searchable = Base =>
 			} else {
 				this.#searchBuffer = setTimeout(() => {
 					this.#searchBuffering = false;
-					this.setParams({ [this.SearchParam]: term });
+					super.setParams({ [this.SearchParam]: term });
 				}, this.SearchBuffer);
 			}
 		}
