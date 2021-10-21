@@ -58,7 +58,7 @@ export const Searchable = Base =>
 				this.#searchBuffering = false;
 
 				if (this.getParam(this.SearchParam)) {
-					this.setParams({ [this.SearchParam]: null });
+					super.setParams({ [this.SearchParam]: null });
 				}
 			} else {
 				this.#searchBuffer = setTimeout(() => {
