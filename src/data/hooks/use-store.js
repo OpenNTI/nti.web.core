@@ -12,9 +12,7 @@ import { useEffect } from 'react';
 import { useTracked, isTracked } from '../utils/KeyTracker';
 
 const byKey = (a, b) => (a[0] < b[0] ? 1 : a[0] === b[0] ? 0 : -1);
-const noInitials = ([key]) => !key?.startsWith?.('initial');
-const getParamDepList = p =>
-	Object.entries(p).filter(noInitials).sort(byKey).flat();
+const getParamDepList = p => Object.entries(p).sort(byKey).flat();
 
 /**
  * useStore does two things:
