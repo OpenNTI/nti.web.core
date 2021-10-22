@@ -1,5 +1,7 @@
 import cx from 'classnames';
 
+import { getRefHandler } from '@nti/lib-commons';
+
 /**
  * Combine the classNames, styles, and others from multiple props
  *
@@ -18,6 +20,10 @@ export default function combineProps(...propSets) {
 
 		if (props.style != null && combined.style != null) {
 			combined.style = { ...props.style, ...combined.style };
+		}
+
+		if (props.ref != null && combined.ref != null) {
+			combined.ref = getRefHandler(combined.ref, props.ref);
 		}
 	}
 

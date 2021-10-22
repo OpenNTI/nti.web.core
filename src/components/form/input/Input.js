@@ -4,8 +4,9 @@ import { Variant } from '../../high-order/Variant';
 import Theme from './Input.theme.css';
 
 export { Checkbox } from './Checkbox';
+export { ListBox } from './lists/ListBox';
 export const Placeholder = Variant(Text, { className: Theme.placeholder });
-export { Select } from './select/Select';
+export { Select } from './lists/Select';
 export { Text } from './Text';
 
 export { getInputStyleProps } from './get-input-props';
