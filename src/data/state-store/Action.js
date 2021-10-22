@@ -45,7 +45,7 @@ const CurrentUpdated = 'updated';
  */
 function bindAction(
 	fn,
-	{ scope, getData, onUpdate, onStart, onError, onFinish }
+	{ scope, getData, onUpdate, onStart, onError, onFinish, onClear }
 ) {
 	let current = null;
 	const bus = new EventEmitter();
@@ -138,6 +138,16 @@ function bindAction(
 				}
 
 				return current;
+			},
+		},
+
+		clear: { value: () => (setCurrent(null), onClear?.()) },
+		clearError: {
+			value: () => {
+				if (current instanceof Error) {
+					setCurrent(null);
+					onClear?.();
+				}
 			},
 		},
 	});

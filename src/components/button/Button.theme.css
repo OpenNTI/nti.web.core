@@ -161,6 +161,15 @@
 	--target-button-height: 42px;
 }
 
+.xlarge {
+	font-size: var(--font-size-600);
+	font-weight: 300;
+
+	--button-line-height: 1.3;
+	--icon-size: 1rem;
+	--target-button-height: 47px;
+}
+
 .header {
 	font-size: var(--font-size-800);
 	font-weight: 300;

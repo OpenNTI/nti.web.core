@@ -10,6 +10,7 @@ import styles from './rules/border.module.css';
 
 const RoundingProps = {
 	rounded: {
+		xsmall: 'roundedXsmall',
 		[true]: 'roundedSmall',
 	},
 };
@@ -20,7 +21,9 @@ const ElevationProps = {
 	},
 };
 
-function getPropsFromMap(props, map) {
+function getPropsFromMap(propsArg, map) {
+	const props = { ...propsArg };
+
 	for (let [prop, values] of Object.entries(map)) {
 		if (!props[prop] || !values[props[prop]]) {
 			continue;

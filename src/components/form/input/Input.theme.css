@@ -1,0 +1,17 @@
+.input.box {
+	border: 1px solid var(--border-grey-light);
+	background: white;
+}
+
+.input.box:focus,
+.input.box:focus-within {
+	outline: 2px solid var(--color-focused-outline);
+	border-color: var(--color-focused-outline);
+}
+
+.placeholder,
+.input::placeholder {
+	font-style: italic;
+	color: var(--color-foreground-light);
+	overflow: visible;
+}

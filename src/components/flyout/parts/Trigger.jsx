@@ -19,6 +19,8 @@ function FlyoutToggleTrigger({ open, setOpen, ...otherProps }, ref) {
 		() => ({
 			getNode: () => buttonRef.current,
 
+			focus: () => buttonRef.current?.focus?.(),
+
 			onClickOut: e => {
 				if (
 					open &&
