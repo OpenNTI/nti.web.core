@@ -3,6 +3,12 @@
 	background: white;
 }
 
+.input.box:focus,
+.input.box:focus-within {
+	outline: 2px solid var(--color-focused-outline);
+	border-color: var(--color-focused-outline);
+}
+
 .placeholder,
 .input::placeholder {
 	font-style: italic;

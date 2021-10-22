@@ -53,3 +53,10 @@ export function getInputStyleProps(props) {
 		StyleToDefaultBorderProps[inputStyle]
 	);
 }
+
+export function getPlaceholderStyleProps({ className, ...otherProps }) {
+	return {
+		className: cx(className, Theme.placeholder),
+		...otherProps,
+	};
+}
