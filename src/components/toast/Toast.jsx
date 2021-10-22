@@ -40,7 +40,7 @@ function ToastLayout(props) {
 		>
 			{onDismiss && (
 				<Button className={Theme.dismiss} plain onClick={onDismiss}>
-					<X.Bold />
+					<X bold />
 				</Button>
 			)}
 			{icon && <div className={Theme.icon}>{icon}</div>}
