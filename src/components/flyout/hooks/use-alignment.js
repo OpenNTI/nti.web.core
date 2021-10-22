@@ -192,7 +192,7 @@ export function useAlignment({
 			return;
 		}
 
-		const listener = () => this.realign();
+		const listener = () => realign();
 
 		document.addEventListener('scroll', listener, {
 			passive: true,
