@@ -19,7 +19,6 @@ export function useRead(predicate) {
 
 	const store = filtered[filtered.length - 1];
 
-	//TODO: figure out how to listen for new reads on the store
-
-	return store?.read();
+	// if there is no read(), just return the store
+	return store?.read ? store.read() : store;
 }
