@@ -1,5 +1,8 @@
+//@ts-check
 import React from 'react';
 import cx from 'classnames';
+
+import { scoped } from '@nti/lib-locale';
 
 import { EmptyState } from '../notice/EmptyState';
 import { VariantGetter } from '../../system/utils/PropGetters';
@@ -10,6 +13,10 @@ import { Footer } from './Footer';
 import { Header } from './Header';
 import { Row } from './Row';
 export { SimpleTableHeader } from './headers/Simple';
+
+const t = scoped('generic.tables', {
+	empty: 'Nothing to see here.',
+});
 
 const getTableVariant = VariantGetter(['plain', 'ruled'], 'plain');
 
@@ -111,33 +118,21 @@ export function Table({
  * @param {import('./Table').CommonTableProps<T> & import('./Table').TableBodyProps<T>} props
  * @returns {JSX.Element}
  */
-function Body({
-	columns,
-	items,
-	emptyFallback,
-	rowClassName,
-	onRowClick: onClick,
-	...props
-}) {
+function Body({ columns, items, rowClassName, onRowClick: onClick, ...props }) {
 	/*allow for any iterable*/
 	const rows = [...(items || [])];
 	return (
 		<tbody>
 			{!rows?.length ? (
-				<tr className={Theme.empty}>
-					<td colSpan={columns.length}>
-						{emptyFallback ? (
-							React.cloneElement(emptyFallback, {
-								columns,
-								rowClassName,
-								onClick,
-								...props,
-							})
-						) : (
-							<EmptyState>Nothing to see here.</EmptyState>
-						)}
-					</td>
-				</tr>
+				<Empty
+					{...{
+						columns,
+						items,
+						onRowClick: onClick,
+						rowClassName,
+						...props,
+					}}
+				/>
 			) : (
 				rows.map((item, row) => (
 					<Row
@@ -156,6 +151,28 @@ function Body({
 	);
 }
 
+/**
+ * @template T
+ * @param {import('./Table').CommonTableProps<T> & import('./Table').TableBodyProps<T>} props
+ * @returns {JSX.Element}
+ */
+function Empty({ columns, emptyFallback, ...props }) {
+	return (
+		<tr className={Theme.empty}>
+			<td colSpan={columns.length}>
+				{emptyFallback ? (
+					React.cloneElement(emptyFallback, {
+						columns,
+						...props,
+					})
+				) : (
+					<EmptyState>{t('empty')}</EmptyState>
+				)}
+			</td>
+		</tr>
+	);
+}
+
 /** @typedef {() => string} NameGetter */
 
 /**
@@ -165,7 +182,7 @@ function Body({
  * @param {React.ComponentType<T>} CellComponent
  * @param {string | NameGetter} name
  * @param {string} sortOn
- * @returns {typeof CellComponent}
+ * @returns {React.ComponentType<T>}
  */
 Table.asBasicColumn = (CellComponent, name, sortOn = null) =>
 	Object.assign(CellComponent, { Name: name, SortOn: sortOn });
