@@ -40,6 +40,7 @@ export interface SortProps {
 export interface TableBodyProps<T> {
 	rowClassName?: RowClassNameGetter<T>;
 	onRowClick?: ClickHandler<T>;
+	emptyFallback?: React.ReactElement<any, any>; // JSX.Element => React.ReactElement<any, any> (idk why TS can't see 'JSX' here)
 }
 
 export type TableProps<T> = IntrinsicProps &

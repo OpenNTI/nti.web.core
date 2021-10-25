@@ -20,7 +20,8 @@
 		padding: 0;
 	}
 
-	tr:focus {
+	/* tr:focus-within, */
+	tr:not(.empty):focus {
 		outline: 3px solid var(--color-focused-outline) !important;
 	}
 
@@ -30,7 +31,7 @@
 }
 
 .table.ruled {
-	tr {
+	tr:not(.empty) {
 		border-bottom: 1px solid var(--border-grey-light);
 	}
 }

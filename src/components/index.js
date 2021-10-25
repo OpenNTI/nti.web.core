@@ -11,6 +11,7 @@ export * from './hooks/Hooks';
 export * as Icons from './icons/index';
 export * from './list/List';
 export * from './menu/Menu';
+export * from './notice/Notice';
 export * from './paging/Paging';
 export * from './placeholder/Placeholder';
 export * from './table/Table';
