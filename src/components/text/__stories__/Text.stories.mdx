@@ -1,6 +1,6 @@
 import { Meta, Canvas, Story } from '@storybook/addon-docs';
 
-import Text from '../Text.jsx';
+import { Text } from '../Text.jsx';
 
 <Meta title="Components/Text" component={Text} />
 
@@ -11,8 +11,36 @@ export const Template = ({ text, ...args }) => <Text {...args}>{text}</Text>;
 <Canvas>
 	<Story
 		name="Basic"
-		argTypes={{ text: { control: 'text', defaultValue: 'Text' } }}
+		argTypes={{
+			text: {
+				control: 'text',
+				defaultValue: 'Text & More Text <no html>',
+			},
+		}}
 	>
 		{Template.bind({})}
+	</Story>
+</Canvas>
+
+export const TemplateLinks = ({ text, ...args }) => (
+	<Text linkify {...args}>
+		{text}
+	</Text>
+);
+
+# Text
+
+<Canvas>
+	<Story
+		name="Linkify"
+		argTypes={{
+			text: {
+				control: 'text',
+				defaultValue:
+					'Text <no html> & https://url.to.somewhere.com/foobar?bas=asd lorum...',
+			},
+		}}
+	>
+		{TemplateLinks.bind({})}
 	</Story>
 </Canvas>
