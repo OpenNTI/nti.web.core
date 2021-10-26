@@ -12,12 +12,12 @@ const TextImpl = (props, ref) => {
 	const [transformedRef, transformedProps] = useTransforms(props);
 	const {
 		as: Cmp = 'span',
-		allowMarkup,
+		isMarkup,
 		text,
 		...otherProps
 	} = transformedProps;
 
-	const contentProps = allowMarkup ? rawContent(text) : { children: text };
+	const contentProps = isMarkup ? rawContent(text) : { children: text };
 
 	return (
 		<Cmp

@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 
-import useEscape from './use-escape';
 import useLimitLines from './use-limit-lines';
 import useLinkify from './use-linkify';
 import useTranslate from './use-translate';
@@ -27,13 +26,12 @@ function getText(childrenProp) {
 	return text;
 }
 
-export default function useTransforms(props) {
+export default function useTransforms({ children, ...props }) {
 	const ref = useRef();
 
-	let transformedProps = { ...props, text: getText(props.children), ref };
+	let transformedProps = { ...props, text: getText(children), ref };
 
 	transformedProps = useTranslate(ref, transformedProps);
-	transformedProps = useEscape(ref, transformedProps);
 	transformedProps = useLinkify(ref, transformedProps);
 	transformedProps = useLimitLines(ref, transformedProps);
 

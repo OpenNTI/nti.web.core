@@ -1,5 +1,9 @@
 import React from 'react';
 
+import { Text } from '../Text';
+
+import { escape } from './utils';
+
 const PrimitivesTypes = {
 	string: true,
 	number: true,
@@ -27,14 +31,15 @@ function getTranslatedContent(localeKey, getString, data) {
 	const translationParts = translation.split('***');
 
 	if (translationParts.length === 1) {
-		return { text: translation, allowMarkup: true };
+		return { text: escape(translation), isMarkup: true };
 	}
 
 	const text = (
 		<>
 			{translationParts.map((part, index) => {
 				if (index % 2 === 0) {
-					return <span key={index}>{part}</span>;
+					// Recursive: Let Text handle each part
+					return <Text key={index}>{part}</Text>;
 				}
 
 				const cmp = parts[part];
@@ -44,7 +49,7 @@ function getTranslatedContent(localeKey, getString, data) {
 		</>
 	);
 
-	return { text, allowMarkup: true };
+	return { text, isMarkup: false };
 }
 
 export default function useTranslate(
