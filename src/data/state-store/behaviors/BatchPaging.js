@@ -76,6 +76,11 @@ export const Discrete = Base =>
 		}
 
 		/** @type {number?} */
+		get total() {
+			return this.getProperty('batch')?.total ?? null;
+		}
+
+		/** @type {number?} */
 		get totalPages() {
 			return this.getProperty('batch')?.pageCount ?? null;
 		}
