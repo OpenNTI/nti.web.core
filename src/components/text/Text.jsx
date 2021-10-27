@@ -28,8 +28,13 @@ const TextImpl = (props, ref) => {
 	);
 };
 
+/** @typedef {(key: string) => string} Translator */
+/** @typedef {(getString: Translator) => typeof Text} TranslatorFactory */
+
+/** @type {React.ForwardRefExoticComponent<React.RefAttributes<any>> & {Translator: TranslatorFactory}} */
 export const Text = React.forwardRef(TextImpl);
 
+/** @type {React.ForwardRefExoticComponent<React.RefAttributes<any>> & {Translator: TranslatorFactory}} */
 export const Typography = React.forwardRef((props, ref) =>
 	TextImpl(
 		{
