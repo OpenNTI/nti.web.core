@@ -7,15 +7,13 @@ import cx from 'classnames';
 import { getAppUsername } from '@nti/web-client';
 import t, { scoped } from '@nti/lib-locale';
 
-// import { filterProps } from '../utils/filter-props.js';
+import { filterProps } from '../utils/filter-props';
 
 import { BaseEntity } from './BaseEntity';
 
 const strings = scoped('web-core.components.entity.DisplayName', {
 	deactivated: '%(name)s(Inactive)',
 });
-
-const filterProps = p => p;
 
 /**
  * This DisplayName component can use the full Entity instance if you have it.
@@ -99,9 +97,6 @@ function DisplayNameContent({
 		children: name,
 	};
 
-	delete props.entity;
-	delete props.entityId;
-
 	if (localeKey) {
 		const innerTag = Tag === 'a' ? 'span' : 'a';
 		name = `<${innerTag} rel="author" class="username">${name}</${innerTag}>`;
@@ -127,8 +122,8 @@ function DisplayNameContent({
  *
  * @param {import('@nti/lib-interfaces').Models.entities.Entity} entity
  * @param {Object} options
- * @param {boolean} options.useGeneralName
- * @param {boolean} options.usePronoun
+ * @param {boolean=} options.useGeneralName
+ * @param {boolean=} options.usePronoun
  * @returns {string}
  */
 function from(entity, { usePronoun, useGeneralName } = {}) {
