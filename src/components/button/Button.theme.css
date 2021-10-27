@@ -38,9 +38,11 @@
 	background: none;
 	outline: none;
 	border: none;
+	padding: unset;
 	display: inline-block;
 	position: relative;
 	cursor: pointer;
+	color: inherit;
 
 	&:focus::before {
 		content: '';
