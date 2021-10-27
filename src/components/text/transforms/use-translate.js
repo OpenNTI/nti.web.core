@@ -42,9 +42,10 @@ function getTranslatedContent(localeKey, getString, data) {
 					return <Text key={index}>{part}</Text>;
 				}
 
-				const cmp = parts[part];
+				const [key, txt = key] = part.split('|');
+				const cmp = parts[key];
 
-				return React.cloneElement(cmp, { key: index });
+				return React.cloneElement(cmp, { key: part, text: txt });
 			})}
 		</>
 	);
