@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { interpolate } from '@nti/lib-locale';
+
 import { Text } from '../Text';
 
 import { escape } from './utils';
@@ -8,6 +10,9 @@ const PrimitivesTypes = {
 	string: true,
 	number: true,
 };
+
+const INTERPOLATION_PATTERN = /(?:%\()([^)]+)(?:\)[a-z])/gi;
+const RAW = { interpolate: false };
 
 function getTranslatedContent(localeKey, getString, data) {
 	const { translateData, parts } = Object.entries(data ?? {}).reduce(
@@ -24,10 +29,27 @@ function getTranslatedContent(localeKey, getString, data) {
 
 			return acc;
 		},
-		{ translateData: {}, parts: {} }
+		{
+			translateData: {},
+			parts: {},
+		}
 	);
 
-	const translation = getString(localeKey, translateData);
+	const localeStringRaw = getString(localeKey, RAW);
+	const processedString = localeStringRaw.replace(
+		INTERPOLATION_PATTERN,
+		(match, keyAndText) => {
+			const [key, text] = keyAndText.split('|');
+			if (text) {
+				translateData[key] = `***${key}|${text}***`;
+				return match.replace(keyAndText, key);
+			}
+
+			return match;
+		}
+	);
+
+	const translation = interpolate(processedString, translateData);
 	const translationParts = translation.split('***');
 
 	if (translationParts.length === 1) {
