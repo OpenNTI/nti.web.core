@@ -54,6 +54,16 @@
 	}
 }
 
+.link {
+	color: var(--color-link);
+
+	@media (hover: hover) {
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
 .button {
 	/* this has to have a unit now to apply min-height as well */
 	--button-line-height: 1rem;
