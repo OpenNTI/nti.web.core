@@ -70,7 +70,7 @@
 
 	&::after {
 		content: '';
-		box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.21);
+		box-shadow: 0 0 4px 0 rgba(0 0 0 / 21%);
 		width: 15px;
 		height: 15px;
 		background: white;
@@ -80,7 +80,7 @@
 }
 
 .flyout-inner {
-	box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.21);
+	box-shadow: 0 0 4px 0 rgba(0 0 0 / 21%);
 	background: white;
 	overflow: hidden auto;
 }
