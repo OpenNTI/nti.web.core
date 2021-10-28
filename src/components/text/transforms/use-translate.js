@@ -4,8 +4,6 @@ import { interpolate } from '@nti/lib-locale';
 
 import { Text } from '../Text';
 
-import { escape } from './utils';
-
 const PrimitivesTypes = {
 	string: true,
 	number: true,
@@ -53,7 +51,7 @@ function getTranslatedContent(localeKey, getString, data) {
 	const translationParts = translation.split('***');
 
 	if (translationParts.length === 1) {
-		return { text: escape(translation), isMarkup: true };
+		return { text: translation, isMarkup: true };
 	}
 
 	const text = (
@@ -61,7 +59,11 @@ function getTranslatedContent(localeKey, getString, data) {
 			{translationParts.map((part, index) => {
 				if (index % 2 === 0) {
 					// Recursive: Let Text handle each part
-					return <Text key={index}>{part}</Text>;
+					return (
+						<Text key={index} isMarkup>
+							{part}
+						</Text>
+					);
 				}
 
 				const [key, txt = key] = part.split('|');

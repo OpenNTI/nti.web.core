@@ -1,4 +1,5 @@
 import { Meta, Canvas, Story } from '@storybook/addon-docs';
+import { scoped } from '@nti/lib-locale';
 
 import { Text } from '../Text.jsx';
 
@@ -43,4 +44,30 @@ export const TemplateLinks = ({ text, ...args }) => (
 	>
 		{TemplateLinks.bind({})}
 	</Story>
+</Canvas>
+
+# Text
+
+export const Translated = Text.Translator(
+	scoped('text.test', {
+		richVal: 'Hello <a href="%(link)s">world</a>!',
+		richValWithComponent: '<hr/><kbd>Click</kbd>: %(here)s',
+		myVal: 'Hello',
+	})
+);
+export const TemplateTranslate = () => (
+	<>
+		<Translated localeKey="myVal" />
+		{' | '}
+		<Translated localeKey="richVal" with={{ link: 'https://foobar' }} />
+		<br />
+		<Translated
+			localeKey="richValWithComponent"
+			with={{ here: <button>Yo</button> }}
+		/>
+	</>
+);
+
+<Canvas>
+	<Story name="Translated">{TemplateTranslate.bind({})}</Story>
 </Canvas>
