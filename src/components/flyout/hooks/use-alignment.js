@@ -38,7 +38,7 @@ import { constrainAlignment } from '../utils/constrain-alignment';
 import { getViewportRelativeAlignments } from '../utils/get-viewport-relative-alignments';
 import getPseudoElementSpace from '../utils/get-psuedo-element-space';
 
-const resolveAlignTo = ref => ref.current?.getNode?.() ?? ref.current;
+const resolveAlignTo = ref => ref.current?.getNode?.() ?? ref.current ?? ref;
 
 /**
  *
