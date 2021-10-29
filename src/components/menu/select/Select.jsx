@@ -1,4 +1,4 @@
-import { ChevronIcon } from '../../icons/Chevron';
+import { Chevron } from '../../icons/Chevron';
 import { Flyout } from '../../flyout/Flyout';
 import { VariantGetter } from '../../../system/utils/PropGetters';
 import { MenuList } from '../list/List';
@@ -57,7 +57,7 @@ export function SelectMenu(props) {
 				<span>
 					{title || (selected && getText(Option.getLabel(selected)))}
 				</span>
-				{hasOptions && <ChevronIcon.Down large />}
+				{hasOptions && <Chevron.Down large />}
 			</Flyout.Trigger>
 			<Flyout.Content>
 				<MenuList

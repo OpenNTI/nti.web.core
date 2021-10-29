@@ -50,7 +50,7 @@ ChevronIcon.propTypes = {
 	large: PropTypes.bool,
 	skinny: PropTypes.bool,
 };
-export function ChevronIcon({ direction = Down, large, skinny, ...props }) {
+function ChevronIcon({ direction = Down, large, skinny, ...props }) {
 	const type = large ? 'large' : skinny ? 'skinny' : 'default';
 	const icon = classes[type][direction];
 

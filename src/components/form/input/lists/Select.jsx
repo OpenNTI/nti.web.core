@@ -5,7 +5,7 @@ import {
 	getPlaceholderStyleProps,
 } from '../get-input-props';
 import { Text } from '../../../text/Text';
-import { ChevronIcon } from '../../../icons/Chevron';
+import { Chevron } from '../../../icons/Chevron';
 
 import { ListContext } from './Context';
 import { TriggerInner } from './common';
@@ -52,7 +52,7 @@ export function Select({
 					>
 						{label}
 					</Text>
-					<ChevronIcon.Down large />
+					<Chevron.Down large />
 				</TriggerInner>
 				<select
 					value={selected}
