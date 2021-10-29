@@ -57,6 +57,10 @@
 	margin: var(--margin-xxl);
 }
 
+.m-unset {
+	margin: unset;
+}
+
 /* vertical/block */
 .mv-xs {
 	margin-top: var(--margin-xs);
@@ -86,6 +90,11 @@
 .mv-xxl {
 	margin-top: var(--margin-xxl);
 	margin-bottom: var(--margin-xxl);
+}
+
+.mv-unset {
+	margin-top: unset;
+	margin-bottom: unset;
 }
 
 /* horizontal/inline */
@@ -119,6 +128,11 @@
 	margin-right: var(--margin-xxl);
 }
 
+.mh-unset {
+	margin-left: unset;
+	margin-right: unset;
+}
+
 /* top */
 .mt-xs {
 	margin-top: var(--margin-xs);
@@ -142,6 +156,10 @@
 
 .mt-xxl {
 	margin-top: var(--margin-xxl);
+}
+
+.mt-xxl {
+	margin-top: unset;
 }
 
 /* right */
@@ -169,6 +187,10 @@
 	margin-right: var(--margin-xxl);
 }
 
+.mr-unset {
+	margin-right: unset;
+}
+
 /* bottom */
 .mb-xs {
 	margin-bottom: var(--margin-xs);
@@ -192,6 +214,10 @@
 
 .mb-xxl {
 	margin-bottom: var(--margin-xxl);
+}
+
+.mb-unset {
+	margin-bottom: unset;
 }
 
 /* left */
@@ -219,6 +245,10 @@
 	margin-left: var(--margin-xxl);
 }
 
+.ml-unset {
+	margin-left: unset;
+}
+
 /* all */
 .p-xs {
 	padding: var(--padding-xs);
@@ -242,6 +272,10 @@
 
 .p-xxl {
 	padding: var(--padding-xxl);
+}
+
+.p-unset {
+	padding: unset;
 }
 
 /* vertical/block */
@@ -275,6 +309,11 @@
 	padding-bottom: var(--padding-xxl);
 }
 
+.pv-unset {
+	padding-top: unset;
+	padding-bottom: unset;
+}
+
 /* horizontal/inline */
 .ph-xs {
 	padding-left: var(--padding-xs);
@@ -306,6 +345,11 @@
 	padding-right: var(--padding-xxl);
 }
 
+.ph-unset {
+	padding-left: unset;
+	padding-right: unset;
+}
+
 /* top */
 .pt-xs {
 	padding-top: var(--padding-xs);
@@ -329,6 +373,10 @@
 
 .pt-xxl {
 	padding-top: var(--padding-xxl);
+}
+
+.pt-unset {
+	padding-top: unset;
 }
 
 /* right */
@@ -356,6 +404,10 @@
 	padding-right: var(--padding-xxl);
 }
 
+.pr-unset {
+	padding-right: unset;
+}
+
 /* bottom */
 .pb-xs {
 	padding-bottom: var(--padding-xs);
@@ -381,6 +433,10 @@
 	padding-bottom: var(--padding-xxl);
 }
 
+.pb-unset {
+	padding-bottom: unset;
+}
+
 /* left */
 .pl-xs {
 	padding-left: var(--padding-xs);
@@ -404,4 +460,8 @@
 
 .pl-xxl {
 	padding-left: var(--padding-xxl);
+}
+
+.pl-unset {
+	padding-left: unset;
 }

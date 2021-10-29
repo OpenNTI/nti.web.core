@@ -31,18 +31,22 @@
 	);
 }
 
-.link,
-.plain {
+button.link,
+button.plain {
 	appearance: none;
 	text-decoration: none;
 	background: none;
 	outline: none;
 	border: none;
 	padding: unset;
+	color: inherit;
+}
+
+.link,
+.plain {
 	display: inline-block;
 	position: relative;
 	cursor: pointer;
-	color: inherit;
 
 	&:focus::before {
 		content: '';

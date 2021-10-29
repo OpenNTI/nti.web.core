@@ -1,4 +1,4 @@
-/** @typedef {'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl'} SpacingPropValue */
+/** @typedef {'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'unset'} SpacingPropValue */
 
 /**
  * @typedef {object} PaddingProps
@@ -48,7 +48,15 @@ const TypeToSides = {
  *
  * @enum {string}
  */
-const Sizes = { xs: 'xs', sm: 'sm', md: 'md', lg: 'lg', xl: 'xl', xxl: 'xxl' };
+const Sizes = {
+	xs: 'xs',
+	sm: 'sm',
+	md: 'md',
+	lg: 'lg',
+	xl: 'xl',
+	xxl: 'xxl',
+	unset: 'unset',
+};
 const SizesList = Object.keys(Sizes);
 
 /**

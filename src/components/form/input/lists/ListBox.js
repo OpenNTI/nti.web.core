@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 
 import { Flyout } from '../../../flyout/Flyout';
 import { useListFocus } from '../../../hooks/aria/use-list-focus';
-import { ChevronIcon } from '../../../icons/Chevron';
+import { Chevron } from '../../../icons/Chevron';
 import { Text } from '../../../text/Text';
 import {
 	getInputStyleProps,
@@ -44,7 +44,10 @@ export function ListBox({
 			<Flyout horizontalAlign="left-or-right" autoDismissOnAction>
 				<Flyout.Trigger
 					ref={triggerRef}
+					as="span"
 					variant="plain"
+					role="button"
+					aria-haspopup="listbox"
 					{...getInputStyleProps(otherProps)}
 				>
 					<TriggerInner>
@@ -54,11 +57,11 @@ export function ListBox({
 						>
 							{label}
 						</Text>
-						<ChevronIcon.Down large />
+						<Chevron.Down large />
 					</TriggerInner>
 				</Flyout.Trigger>
 				<Flyout.Content>
-					<div data-id="test" {...useListFocus(OptionSelector)}>
+					<div {...useListFocus(OptionSelector)} role="listbox">
 						{children}
 					</div>
 				</Flyout.Content>
