@@ -1,0 +1,97 @@
+.wrapper {
+	position: relative;
+	min-width: 200px;
+}
+
+.previous-button,
+.next-button {
+	position: absolute;
+	top: 0;
+	--icon-size: 1.25rem;
+}
+
+.previous-button {
+	left: 0.5rem;
+}
+.next-button {
+	right: 0.5rem;
+}
+
+.months {
+	width: 100%;
+}
+
+.month {
+	display: table;
+	border-collapse: collapse;
+	border-spacing: 0;
+	user-select: none;
+	margin: 0 auto;
+	width: 100%;
+}
+
+.caption {
+	display: table-caption;
+}
+
+.weekdays {
+	display: table-header-group;
+}
+
+.weekdays-row {
+	display: table-row;
+}
+
+.body {
+	display: table-row-group;
+}
+
+.week {
+	display: table-row;
+}
+
+.weekday,
+.day {
+	display: table-cell;
+	text-align: center;
+	font-size: var(--font-size-200);
+	line-height: 1;
+}
+
+.weekday {
+	padding: 1.25rem 0 1rem;
+	color: var(--color-foreground-light);
+}
+
+.day {
+	color: var(--color-foreground-dark);
+	cursor: pointer;
+
+	& > span {
+		display: inline-block;
+		padding: 0.5rem;
+	}
+
+	&:focus {
+		outline: 2px solid var(--color-focused-outline);
+	}
+}
+
+.day.disabled {
+	cursor: default;
+}
+
+.day.selected:not(.disabled) {
+	color: white;
+	background-color: var(--color-primary-action);
+}
+
+.day.today:not(.outside):not(.disabled):not(.selected) {
+	color: var(--color-primary-action);
+}
+
+@media (hover: hover) {
+	.day:hover:not(.outside):not(.disabled):not(.today):not(.selected) {
+		background-color: #f0f0f0;
+	}
+}
