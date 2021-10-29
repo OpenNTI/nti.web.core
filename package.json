@@ -34,6 +34,7 @@
     "date-fns": "^2.16.1",
     "date-fns-tz": "^1.0.10",
     "linkify-it": "^3.0.2",
+    "react-day-picker": "^7.1.4",
     "react-transition-group": "^4.2.2",
     "uuid": "^8.3.0"
   },
