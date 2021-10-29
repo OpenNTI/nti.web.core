@@ -64,6 +64,7 @@ export function Option({ as, value, children, ...otherProps }) {
 			value={value}
 			onSelect={list.onChange}
 			data-option={true}
+			role="option"
 		>
 			{children}
 		</Cmp>
