@@ -6,12 +6,15 @@ import {
 	parseJSON,
 } from 'date-fns';
 import { format as formatter } from 'date-fns-tz';
+import { serialize as serializeISODuration } from 'tinyduration';
 
 import { DEFAULT } from './formats.js';
 import { fromNow, fromWhen } from './from-when.js';
 import t from './strings.js';
 
 export { fromNow, fromWhen };
+
+/** @typedef {import('../types.d.ts').Duration} Duration */
 
 const timeZone =
 	global.Intl?.DateTimeFormat?.().resolvedOptions?.().timeZone ?? undefined;
@@ -36,6 +39,16 @@ export const isTomorrow = (date, target = new Date()) =>
 	isTomorrowFn(date, target);
 
 /**
+ * Get ISO format for a given duration
+ *
+ * @param {Duration} duration
+ * @returns {string} ISO-8601
+ */
+export function formatISODuration(duration) {
+	return serializeISODuration(duration);
+}
+
+/**
  * Format seconds into a human readable duration
  *
  * Taken from: https://stackoverflow.com/questions/6312993/javascript-seconds-to-time-string-with-format-hhmmss/40350003#40350003
@@ -56,7 +69,7 @@ export function formatDuration(duration) {
 
 /**
  *
- * @param {number} duration - The duration in milliseconds?
+ * @param {number|Duration} duration - The duration in milliseconds?
  * @param {number} accuracy - accuracy cutoff
  * @returns {string} - a human friendly description of the duration
  */
@@ -66,7 +79,7 @@ export function getShortNaturalDuration(duration, accuracy) {
 
 /**
  *
- * @param {number} duration - The duration in milliseconds?
+ * @param {number|Duration} duration - The duration in milliseconds?
  * @param {number} accuracy - accuracy cutoff
  * @param {boolean} singular - use singular form
  * @param {boolean} short - use short form
@@ -82,10 +95,13 @@ export function getNaturalDuration(duration, accuracy, singular, short) {
 	}
 
 	const reference = new Date();
-	const d = intervalToDuration({
-		start: reference,
-		end: new Date(reference.getTime() + duration),
-	});
+	const d =
+		typeof duration === 'number'
+			? intervalToDuration({
+					start: reference,
+					end: new Date(reference.getTime() + duration),
+			  })
+			: duration;
 
 	const getUnit = (unit, data) => t(`${baseLocaleKey}${unit}`, data);
 

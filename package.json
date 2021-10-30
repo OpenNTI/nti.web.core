@@ -36,7 +36,9 @@
     "linkify-it": "^3.0.2",
     "react-day-picker": "^7.1.4",
     "react-transition-group": "^4.2.2",
-    "uuid": "^8.3.0"
+    "tinyduration": "^3.2.2",
+    "uuid": "^8.3.0",
+    "zpad": "^0.5.0"
   },
   "devDependencies": {
     "@nti/cmp-scripts": "^2.47.4"
