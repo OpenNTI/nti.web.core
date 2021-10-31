@@ -1,8 +1,9 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useEffect, useRef } from 'react';
 import zpad from 'zpad';
 
 import { Text } from './Text';
 import { getNumber } from './utils/get-number';
+import { useFormattedValue } from './hooks/use-formatted-value';
 
 /** @typedef {number | ''} NumberValue */
 
@@ -21,7 +22,7 @@ const KeyDownDeltas = {
 };
 
 export function Number({
-	value,
+	value: valueProp,
 	onChange: onChangeProp,
 	format = x => x,
 
@@ -38,6 +39,28 @@ export function Number({
 
 	...otherProps
 }) {
+	const [value, formatted, setValue] = useFormattedValue(
+		useCallback(
+			v => {
+				const num = getNumber(v);
+
+				return format(
+					pad
+						? zpad(v, typeof pad === 'number' ? pad : 2)
+						: num?.toFixed()
+				);
+			},
+			[format, pad]
+		),
+		valueProp
+	);
+
+	useEffect(() => {
+		if (valueProp !== value) {
+			setValue(valueProp);
+		}
+	}, [valueProp]);
+
 	const onChange = useCallback(
 		(newValue, e) => {
 			let number = getNumber(newValue);
@@ -56,6 +79,8 @@ export function Number({
 			if (number >= MaxValue) {
 				return;
 			}
+
+			setValue(number, newValue);
 
 			if (number !== value) {
 				onChangeProp?.(number, e);
@@ -109,16 +134,6 @@ export function Number({
 		},
 		[onKeyDownProp, value, step, min, max]
 	);
-
-	const formatted = useMemo(() => {
-		const num = getNumber(value);
-
-		return format(
-			pad
-				? zpad(value, typeof pad === 'number' ? pad : 2)
-				: num?.toFixed()
-		);
-	}, [value, format, pad]);
 
 	return (
 		<Text
