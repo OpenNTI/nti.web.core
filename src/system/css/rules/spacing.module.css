@@ -158,7 +158,7 @@
 	margin-top: var(--margin-xxl);
 }
 
-.mt-xxl {
+.mt-unset {
 	margin-top: unset;
 }
 
