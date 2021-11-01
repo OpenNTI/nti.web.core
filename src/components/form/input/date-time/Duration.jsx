@@ -1,13 +1,22 @@
-import { Flyout } from '../../../flyout/Flyout';
+import { useCallback, useEffect } from 'react';
+
+import { Box } from '../../../box/Box';
 import { Duration as DurationLabel } from '../../../date-time/Duration';
+import { Flyout } from '../../../flyout/Flyout';
+import { Chevron } from '../../../icons';
+import { TriggerInner } from '../lists/common';
+import { useFormattedValue } from '../hooks/use-formatted-value';
+import { Select } from '../lists/Select';
 import {
 	getInputStyleProps,
 	getPlaceholderStyleProps,
 } from '../get-input-props';
-import { TriggerInner } from '../lists/common';
-import { Chevron } from '../../../icons';
+import { Number } from '../Number';
 
-import { getDurationInputs } from './utils/get-duration-inputs';
+import {
+	getDurationFromInputs,
+	getInputsFromDuration,
+} from './utils/duration-inputs';
 
 /** @typedef {import('../../../date-time/types').Duration} Duration */
 /** @typedef {import('../../../date-time/types').DurationUnit} DurationUnit */
@@ -23,8 +32,43 @@ import { getDurationInputs } from './utils/get-duration-inputs';
  * @property {DurationUnit} minUnit
  */
 
+const isSameDuration = (a, b) => {
+	return (
+		a === b ||
+		(a &&
+			b &&
+			a.years === b.years &&
+			a.months === b.months &&
+			a.weeks === b.weeks &&
+			a.days === b.days &&
+			a.hours === b.hours &&
+			a.minutes === b.minutes &&
+			a.seconds === b.seconds)
+	);
+};
+
+const isSameInputs = (a, b) => {
+	return (
+		a === b ||
+		(a.length === b.length &&
+			a.every((aInput, index) => {
+				const bInput = b[index];
+
+				return (
+					aInput.value === bInput.value && aInput.unit === bInput.unit
+				);
+			}))
+	);
+};
+
+/**
+ * An input for durations
+ *
+ * @param {DurationInputProps} props
+ * @returns {JSX.Element}
+ */
 export function Duration({
-	value,
+	value: valueProp,
 	onChange,
 	placeholder = 'Enter a duration',
 	precision,
@@ -32,10 +76,43 @@ export function Duration({
 	minUnit,
 	...otherProps
 }) {
-	const inputs = getDurationInputs(value, precision, maxUnit, minUnit);
+	const [value, inputs, setValue] = useFormattedValue(
+		useCallback(
+			value => getInputsFromDuration(value, precision, maxUnit, minUnit),
+			[precision, maxUnit, minUnit]
+		),
+		valueProp,
+		{
+			valueCompare: isSameDuration,
+			formatCompare: isSameInputs,
+		}
+	);
+
+	useEffect(() => {
+		if (isSameDuration(valueProp, value)) {
+			setValue(valueProp);
+		}
+	}, [valueProp]);
+
+	const onInputChange = useCallback(
+		(index, value, unit) => {
+			const newInputs = [...inputs].map(i => ({ ...i }));
+
+			newInputs[index].value = value;
+			newInputs[index].unit = unit;
+
+			const newValue = getDurationFromInputs(newInputs);
+
+			setValue(newValue, newInputs);
+
+			if (newValue !== valueProp) {
+				onChange?.(newValue);
+			}
+		},
+		[inputs, valueProp, onChange]
+	);
 
 	debugger;
-	console.log(inputs);
 
 	return (
 		<Flyout horizontalAlign="left-or-right">
@@ -58,8 +135,51 @@ export function Duration({
 				</TriggerInner>
 			</Flyout.Trigger>
 			<Flyout.Content>
-				<div>Duration Input</div>
+				<div>
+					<Box p="sm">
+						{inputs.map((input, index) => (
+							<DurationUnit
+								index={index}
+								value={input.value}
+								unit={input.unit}
+								units={input.units}
+								onChange={onInputChange}
+								key={index}
+							/>
+						))}
+					</Box>
+				</div>
 			</Flyout.Content>
 		</Flyout>
+	);
+}
+
+function DurationUnit({ index, value, unit, units, onChange }) {
+	const onValueChange = useCallback(
+		newValue => {
+			onChange?.(index, newValue, unit);
+		},
+		[index, unit, onChange]
+	);
+
+	const onUnitChange = useCallback(
+		newUnit => {
+			debugger;
+			onChange?.(index, value, newUnit);
+		},
+		[index, value, onChange]
+	);
+
+	return (
+		<>
+			<Number value={value} onChange={onValueChange} />
+			<Select value={unit} onChange={onUnitChange}>
+				{units.map(u => (
+					<option value={u} key={u}>
+						{u}
+					</option>
+				))}
+			</Select>
+		</>
 	);
 }

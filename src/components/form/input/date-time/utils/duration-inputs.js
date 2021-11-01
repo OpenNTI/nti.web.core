@@ -10,7 +10,7 @@ const Seconds = 'seconds';
 
 const Units = [Years, Months, Weeks, Days, Hours, Minutes, Seconds];
 
-export function getDurationInputs(
+export function getInputsFromDuration(
 	value,
 	precision = 1,
 	maxUnit = Years,
@@ -27,8 +27,29 @@ export function getDurationInputs(
 
 	const possibleUnits = Units.slice(maxIndex, minIndex);
 
-	return {
-		value: value ? possibleUnits.find(unit => value[unit] == null) : null,
-		units: possibleUnits,
-	};
+	const valueUnit = value
+		? possibleUnits.find(unit => value[unit] != null)
+		: possibleUnits[4];
+
+	return [
+		{
+			value: value?.[valueUnit] ?? 1,
+			unit: valueUnit,
+			units: possibleUnits,
+		},
+	];
+}
+
+export function getDurationFromInputs(inputs) {
+	const duration = {};
+	let hasValues = false;
+
+	for (let input of inputs) {
+		if (input.value) {
+			hasValues = true;
+			duration[input.unit] = input.value;
+		}
+	}
+
+	return hasValues ? duration : null;
 }

@@ -2,7 +2,10 @@ import { useRef, useCallback } from 'react';
 
 import { useForceUpdate } from '../../../hooks/use-force-update';
 
-export function useFormattedValue(formatter, initialValue) {
+const equality = (a, b) => a === b;
+
+export function useFormattedValue(formatter, initialValue, options = {}) {
+	const { valueCompare = equality, formatCompare = equality } = options;
 	const update = useForceUpdate();
 
 	const valueRef = useRef(initialValue);
@@ -20,8 +23,8 @@ export function useFormattedValue(formatter, initialValue) {
 				formattedRef.current = newFormatted ?? formatter(newValue);
 
 				if (
-					valueRef.current !== prevValue ||
-					formattedRef.current !== prevFormatted
+					!valueCompare(valueRef.current, prevValue) ||
+					!formatCompare(formattedRef.current, prevFormatted)
 				) {
 					update();
 				}
@@ -34,7 +37,7 @@ export function useFormattedValue(formatter, initialValue) {
 
 				formattedRef.current = newFormatted;
 
-				if (formattedRef.current !== prevFormatted) {
+				if (!formatCompare(formattedRef.current, prevFormatted)) {
 					update();
 				}
 			},
