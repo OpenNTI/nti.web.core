@@ -16,7 +16,7 @@ svg.avatar {
 	&.with-presence {
 		& rect,
 		& image {
-			mask: url(#presence-mask);
+			mask: url('#presence-mask');
 		}
 	}
 

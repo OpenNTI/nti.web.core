@@ -23,7 +23,7 @@
 	stroke-dasharray: 1, 200;
 	stroke-dashoffset: 0;
 	stroke-linecap: round;
-	animation: loadingSpinnerDash 1.5s ease-in-out infinite;
+	animation: loading-spinner-dash 1.5s ease-in-out infinite;
 }
 
 .spinner.small {
@@ -46,12 +46,13 @@
 	from {
 		transform: rotate(0deg);
 	}
+
 	to {
 		transform: rotate(359deg);
 	}
 }
 
-@keyframes loadingSpinnerDash {
+@keyframes loading-spinner-dash {
 	0% {
 		stroke-dasharray: 1, 200;
 		stroke-dashoffset: 0;

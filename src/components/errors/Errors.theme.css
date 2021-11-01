@@ -3,7 +3,7 @@
 
 	&[aria-hidden='true']::before {
 		content: 'W';
-		opacity: 0;
+		opacity: 0%;
 	}
 }
 
@@ -29,7 +29,7 @@ widget error {
 			top: -0.75rem;
 			display: block;
 			content: '\f101';
-			font-family: 'icomoon', serif;
+			font-family: icomoon, serif;
 			font-style: normal;
 			font-size: 3rem;
 			font-weight: normal;
