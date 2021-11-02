@@ -5,6 +5,7 @@ import { getTypographyProps } from '../../../system/css/get-typography-props';
 import { getSpacingProps } from '../../../system/css/get-spacing-props';
 import { useActionable } from '../../button/hooks/use-actionable';
 import { Check as CheckIcon } from '../../icons/Check';
+import { filterProps } from '../../utils/filter-props';
 
 import Theme from './List.theme.css';
 import { getValue, getLabel, getKey } from './Option';
@@ -49,9 +50,9 @@ export function MenuList({
 			className={Theme.menu}
 			role={role}
 			{...useMenubarKeys('li')}
-			{...otherProps}
+			{...filterProps(otherProps, 'ul')}
 		>
-			{(options ?? []).map(option => {
+			{options?.map?.(option => {
 				const val = getValue(option);
 
 				return (
@@ -60,7 +61,7 @@ export function MenuList({
 						option={option}
 						getText={getText}
 						active={value === val}
-						onClick={() => onChange(val)}
+						onClick={() => onChange?.(val)}
 					/>
 				);
 			})}
