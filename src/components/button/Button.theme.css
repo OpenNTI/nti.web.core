@@ -34,7 +34,6 @@
 button.link,
 button.plain {
 	appearance: none;
-	text-decoration: none;
 	background: none;
 	outline: none;
 	border: none;
@@ -44,9 +43,10 @@ button.plain {
 
 .link,
 .plain {
+	cursor: pointer;
 	display: inline-block;
 	position: relative;
-	cursor: pointer;
+	text-decoration: none;
 
 	&:focus::before {
 		content: '';
