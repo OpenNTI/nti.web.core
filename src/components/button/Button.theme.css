@@ -31,8 +31,8 @@
 	);
 }
 
-button.link,
-button.plain {
+.link:where(button),
+.plain:where(button) {
 	appearance: none;
 	background: none;
 	outline: none;
