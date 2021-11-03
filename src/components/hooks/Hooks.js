@@ -2,6 +2,7 @@ export * from './use-app-user';
 export * from './use-async-value';
 export * from './use-changes';
 export * from './use-force-update';
+export * from './use-id';
 export * from './use-link';
 export * from './use-object';
 export * from './use-reducer-state';
