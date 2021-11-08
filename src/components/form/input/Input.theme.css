@@ -5,8 +5,43 @@
 
 .input.box:focus,
 .input.box:focus-within {
-	outline: 2px solid var(--color-focused-outline);
+	outline: 1px solid var(--color-focused-outline);
 	border-color: var(--color-focused-outline);
+}
+
+.combined-inputs.box {
+	background: white;
+}
+
+.combined-inputs.box .input {
+	background: none;
+}
+
+.combined-inputs.box .input:first-child {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.combined-inputs.box .input:last-child {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+.combined-inputs.box .input:not(:last-child) {
+	border-right-width: 0;
+}
+
+.combined-inputs.box .input:not(:first-child):not(:last-child) {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+.combined-inputs.box .input:focus + .input,
+.combined-inputs.box .input:focus-within + .input {
+	border-left-color: var(--color-focused-outline);
+	box-shadow: -1px 0 0 0 var(--color-focused-outline);
 }
 
 .placeholder,
@@ -14,4 +49,10 @@
 	font-style: italic;
 	color: var(--color-foreground-light);
 	overflow: visible;
+}
+
+.combined-inputs:where(fieldset) {
+	margin: 0;
+	padding: 0;
+	border: none;
 }

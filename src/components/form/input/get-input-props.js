@@ -54,6 +54,21 @@ export function getInputStyleProps(props) {
 	);
 }
 
+export function getCombinedStyleProps(props) {
+	const { className, inputStyle, size, ...otherProps } = getStyleProps(props);
+
+	return {
+		...otherProps,
+		className: cx(
+			className,
+			'nti-combined-inputs',
+			Theme.combinedInputs,
+			Theme[inputStyle],
+			Theme[size]
+		),
+	};
+}
+
 export function getPlaceholderStyleProps({ className, ...otherProps }) {
 	return {
 		className: cx(className, Theme.placeholder),
