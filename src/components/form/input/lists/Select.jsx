@@ -4,6 +4,7 @@ import {
 	getInputStyleProps,
 	getPlaceholderStyleProps,
 } from '../get-input-props';
+import { setInput } from '../utils/identity';
 import { Text } from '../../../text/Text';
 import { Chevron } from '../../../icons/Chevron';
 
@@ -33,6 +34,8 @@ export function Select({
 
 	value,
 	onChange: onChangeProp,
+
+	...otherProps
 }) {
 	const [selected, setSelected] = useState();
 	const label = selected ?? placeholder;
@@ -44,7 +47,7 @@ export function Select({
 
 	return (
 		<ListContext value={value} setSelected={setSelected} simple>
-			<SelectTrigger>
+			<SelectTrigger {...otherProps}>
 				<TriggerInner>
 					<Text
 						limitLines={1}
@@ -64,3 +67,5 @@ export function Select({
 		</ListContext>
 	);
 }
+
+setInput(Select);

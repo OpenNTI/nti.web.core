@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 
 import { getInputStyleProps } from './get-input-props';
+import { setInput } from './utils/identity';
 
 function TextImpl({ onChange: onChangeProp, ...otherProps }, ref) {
 	const onChange = useMemo(
@@ -18,4 +19,4 @@ function TextImpl({ onChange: onChangeProp, ...otherProps }, ref) {
 	);
 }
 
-export const Text = React.forwardRef(TextImpl);
+export const Text = setInput(React.forwardRef(TextImpl));

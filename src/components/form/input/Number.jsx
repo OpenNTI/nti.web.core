@@ -1,8 +1,9 @@
-import { useCallback, useMemo, useEffect, useRef } from 'react';
+import { useCallback, useEffect } from 'react';
 import zpad from 'zpad';
 
 import { Text } from './Text';
 import { getNumber } from './utils/get-number';
+import { setInput } from './utils/identity';
 import { useFormattedValue } from './hooks/use-formatted-value';
 
 /** @typedef {number | ''} NumberValue */
@@ -146,3 +147,5 @@ export function Number({
 		/>
 	);
 }
+
+setInput(Number);

@@ -8,6 +8,7 @@ import {
 	getInputStyleProps,
 	getPlaceholderStyleProps,
 } from '../get-input-props';
+import { setInput } from '../utils/identity';
 
 import { TriggerInner } from './common';
 import { ListContext } from './Context';
@@ -69,3 +70,5 @@ export function ListBox({
 		</ListContext>
 	);
 }
+
+setInput(ListBox);

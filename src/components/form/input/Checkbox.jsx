@@ -6,6 +6,7 @@ import { VariantGetter } from '../../../system/utils/PropGetters';
 import { Text } from '../../text/Text';
 
 import Theme from './Checkbox.theme.css';
+import { setInput } from './utils/identity';
 
 const getStyleVariant = VariantGetter(['blue', 'green'], 'blue');
 
@@ -39,4 +40,4 @@ function CheckboxImpl(propsArg, ref) {
 	);
 }
 
-export const Checkbox = React.forwardRef(CheckboxImpl);
+export const Checkbox = setInput(React.forwardRef(CheckboxImpl));
