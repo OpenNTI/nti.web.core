@@ -2,14 +2,16 @@ import { useCallback, useEffect } from 'react';
 
 import { Box } from '../../../box/Box';
 import { Duration as DurationLabel } from '../../../date-time/Duration';
+import { getDurationUnit } from '../../../date-time/utils';
 import { Flyout } from '../../../flyout/Flyout';
 import { Chevron } from '../../../icons';
-import { TriggerInner } from '../lists/common';
+import { Combined } from '../groups/Combined';
 import { useFormattedValue } from '../hooks/use-formatted-value';
+import { TriggerInner } from '../lists/common';
 import { Select } from '../lists/Select';
 import {
-	getInputStyleProps,
 	getPlaceholderStyleProps,
+	getInputStyleProps,
 } from '../get-input-props';
 import { Number } from '../Number';
 
@@ -112,8 +114,6 @@ export function Duration({
 		[inputs, valueProp, onChange]
 	);
 
-	debugger;
-
 	return (
 		<Flyout horizontalAlign="left-or-right">
 			<Flyout.Trigger
@@ -156,30 +156,25 @@ export function Duration({
 
 function DurationUnit({ index, value, unit, units, onChange }) {
 	const onValueChange = useCallback(
-		newValue => {
-			onChange?.(index, newValue, unit);
-		},
+		newValue => onChange?.(index, newValue, unit),
 		[index, unit, onChange]
 	);
 
 	const onUnitChange = useCallback(
-		newUnit => {
-			debugger;
-			onChange?.(index, value, newUnit);
-		},
+		newUnit => onChange?.(index, value, newUnit),
 		[index, value, onChange]
 	);
 
 	return (
-		<>
+		<Combined>
 			<Number value={value} onChange={onValueChange} />
 			<Select value={unit} onChange={onUnitChange}>
 				{units.map(u => (
 					<option value={u} key={u}>
-						{u}
+						{getDurationUnit(u, true)}
 					</option>
 				))}
 			</Select>
-		</>
+		</Combined>
 	);
 }

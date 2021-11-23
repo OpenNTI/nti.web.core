@@ -67,6 +67,10 @@ export function formatDuration(duration) {
 		.join(':');
 }
 
+export function getDurationUnit(unit, plural) {
+	return t(`timeUnits.units.${plural ? 'plural' : 'singular'}.${unit}`);
+}
+
 /**
  *
  * @param {number|Duration} duration - The duration in milliseconds?

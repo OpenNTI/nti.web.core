@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 
 import { getOptionLabelsByValue } from './utils/options';
 
@@ -14,10 +14,20 @@ export function ListContext({
 	simple,
 	children,
 }) {
+	const selectedRef = useRef();
+	const labelRef = useRef();
+
 	useEffect(() => {
 		const byValue = getOptionLabelsByValue(children);
 
-		setSelected(value ? byValue[value] : null);
+		const label = byValue[value];
+
+		if (selectedRef.current !== value || labelRef.current !== label) {
+			setSelected(value ? byValue[value] : null, value);
+		}
+
+		selectedRef.current = value;
+		labelRef.current = label;
 	}, [value, children]);
 
 	return (

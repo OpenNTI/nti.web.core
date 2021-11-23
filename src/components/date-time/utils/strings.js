@@ -2,6 +2,28 @@ import { scoped } from '@nti/lib-locale';
 
 const DEFAULT_TEXT = {
 	timeUnits: {
+		units: {
+			plural: {
+				years: 'Years',
+				months: 'Months',
+				weeks: 'Weeks',
+				days: 'Days',
+				hours: 'Hours',
+				minutes: 'Minutes',
+				seconds: 'Seconds',
+				milliseconds: 'Milliseconds',
+			},
+			singular: {
+				years: 'Year',
+				months: 'Month',
+				weeks: 'Week',
+				days: 'Day',
+				hours: 'Hour',
+				minutes: 'Minute',
+				seconds: 'Second',
+				milliseconds: 'Millisecond',
+			},
+		},
 		singular: {
 			years: '%(count)s Year',
 			months: '%(count)s Month',

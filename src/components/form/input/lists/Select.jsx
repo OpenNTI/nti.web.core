@@ -37,34 +37,37 @@ export function Select({
 
 	...otherProps
 }) {
-	const [selected, setSelected] = useState();
-	const label = selected ?? placeholder;
-
+	const [selected, setSelectedState] = useState();
 	const onChange = useCallback(
 		e => onChangeProp(e.target.value, e),
 		[onChangeProp]
 	);
 
+	const setSelected = useCallback(
+		(label, value) => setSelectedState({ label, value }),
+		[setSelectedState]
+	);
+
 	return (
-		<ListContext value={value} setSelected={setSelected} simple>
-			<SelectTrigger {...otherProps}>
-				<TriggerInner>
-					<Text
-						limitLines={1}
-						{...(selected ? {} : getPlaceholderStyleProps({}))}
-					>
-						{label}
-					</Text>
-					<Chevron.Down large />
-				</TriggerInner>
+		<SelectTrigger {...otherProps}>
+			<TriggerInner>
+				<Text
+					limitLines={1}
+					{...(selected ? {} : getPlaceholderStyleProps({}))}
+				>
+					{selected?.label ?? placeholder}
+				</Text>
+				<Chevron.Down large />
+			</TriggerInner>
+			<ListContext value={value} setSelected={setSelected} simple>
 				<select
-					value={selected}
+					value={selected?.value}
 					onChange={onChangeProp ? onChange : null}
 				>
 					{children}
 				</select>
-			</SelectTrigger>
-		</ListContext>
+			</ListContext>
+		</SelectTrigger>
 	);
 }
 

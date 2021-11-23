@@ -14,7 +14,6 @@ export default {
 export const Base = props => {
 	const [value, setValue] = useState();
 	const onChange = (...args) => {
-		debugger;
 		setValue(...args);
 		props.onChange?.(...args);
 	};
