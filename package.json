@@ -30,7 +30,7 @@
     "@nti/lib-dom": "NextThought/nti.lib.dom",
     "@nti/lib-locale": "NextThought/nti.lib.locale",
     "@nti/web-client": "NextThought/nti.web.client",
-    "@reach/tooltip": "^0.16.0",
+    "@reach/tooltip": "^0.17.0",
     "date-fns": "^2.16.1",
     "date-fns-tz": "^1.0.10",
     "linkify-it": "^3.0.2",
